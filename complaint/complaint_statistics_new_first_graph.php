@@ -371,7 +371,7 @@ while($month < $end)
 								$obj->current_status($pmc['status']);
 							echo '</td>';
 							echo '<td>';
-								echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'complaint/ts_report_director/'.$pmc["pk_complaint_id"].'">';
+								echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'complaint/technical_service_pvr/'.$pmc["pk_complaint_id"].'">';
 								echo 'TSR <i class="fa fa-eye"></i></a>';
 							echo '</td>';
 							echo '</tr> ';

@@ -127,7 +127,29 @@
 											return "$difference $periods[$j] {$tense}";
 										}
 										//end nice time fucntion
-									  $dbres = $this->db->query("SELECT * FROM tbl_complaints where complaint_nature='complaint' AND status='Pending Registration'  order by `pk_complaint_id` DESC");
+									 // $dbres = $this->db->query("SELECT * FROM tbl_complaints where complaint_nature='complaint' AND status='Pending Registration'  order by `pk_complaint_id` DESC");
+									  $dbres = $this->db->query(" SELECT tbl_complaints.*, 
+									  COALESCE(tbl_cities.city_name) AS city_name,
+									  COALESCE(tbl_clients.client_name) AS client_name,
+									  COALESCE(tbl_area.area) AS area,
+									  COALESCE(tbl_offices.office_code) AS office_code,
+									  COALESCE(user.first_name) AS first_name,
+									  COALESCE(tbl_parts.part_number) AS part_number,
+									  COALESCE(tbl_instruments.serial_no) AS serial_no,
+									  COALESCE(tbl_products.product_name) AS product_name 
+									  
+									  FROM tbl_complaints 
+									  LEFT JOIN tbl_clients ON tbl_complaints.fk_customer_id = tbl_clients.pk_client_id
+									  LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+									  LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+									  LEFT JOIN user ON tbl_complaints.created_by = user.id
+									  LEFT JOIN tbl_offices ON tbl_complaints.fk_office_id = tbl_offices.pk_office_id
+									  LEFT JOIN tbl_sprf ON tbl_complaints.pk_complaint_id = tbl_sprf.fk_complaint_id
+									  LEFT JOIN tbl_parts ON tbl_sprf.fk_part_id = tbl_parts.pk_part_id
+									  LEFT JOIN tbl_instruments ON tbl_complaints.fk_instrument_id = tbl_instruments.pk_instrument_id
+									  LEFT JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id 
+							
+							WHERE  tbl_complaints.status IN('Pending Registration') AND complaint_nature='complaint'  ");
             						  $dbresResult=$dbres->result_array();
 									  if (sizeof($dbresResult) == "0") {
 										  
@@ -137,12 +159,12 @@
 											  <tr class=" <?php if($complaint_list['urgent_priority']==1){ echo "danger even";} else { echo "odd gradeX";}?>">
 												  <td>
 													  <?php 
-													  $ty=$this->db->query("select * from user where id='".$complaint_list["created_by"]."'");
-													  $rt=$ty->result_array();
-													  echo $rt[0]["first_name"];
-													  $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$rt[0]["fk_office_id"]."'");
-													  $rt=$ty->result_array();
-													  echo ' ('. $rt[0]["office_code"].')';
+													  // $ty=$this->db->query("select * from user where id='".$complaint_list["created_by"]."'");
+													  // $rt=$ty->result_array();
+													  echo $complaint_list["first_name"];
+													  // $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$rt[0]["fk_office_id"]."'");
+													  // $rt=$ty->result_array();
+													  echo ' ('. $complaint_list["office_code"].')';
 													?>
 												</td>
                                                   <td>
@@ -156,59 +178,45 @@
 												  </td>	       -->                                      
                                           <td>
                                               <?php 
-                                              $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$complaint_list["fk_city_id"]."'");
-                                              $rt=$ty->result_array();
-                                              echo $rt[0]["city_name"] ?>
+                                              
+                                              echo $complaint_list["city_name"]; ?>
                                           </td>
 										  <td>
                                               <?php    
-												$nsql3=$this->db->query("select * from tbl_clients where pk_client_id ='".$complaint_list['fk_customer_id']."'");
-												$n2sql3=$nsql3->result_array();
-												echo $n2sql3[0]['client_name'];
+												
+												echo $complaint_list["client_name"];
 												?>
                                           </td>
 											
-									<!--	  <td>
+								<!--		  <td>
 										  <?php 
-												$nsql3=$this->db->query("select area from tbl_area where pk_area_id ='".$n2sql3[0]['fk_area_id']."'");
-												$n2sql3=$nsql3->result_array();
-												echo $n2sql3[0]['area'];
+												
+												echo $complaint_list["area"];
 												?>
 										  </td> -->
+										  
 										  <td>
                                               <?php 
-                                              $ty=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$complaint_list["fk_instrument_id"]."'");
-                                              $rt=$ty->result_array();
-                                              //echo $rt[0]["fk_brand_id"];
-											  if($ty->num_rows()>0)
-											  {
-												  $ty2=$this->db->query("select * from tbl_products where pk_product_id='".$rt[0]["fk_product_id"]."'");
-												  $rt2=$ty2->result_array();
-												  echo $rt2[0]["product_name"];
-											  }
-                                              //echo $complaint_list["instrument_name"] ?>
+                                              echo $complaint_list["product_name"]; ?>
                                           </td>
                                           <td>
                                               <?php 
-											  if($ty->num_rows()>0)
-											  {
-											  	echo $rt[0]["serial_no"]; 
-											  }
+											  echo $complaint_list["serial_no"];
 											  ?>
                                           </td>
-
                                                   <td>
 													  <?php if ($complaint_list["problem_summary"]!= "Auto Generated from SPRF") 
 														  echo $complaint_list["problem_summary"]; 
 													  else {
 													  ?>
 													  <?php 
-													  $ty=$this->db->query("select * from tbl_sprf WHERE fk_complaint_id='".$complaint_list['pk_complaint_id']."'");
-														$rt=$ty->result_array();
+													  // $ty=$this->db->query("select * from tbl_sprf WHERE fk_complaint_id='".$complaint_list['pk_complaint_id']."'");
+														// $rt=$ty->result_array();
 														
-														$ty=$this->db->query("select * from tbl_parts where pk_part_id='".$rt[0]['fk_part_id']."'");
-														$rt=$ty->result_array();
-														echo 'Install back .. '.$rt[0]['part_number'];
+														// $ty=$this->db->query("select * from tbl_parts where pk_part_id='".$rt[0]['fk_part_id']."'");
+														// $rt=$ty->result_array();
+														// echo 'Install back .. '.$rt[0]['part_number'];
+														echo 'Install back .. '.$complaint_list['part_number'];
 													  }
 													  ?>
 													  

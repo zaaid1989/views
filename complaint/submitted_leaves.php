@@ -44,7 +44,17 @@
 							$ty22=$this->db->query($myquery);
 					?>
                       <?php
-                            $myquery="select * from tbl_temporary_leaves WHERE `status`='".$k."' ";
+                            $myquery="
+							select tbl_temporary_leaves.*,
+							COALESCE(user.first_name) AS first_name, 
+							COALESCE(tbl_cities.city_name) AS city_name							
+							
+							from tbl_temporary_leaves 
+							
+							LEFT JOIN user ON tbl_temporary_leaves.fk_employee_id = user.id
+							LEFT JOIN tbl_cities ON user.fk_city_id = tbl_cities.pk_city_id
+							
+							WHERE tbl_temporary_leaves.`status`='".$k."' ";
 							if($this->session->userdata('userrole')=='secratery' || $this->session->userdata('userrole')=='Admin' )
 							{
 								$myquery.="";
@@ -65,18 +75,13 @@
 
                                         <td style="padding:10px !important;"> <!-- City -->
                                             <?php
-                                            $ty44=$this->db->query("select * from user where id =  '".$get_users_list["fk_employee_id"]."'");
-                                            $rt44=$ty44->result_array();
-                                            $ty45=$this->db->query("select * from tbl_cities where pk_city_id =  '".$rt44[0]["fk_city_id"]."'");
-                                            $rt45=$ty45->result_array();
-                                            echo $rt45[0]["city_name"];
+                                            
+                                            echo $get_users_list["city_name"];
                                             ?>
                                         </td>
                                         <td style="padding:10px !important;">  <!-- Employee -->
                                             <?php 
-                                            $ty44=$this->db->query("select * from user where id =  '".$get_users_list["fk_employee_id"]."'");
-											$rt44=$ty44->result_array();
-											echo $rt44[0]["first_name"];
+											echo $get_users_list["first_name"];
 											?>
                                         </td>
                                         

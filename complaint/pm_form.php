@@ -24,7 +24,24 @@
       <div class="row">
         <div class="col-md-12">
             <?php
-				  $nsql="select * from tbl_complaints where pk_complaint_id ='".$this->uri->segment(3)."'";
+				  //$nsql="select * from tbl_complaints where pk_complaint_id ='".$this->uri->segment(3)."'";
+				  $nsql = " SELECT tbl_complaints.*, 
+									  COALESCE(tbl_cities.city_name) AS city_name,
+									  COALESCE(tbl_clients.client_name) AS client_name,
+									  COALESCE(tbl_area.area) AS area,
+									  COALESCE(user.first_name) AS first_name,
+									  COALESCE(tbl_instruments.serial_no) AS serial_no,
+									  COALESCE(tbl_products.product_name) AS product_name 
+									  
+									  FROM tbl_complaints 
+									  LEFT JOIN tbl_clients ON tbl_complaints.fk_customer_id = tbl_clients.pk_client_id
+									  LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+									  LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+									  LEFT JOIN user ON tbl_complaints.assign_to = user.id
+									  LEFT JOIN tbl_instruments ON tbl_complaints.fk_instrument_id = tbl_instruments.pk_instrument_id
+									  LEFT JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id 
+							
+							WHERE  pk_complaint_id ='".$this->uri->segment(3)."'";
 				  $n2sql=$this->db->query($nsql);
 				  $get_compalaint_result=$n2sql->result_array();
 				  
@@ -83,16 +100,17 @@
                         }
                     ?>
 					<?php
-					$nsql3=$this->db->query("select * from tbl_instruments where pk_instrument_id ='".$get_compalaint_result[0]['fk_instrument_id']."'");
-								  if($nsql3->num_rows()>0)
-									  {
-										$n2sql3=$nsql3->result_array();
+					// $nsql3=$this->db->query("select * from tbl_instruments where pk_instrument_id ='".$get_compalaint_result[0]['fk_instrument_id']."'");
+								  // if($nsql3->num_rows()>0)
+									  // {
+										// $n2sql3=$nsql3->result_array();
 										
-										$nsql4=$this->db->query("select * from tbl_products where pk_product_id ='".$n2sql3[0]['fk_product_id']."'");
-										$n2sql4=$nsql4->result_array();
-										$product_name = $n2sql4[0]['product_name'];
-									  }
-									else $product_name = "N/A";
+										// $nsql4=$this->db->query("select * from tbl_products where pk_product_id ='".$n2sql3[0]['fk_product_id']."'");
+										// $n2sql4=$nsql4->result_array();
+										// $product_name = $n2sql4[0]['product_name'];
+									  // }
+									// else $product_name = "N/A";
+									$product_name = $get_compalaint_result[0]['product_name'];
 					?>
               </div>
               <div class="row">
@@ -110,9 +128,10 @@
                                      </td>
                                      <td> 
                                      <?php    
-                                        $nsql3=$this->db->query("select * from user where id ='".$get_compalaint_result[0]['assign_to']."'");
-                                        $n2sql3=$nsql3->result_array();
-                                        echo $n2sql3[0]['first_name'];
+                                        // $nsql3=$this->db->query("select * from user where id ='".$get_compalaint_result[0]['assign_to']."'");
+                                        // $n2sql3=$nsql3->result_array();
+										// echo $n2sql3[0]['product_name'];
+                                        echo $get_compalaint_result[0]['product_name'];
                                      ?>
                                      </td>
                                </tr>
@@ -122,9 +141,10 @@
                                      </td>
                                      <td> 
                                      <?php    
-                                        $nsql3=$this->db->query("select * from tbl_clients where pk_client_id ='".$get_compalaint_result[0]['fk_customer_id']."'");
-                                        $n2sql3=$nsql3->result_array();
-                                        echo $n2sql3[0]['client_name'];
+                                        // $nsql3=$this->db->query("select * from tbl_clients where pk_client_id ='".$get_compalaint_result[0]['fk_customer_id']."'");
+                                        // $n2sql3=$nsql3->result_array();
+                                        // echo $n2sql3[0]['client_name'];
+										echo $get_compalaint_result[0]['client_name'];
                                      ?>
                                      </td>
                                </tr>
@@ -134,12 +154,7 @@
 									 </td>
 									 <td>
 								   <?php    
-									  $nsql3=$this->db->query("select * from tbl_instruments where pk_instrument_id ='".$get_compalaint_result[0]['fk_instrument_id']."'");
-									  if($nsql3->num_rows()>0)
-								  		{
-									  $n2sql3=$nsql3->result_array();
-									  echo $n2sql3[0]['serial_no'];
-										}
+									  echo $get_compalaint_result[0]['serial_no'];
 								   ?>
 									 </td>
                                </tr>
@@ -243,9 +258,10 @@
                                      </td>
                                      <td> 
                                      <?php    
-                                        $nsql3=$this->db->query("select * from tbl_cities where pk_city_id ='".$get_compalaint_result[0]['fk_city_id']."'");
-                                        $n2sql3=$nsql3->result_array();
-                                        echo $n2sql3[0]['city_name'];
+                                        // $nsql3=$this->db->query("select * from tbl_cities where pk_city_id ='".$get_compalaint_result[0]['fk_city_id']."'");
+                                        // $n2sql3=$nsql3->result_array();
+                                        // echo $n2sql3[0]['city_name'];
+										echo $get_compalaint_result[0]['city_name'];
                                      ?>
                                      </td>
                                </tr>

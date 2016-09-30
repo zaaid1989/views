@@ -405,7 +405,7 @@ function Get_Date_Difference($start_date, $end_date)
 							echo '</td>';
 							echo '<td>';
 							if ($k==1) {
-								echo '<a class="btn btn-sm default yellow-zed-stripe" href="'.base_url().'complaint/ts_report_director/'.$pmc["pk_complaint_id"].'">';
+								echo '<a class="btn btn-sm default yellow-zed-stripe" href="'.base_url().'complaint/technical_service_pvr/'.$pmc["pk_complaint_id"].'">';
 								echo 'TSR <i class="fa fa-eye"></i></a>';
 							} else {
 								echo '<a class="btn btn-sm default yellow-zed-stripe" href="'.base_url().'complaint/pm_form/'.$pmc["pk_complaint_id"].'">';

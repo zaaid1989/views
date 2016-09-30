@@ -112,9 +112,16 @@ if ($total_pms_c > 1 ) {
                     <div class="row">
                       <div class="col-md-12"> 
                         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                        <div class="portlet box red-intense">
+<?php
+$portlet_status_array		=		array('Pending','Pending Verification','Completed');
+$portlet_color		=		array('red-intense','yellow-zed','green-meadow');
+$portlet_title		=		array('All Pending PM Calls','All Pending Verification PM Calls','All Completed PM Calls');
+
+for($i=0;$i<3;$i++) {
+?>
+                        <div class="portlet box <?php echo $portlet_color[$i]; ?>">
                           <div class="portlet-title">
-                            <div class="caption"> <i class="fa fa-globe"></i>All Pending PM Calls</div>
+                            <div class="caption"> <i class="fa fa-globe"></i><?php echo $portlet_title[$i]; ?></div>
                             <div class="tools"> <a href="javascript:;" class="collapse"> </a>  <a href="javascript:;" class="remove"> </a> </div>
                           </div>
                           <div class="portlet-body">
@@ -136,472 +143,54 @@ if ($total_pms_c > 1 ) {
                               
                             </div>
                            <div class="portlet-body flip-scroll">
-                           <table class="table table-striped table-bordered table-hover flip-content" id="sample_2">
+                           <table class="table table-striped table-bordered table-hover flip-content dataaTable" id="">
                               <thead>
+								<tr>
+                                    <th> </th>
+									<th> </th>
+									<th> </th>
+									<th> </th>
+									<th> </th>
+									<th> </th>
+									<th> </th>
+									<th> </th>
+									<th> </th>
+									<th> </th>
+									<th> </th>
+									
+                                </tr>
                                 <tr>
-                                    
-                                    <th>
-                                         TS number
-                                    </th>
-                                    <th>
-                                         Date
-                                    </th>
-                                    <th>
-                                         Time Elapsed
-                                    </th>
-                                    <th>
-                                         City
-                                    </th>
-                                    <th>
-                                         Customer
-                                    </th>
-                            <!--        <th>
-                                         Area
-                                    </th> -->
-                                    <th>
-                                         Equipment
-                                    </th>
-                                    
-                                    <th>
-                                         S/NO
-                                    </th>
-									<th>
-										 Avergae PM Frequency
-									</th>
-                                    <th>
-                                         Status
-                                    </th>
-                                    <th>
-                                         FSE/SAP
-                                    </th>
-                                    <th>
-                                         Actions
-                                    </th>
+                                    <th> TS number </th>
+                                    <th> Date </th>
+                                    <th> Time Elapsed </th>
+                                    <th> City </th>
+                                    <th> Customer </th>
+                                    <th> Equipment </th>
+                                    <th> S/NO </th>
+									<th> Avergae PM Frequency </th>
+                                    <th> Status </th>
+                                    <th> FSE/SAP </th>
+                                    <th> Actions </th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <?php
-									  if($this->session->userdata('userrole')=='Supervisor')
-									  {
-										  $dbres2 = $this->db->query("SELECT * FROM user  where fk_office_id='".$this->session->userdata('territory')."' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
-										  $dbresResult2=$dbres2->result_array();
-									  }
-									  else
-									  {
-										  $dbres2 = $this->db->query("SELECT * FROM user ORDER BY  `fk_office_id` ,  `userrole` ASC ");
-										  $dbresResult2=$dbres2->result_array();
-
-									  }
-									  $dbres="select * from tbl_complaints where  assign_to IN (";
-										$n=0;
-										foreach($dbresResult2 as $pp)
-										{
-											$n++;
-										}
-										$n2=0;					
-					
-										foreach($dbresResult2 as $ss)
-										{
-											if($n-1 > $n2)
-											{
-												$dbres.=$ss['id'].", ";
-												$n2++;
-											}
-											else
-											{
-												$dbres.=$ss['id'];
-											}
-										}
-										$dbres.=")";
-										$dbres.=" AND complaint_nature='PM'  AND status IN ('Pending') order by `pk_complaint_id` DESC";
-										//echo $dbres;exit;
-										
-									  //$dbres = $this->db->query("SELECT * FROM tbl_complaints  where assign_to IN '".$this->session->userdata('userid')."'
-									  // AND complaint_nature='PM'  order by `pk_complaint_id` DESC");
-									$my_results = $this->db->query($dbres);
-									$dbresResult=$my_results->result_array();
-									  if (sizeof($dbresResult) == "0") {
-										  
-									  } else {
-										  foreach ($dbresResult as $complaint_list) {
-											  ?>
-                                              <?php
-                                              	$date1 = $complaint_list['date'];
-												$date2 = date('Y-m-d');
-												$diff = abs(strtotime($date2) - strtotime($date1));
-											  ?>
-											  <tr class="<?php if($diff>86400*3 && $complaint_list['status']!='Completed'){ echo "danger even";} else { echo "odd gradeX";}?>">
-												  
-                                                  <td>
-													  <?php echo $complaint_list["ts_number"] ?>
-												  </td>
-												  <td>
-													  <?php echo date("Y-m-d", strtotime($complaint_list["date"])); ?>
-												  </td>
-                                                  
-                                                  <td>
-                                                      <?php 
-													  echo nicetime($complaint_list["date"]); ?>
-												  </td>
-                                                  
-                                                  
-                                                  
-                                                   <td>
-													  <?php 
-                                                      $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$complaint_list["fk_city_id"]."'");
-                                                      $rt=$ty->result_array();
-                                                      echo $rt[0]["city_name"] ?>
-                                                  </td>
-                                                  <td>
-                                                      <?php    
-                                                        $nsql3=$this->db->query("select * from tbl_clients where pk_client_id ='".$complaint_list['fk_customer_id']."'");
-                                                        $n2sql3=$nsql3->result_array();
-                                                        echo $n2sql3[0]['client_name'];
-                                                        ?>
-                                                  </td>
-                                                    
-                                       <!--           <td>
-                                                  <?php 
-                                                        $nsql3=$this->db->query("select area from tbl_area where pk_area_id ='".$n2sql3[0]['fk_area_id']."'");
-                                                        $n2sql3=$nsql3->result_array();
-                                                        echo $n2sql3[0]['area'];
-                                                        ?>
-                                                  </td> -->
-                                                  <td>
-													  <?php  $ty=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$complaint_list["fk_instrument_id"]."'");
-													  $rt=$ty->result_array();
-													  $ty2=$this->db->query("select * from tbl_products where pk_product_id='".$rt[0]["fk_product_id"]."'");
-													  $rt2=$ty2->result_array();
-													  echo $rt2[0]["product_name"];
-													  ?>
-                                      
-												  </td>
-												  
-												   <td>
-													  <?php  $ty=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$complaint_list["fk_instrument_id"]."'");
-													  $rt=$ty->result_array();
-													  ?>
-                                                      <?php echo $rt[0]["serial_no"]; ?>
-												  </td>
-												  <td>
-												  <?php
-												  $tyz	=	$this->db->query("select * from tbl_complaints where fk_instrument_id='".$complaint_list["fk_instrument_id"]."' AND complaint_nature='PM' AND status='Completed' ORDER BY date DESC ");
-													$rtz	= 	$tyz->result_array();
-													pm_frequency($rtz);
-												  ?>
-												  </td>
-												  <td>
-												  <?php 
-													$this->load->model("complaint_model");
-													$obj=new Complaint_model();
-													$obj->current_status($complaint_list['status']);
-												  ?>
-												  </td>											
-                                                  
-                                                  <td>
-													  <?php 
-													  $ty=$this->db->query("select * from user where id ='".$complaint_list["assign_to"]."'");
-													  $rt=$ty->result_array();
-													  echo $rt[0]["first_name"];
-													  //echo $complaint_list["FSE_SAP"] ?>
-												  </td>
-                                                  <td>
-													  <a class="btn btn-default" href="<?php echo base_url();?>complaint/pm_form/<?php echo $complaint_list["pk_complaint_id"] ?>">PM Form</a>
-												  </td>
-                                                   
-											  </tr>
-											  <?php
-										  }
-									  }
-                              ?>
-                                
-                              </tbody>
-                            </table>
-                           </div>
-                          </div>
-                        </div>
-                        
-						
-						<div class="portlet box yellow-zed">
-                          <div class="portlet-title">
-                            <div class="caption"> <i class="fa fa-globe"></i>All Pending Verification PM Calls</div>
-                            <div class="tools"> <a href="javascript:;" class="collapse"> </a>  <a href="javascript:;" class="remove"> </a> </div>
-                          </div>
-                          <div class="portlet-body">
-                            <div class="table-toolbar">
-                              
-                            </div>
-                        <div class="portlet-body flip-scroll">
-                           <table class="table table-striped table-bordered table-hover flip-content" id="sample_20">
-                              <thead>
-                                <tr>
-                                    
-                                    <th>
-                                         TS number
-                                    </th>
-                                    <th>
-                                         Date
-                                    </th>
-                                    <th>
-                                         Time Elapsed
-                                    </th>
-                                    <th>
-                                         City
-                                    </th>
-                                    <th>
-                                         Customer
-                                    </th>
-                             <!--       <th>
-                                         Area
-                                    </th> -->
-                                    <th>
-                                         Equipment
-                                    </th>
-                                    
-                                    <th>
-                                         S/NO
-                                    </th>
-									<th>
-										 Avergae PM Frequency
-									</th>
-                                    <th>
-                                         Status
-                                    </th>
-                                    <th>
-                                         FSE/SAP
-                                    </th>
-                                    <th>
-                                         Actions
-                                    </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php
-									  
-									  $dbres1 = $this->db->query("SELECT * FROM user  where id='".$this->session->userdata('userid')."'");
-									  $dbresResult1=$dbres1->result_array();
-									  $dbres2 = $this->db->query("SELECT * FROM user  where fk_office_id='".$dbresResult1[0]['fk_office_id']."' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
-									  $dbresResult2=$dbres2->result_array();
-									  $dbres="select * from tbl_complaints where  assign_to IN (";
-										$n=0;
-										foreach($dbresResult2 as $pp)
-										{
-											$n++;
-										}
-										$n2=0;					
-					
-										foreach($dbresResult2 as $ss)
-										{
-											if($n-1 > $n2)
-											{
-												$dbres.=$ss['id'].", ";
-												$n2++;
-											}
-											else
-											{
-												$dbres.=$ss['id'];
-											}
-										}
-										$dbres.=")";
-										$dbres.=" AND complaint_nature='PM'  AND status IN ('Pending Verification') order by `pk_complaint_id` DESC";
-										//echo $dbres;exit;
-										
-									  //$dbres = $this->db->query("SELECT * FROM tbl_complaints  where assign_to IN '".$this->session->userdata('userid')."'
-									  // AND complaint_nature='PM'  order by `pk_complaint_id` DESC");
-									$my_results = $this->db->query($dbres);
-									$dbresResult=$my_results->result_array();
-									  if (sizeof($dbresResult) == "0") {
-										  
-									  } else {
-										  foreach ($dbresResult as $complaint_list) {
-											  ?>
-                                              <?php
-                                              	$date1 = $complaint_list['date'];
-												$date2 = date('Y-m-d');
-												$diff = abs(strtotime($date2) - strtotime($date1));
-											  ?>
-											  <tr class="<?php if($diff>86400*3 && $complaint_list['status']!='Completed'){ echo "danger even";} else { echo "odd gradeX";}?>">
-												  
-                                                  <td>
-													  <?php echo $complaint_list["ts_number"] ?>
-												  </td>
-												  <td>
-													  <?php echo date("Y-m-d", strtotime($complaint_list["date"])); ?>
-												  </td>
-                                                  
-                                                  <td>
-                                                      <?php 
-													  echo nicetime($complaint_list["date"]); ?>
-												  </td>
-                                                  
-                                                  
-                                                  
-                                                   <td>
-													  <?php 
-                                                      $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$complaint_list["fk_city_id"]."'");
-                                                      $rt=$ty->result_array();
-                                                      echo $rt[0]["city_name"] ?>
-                                                  </td>
-                                                  <td>
-                                                      <?php    
-                                                        $nsql3=$this->db->query("select * from tbl_clients where pk_client_id ='".$complaint_list['fk_customer_id']."'");
-                                                        $n2sql3=$nsql3->result_array();
-                                                        echo $n2sql3[0]['client_name'];
-                                                        ?>
-                                                  </td>
-                                                    
-                                 <!--                 <td>
-                                                  <?php 
-                                                        $nsql3=$this->db->query("select area from tbl_area where pk_area_id ='".$n2sql3[0]['fk_area_id']."'");
-                                                        $n2sql3=$nsql3->result_array();
-                                                        echo $n2sql3[0]['area'];
-                                                        ?>
-                                                  </td> -->
-                                                  <td>
-													  <?php  $ty=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$complaint_list["fk_instrument_id"]."'");
-													  $rt=$ty->result_array();
-													  $ty2=$this->db->query("select * from tbl_products where pk_product_id='".$rt[0]["fk_product_id"]."'");
-													  $rt2=$ty2->result_array();
-													  echo $rt2[0]["product_name"];
-													  ?>
-                                      
-												  </td>
-												  
-												   <td>
-													  <?php  $ty=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$complaint_list["fk_instrument_id"]."'");
-													  $rt=$ty->result_array();
-													  ?>
-                                                      <?php echo $rt[0]["serial_no"]; ?>
-												  </td>
-												  <td>
-												  <?php
-												  $tyz	=	$this->db->query("select * from tbl_complaints where fk_instrument_id='".$complaint_list["fk_instrument_id"]."' AND complaint_nature='PM' AND status='Completed' ORDER BY date DESC ");
-													$rtz	= 	$tyz->result_array();
-													pm_frequency($rtz);
-												  ?>
-												  </td>
-												  <td>
-												  <?php 
-													$this->load->model("complaint_model");
-													$obj=new Complaint_model();
-													$obj->current_status($complaint_list['status']);
-												  ?>
-												  </td>											
-                                                  
-                                                  <td>
-													  <?php 
-													  $ty=$this->db->query("select * from user where id ='".$complaint_list["assign_to"]."'");
-													  $rt=$ty->result_array();
-													  echo $rt[0]["first_name"];
-													  //echo $complaint_list["FSE_SAP"] ?>
-												  </td>
-                                                  <td>
-													  <a class="btn btn-default" href="<?php echo base_url();?>complaint/pm_form/<?php echo $complaint_list["pk_complaint_id"] ?>">PM Form</a>
-												  </td>
-                                                   
-											  </tr>
-											  <?php
-										  }
-									  }
-                              ?>
-                                
-                              </tbody>
-                            </table>
-                           </div>
-                          </div>
-                        </div>
-                        
-                        <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                        <div class="portlet box green-meadow">
-                          <div class="portlet-title">
-                            <div class="caption"> <i class="fa fa-globe"></i>All Completed PM Calls (30 Days)</div>
-                            <div class="tools"> <a href="javascript:;" class="collapse"> </a>  <a href="javascript:;" class="remove"> </a> </div>
-                          </div>
-                          <div class="portlet-body">
-                            <div class="table-toolbar">
-                              
-                            </div>
-                        	<div class="portlet-body flip-scroll">
-                             <table class="table table-striped table-bordered table-hover flip-content" id="sample_21">
-                              <thead>
-                                <tr>
-                                    
-                                    <th>
-                                         TS number
-                                    </th>
-                                    <th>
-                                         Date
-                                    </th>
-                                    <th>
-                                         Time Elapsed
-                                    </th>
-                                    <th>
-                                         Time Taken
-                                    </th>
-                                    <th>
-                                         City
-                                    </th>
-                                    <th>
-                                         Customer
-                                    </th>
-                             <!--       <th>
-                                         Area
-                                    </th> -->
-                                    <th>
-                                         Equipment
-                                    </th>
-                                    
-                                    <th>
-                                         S/NO
-                                    </th>
-									<th>
-										 Avergae PM Frequency
-									</th>
-                                    <th>
-                                         Status
-                                    </th>
-                                    <th>
-                                         FSE/SAP
-                                    </th>
-                                    <th>
-                                         Actions
-                                    </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php
-									  $dbres1 = $this->db->query("SELECT * FROM user  where id='".$this->session->userdata('userid')."'");
-									  $dbresResult1=$dbres1->result_array();
-									  $dbres2 = $this->db->query("SELECT * FROM user  where fk_office_id='".$dbresResult1[0]['fk_office_id']."' 
-									  ORDER BY  `fk_office_id` ,  `userrole` ASC ");
-									  $dbresResult2=$dbres2->result_array();
-									  $dbres="select * from tbl_complaints where  assign_to IN (";
-										$n=0;
-										foreach($dbresResult2 as $pp)
-										{
-											$n++;
-										}
-										$n2=0;					
-					
-										foreach($dbresResult2 as $ss)
-										{
-											if($n-1 > $n2)
-											{
-												$dbres.=$ss['id'].", ";
-												$n2++;
-											}
-											else
-											{
-												$dbres.=$ss['id'];
-											}
-										}
-										$dbres.=")";
-										$dbres.=" AND complaint_nature='PM' AND status IN ('Completed')  AND `date` BETWEEN '".date('Y-m-d', strtotime("-30 days"))."' 
+									$portlet_status = $portlet_status_array[$i];
+									$dbres = "SELECT tbl_complaints.* ,
+									COALESCE(tbl_clients.client_name) AS client_name,
+									COALESCE(tbl_cities.city_name) AS city_name,
+									COALESCE(tbl_instruments.serial_no) AS serial_no,
+									COALESCE(tbl_products.product_name) AS product_name,
+									COALESCE(user.first_name) AS first_name
+									FROM tbl_complaints 
+									LEFT JOIN tbl_clients ON tbl_complaints.fk_customer_id = tbl_clients.pk_client_id
+									LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+									LEFT JOIN tbl_instruments ON tbl_complaints.fk_instrument_id = tbl_instruments.pk_instrument_id
+									LEFT JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id
+									LEFT JOIN user on tbl_complaints.assign_to = user.id
+									WHERE  assign_to IN (SELECT id FROM user WHERE tbl_complaints.fk_office_id ='".$this->session->userdata('territory')."') AND complaint_nature='PM'  AND tbl_complaints.status IN ('$portlet_status') ";
+									if ($i==2) $dbres .= " AND `date` BETWEEN '".date('Y-m-d', strtotime("-30 days"))."' 
 										AND '".date('Y-m-d')."'";
-										//echo $dbres;exit;
-										
-									  //$dbres = $this->db->query("SELECT * FROM tbl_complaints  where assign_to IN '".$this->session->userdata('userid')."'
-									  // AND complaint_nature='PM'  order by `pk_complaint_id` DESC");
 									$my_results = $this->db->query($dbres);
 									$dbresResult=$my_results->result_array();
 									  if (sizeof($dbresResult) == "0") {
@@ -616,94 +205,38 @@ if ($total_pms_c > 1 ) {
 											  ?>
 											  <tr class="<?php if($diff>86400*3 && $complaint_list['status']!='Completed'){ echo "danger even";} else { echo "odd gradeX";}?>">
 												  
-                                                  <td>
-													  <?php echo $complaint_list["ts_number"] ?>
+                                                  <td> <?php echo $complaint_list["ts_number"] ?> </td>
+												  <td> <?php echo date("d-M-Y", strtotime($complaint_list["date"])); ?> </td>
+                                                  <td> <?php if($complaint_list['status']!='Completed') echo nicetime($complaint_list["date"]);
+															 else echo nicetime($complaint_list["finish_time"]);
+														?> 
 												  </td>
+                                                  <td> <?php echo $complaint_list['city_name']; ?> </td>
+												  <td> <?php echo $complaint_list['client_name']; ?> </td>
+                                                  <td> <?php echo $complaint_list['product_name']; ?> </td>
+												  <td> <?php echo $complaint_list['serial_no']; ?> </td>
+                                <!-- Frequency -->                    
 												  <td>
-													  <?php echo date("Y-m-d", strtotime($complaint_list["date"])); ?>
+													  <?php
+													  $tyz	=	$this->db->query("select * from tbl_complaints where fk_instrument_id='".$complaint_list["fk_instrument_id"]."' AND complaint_nature='PM' AND status='Completed' ORDER BY date DESC ");
+														$rtz	= 	$tyz->result_array();
+														pm_frequency($rtz);
+													  ?>
 												  </td>
-                                                  <td> 
-													  <?php  
-													  	if($complaint_list["status"]=='Completed')
-														{
-															echo "Completed ". nicetime($complaint_list["finish_time"]); 
-														}
-														else
-														{
-															echo nicetime($complaint_list["date"]);
-														}
-													  ?> 
-												  </td> 
-                                                  <td>
-                                                      <?php 
-													  echo nicetime2($complaint_list["date"],$complaint_list["finish_time"]); ?>
-												  </td>
-                                                  
-                                                  
-                                                  
-                                                   <td>
+								<!-- Status -->				  
+												  <td>
 													  <?php 
-                                                      $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$complaint_list["fk_city_id"]."'");
-                                                      $rt=$ty->result_array();
-                                                      echo $rt[0]["city_name"] ?>
-                                                  </td>
-                                                  <td>
-                                                      <?php    
-                                                        $nsql3=$this->db->query("select * from tbl_clients where pk_client_id ='".$complaint_list['fk_customer_id']."'");
-                                                        $n2sql3=$nsql3->result_array();
-                                                        echo $n2sql3[0]['client_name'];
-                                                        ?>
-                                                  </td>
-                                                    
-                                       <!--           <td>
-                                                  <?php 
-                                                        $nsql3=$this->db->query("select area from tbl_area where pk_area_id ='".$n2sql3[0]['fk_area_id']."'");
-                                                        $n2sql3=$nsql3->result_array();
-                                                        echo $n2sql3[0]['area'];
-                                                        ?>
-                                                  </td> -->
-                                                  <td>
-													  <?php  $ty=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$complaint_list["fk_instrument_id"]."'");
-													  $rt=$ty->result_array();
-													  $ty2=$this->db->query("select * from tbl_products where pk_product_id='".$rt[0]["fk_product_id"]."'");
-													  $rt2=$ty2->result_array();
-													  echo $rt2[0]["product_name"];
+														$this->load->model("complaint_model");
+														$obj=new Complaint_model();
+														$obj->current_status($complaint_list['status']);
 													  ?>
-                                      
-												  </td>
-												  
-												   <td>
-													  <?php  $ty=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$complaint_list["fk_instrument_id"]."'");
-													  $rt=$ty->result_array();
-													  ?>
-                                                      <?php echo $rt[0]["serial_no"]; ?>
-												  </td>
-												  <td>
-												  <?php
-												  $tyz	=	$this->db->query("select * from tbl_complaints where fk_instrument_id='".$complaint_list["fk_instrument_id"]."' AND complaint_nature='PM' AND status='Completed' ORDER BY date DESC ");
-													$rtz	= 	$tyz->result_array();
-													pm_frequency($rtz);
-												  ?>
-												  </td>
-												  <td>
-												  <?php 
-													$this->load->model("complaint_model");
-													$obj=new Complaint_model();
-													$obj->current_status($complaint_list['status']);
-												  ?>
 												  </td>											
-                                                  
-                                                  <td>
-													  <?php 
-													  $ty=$this->db->query("select * from user where id ='".$complaint_list["assign_to"]."'");
-													  $rt=$ty->result_array();
-													  echo $rt[0]["first_name"];
-													  //echo $complaint_list["FSE_SAP"] ?>
-												  </td>
+                                <!-- FSE -->                  
+                                                  <td> <?php echo $complaint_list['first_name']; ?> </td>
+								<!-- Actions -->
                                                   <td>
 													  <a class="btn btn-default" href="<?php echo base_url();?>complaint/pm_form/<?php echo $complaint_list["pk_complaint_id"] ?>">PM Form</a>
 												  </td>
-                                                   
 											  </tr>
 											  <?php
 										  }
@@ -715,7 +248,10 @@ if ($total_pms_c > 1 ) {
                            </div>
                           </div>
                         </div>
-                      </div>
+<?php } ?> 
+                      
+                   
+					  </div>
                     </div>
                 </div>
             </div>
@@ -723,3 +259,27 @@ if ($total_pms_c > 1 ) {
         </div>
         <!-- END CONTAINER -->
         <?php $this->load->view('footer');?>
+<script>
+$(document).ready(function() { 
+			var table = $('.dataaTable').dataTable({
+			  'iDisplayLength': 1000,
+			  'aaSorting': [],
+	  "order": [[ 1, "desc" ]]
+			}).columnFilter({ sPlaceHolder: "head:before",
+					aoColumns: [ 	{type: "text" },
+					            { type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+				    	 		{ type: "text" },
+				    	 		{ type: "text" },
+								null
+						]
+
+		});
+});
+
+</script>

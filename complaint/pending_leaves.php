@@ -109,7 +109,11 @@
 							$ty22=$this->db->query($myquery);
 					?>
                       <?php
-                            $myquery="select * from tbl_temporary_leaves WHERE `status`='0' ";
+                            $myquery="select tbl_temporary_leaves.*, user.first_name,tbl_cities.city_name,user.total_leaves,user.date_of_joining
+							from tbl_temporary_leaves 
+							LEFT JOIN user ON tbl_temporary_leaves.fk_employee_id = user.id
+							LEFT JOIN tbl_cities ON user.fk_city_id = tbl_cities.pk_city_id
+							WHERE tbl_temporary_leaves.`status`='0' ";
 							if($this->session->userdata('userrole')=='secratery' || $this->session->userdata('userrole')=='Admin' )
 							{
 								$myquery.="";
@@ -130,18 +134,14 @@
 
                                         <td style="padding:10px !important;"> <!-- City -->
                                             <?php
-                                            $ty44=$this->db->query("select * from user where id =  '".$get_users_list["fk_employee_id"]."'");
-                                            $rt44=$ty44->result_array();
-                                            $ty45=$this->db->query("select * from tbl_cities where pk_city_id =  '".$rt44[0]["fk_city_id"]."'");
-                                            $rt45=$ty45->result_array();
-                                            echo $rt45[0]["city_name"];
+                                            
+                                            echo $get_users_list["city_name"];
                                             ?>
                                         </td>
                                         <td style="padding:10px !important;">  <!-- Employee -->
                                             <?php 
-                                            $ty44=$this->db->query("select * from user where id =  '".$get_users_list["fk_employee_id"]."'");
-											$rt44=$ty44->result_array();
-											echo $rt44[0]["first_name"];
+                                            
+											echo $get_users_list["first_name"];
 											?>
                                         </td>
                                         
@@ -188,7 +188,7 @@
 										
 										<td style="padding:10px !important;">  <!-- Balance Leaves -->
                                             <?php 
-												$total_leaves = $rt44[0]["total_leaves"];
+												$total_leaves = $get_users_list["total_leaves"];
 			////////////////////////////// Calculating available Leaves
 											
 											$start_month	=	7; // July
@@ -198,7 +198,7 @@
 											 $current_month	=	date('m');
 											 $current_year	=	date('Y');
 											 $previous_year	=	date('Y')-1;
-											 $join_date		= 	$rt44[0]["date_of_joining"];
+											 $join_date		= 	$get_users_list["date_of_joining"];
 											 $join_month	=	date('m',strtotime($join_date));
 											 $join_year		=	date('Y',strtotime($join_date));
 											 

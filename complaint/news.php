@@ -75,7 +75,9 @@
                               </thead>
                               <tbody>
                                 <?php
-									  $ty22=$this->db->query("select * from tbl_news order by pk_news_id DESC");
+									  $ty22=$this->db->query("select tbl_news.*,tbl_offices.office_name from tbl_news 
+									  LEFT JOIN tbl_offices ON tbl_news.fk_office_id = tbl_offices.pk_office_id
+									  order by pk_news_id DESC");
 									  $rt22=$ty22->result_array();
 									  if (sizeof($rt22) == "0") {
 										  
@@ -100,9 +102,9 @@
 															}
 															else
 															{
-																$ty44=$this->db->query("select * from tbl_offices where pk_office_id =  '".$get_users_list["fk_office_id"]."'");
-																$rt44=$ty44->result_array();
-																echo $rt44[0]["office_name"];
+																// $ty44=$this->db->query("select * from tbl_offices where pk_office_id =  '".$get_users_list["fk_office_id"]."'");
+																// $rt44=$ty44->result_array();
+																echo $get_users_list["office_name"];//$rt44[0]["office_name"];
 															}
 													  ?>
 												  </td>

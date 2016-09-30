@@ -162,7 +162,7 @@ thead select {
 														echo '0';
 											  echo "</td>";
 											  echo "<td>";
-											   echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'complaint/ts_report_director/'.$spr['pk_complaint_id'].'">TSR <i class="fa fa-eye"></i></a>';
+											   echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'complaint/technical_service_pvr/'.$spr['pk_complaint_id'].'">TSR <i class="fa fa-eye"></i></a>';
 											   echo '<a class="btn btn-sm default green-meadow-stripe" href="'.base_url().'products/supervisor_sprf/'.$spr['pk_complaint_id'].'">SPRF <i class="fa fa-eye"></i></a>';
 											   echo '<a class="btn btn-sm default blue-stripe" href="'.base_url().'products/ledger?part='.$spr['pk_part_id'].'">Ledger <i class="fa fa-eye"></i></a>';
 											   echo '<a class="btn btn-sm default yellow-stripe" href="'.base_url().'complaint/equipment_audit?equipment='.$spr['pk_instrument_id'].'">Audit <i class="fa fa-eye"></i></a>';

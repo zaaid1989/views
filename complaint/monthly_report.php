@@ -1056,7 +1056,37 @@ Different from director statistics because that is for last 30 days running
 	
 	////////// for sap
 	if ($user_role=="Salesman") {
-		$dbres = $this->db->query("SELECT * FROM business_data where `Sales Person` = '".$user_id."' AND status='0'");
+		$this->db->query("SET SQL_BIG_SELECTS=1");
+		$dbres = $this->db->query("SELECT 
+								business_data.*, 
+								COALESCE(tbl_cities.city_name) AS city_name,
+								COALESCE(tbl_clients.client_name) AS client_name,
+								COALESCE(tbl_area.area) AS area,
+								COALESCE(user.first_name) AS first_name,
+								COALESCE(s1.date) AS strategy_date,
+								COALESCE(s1.target_date) AS target_date,
+								COALESCE(s1.strategy) AS strategy,
+								COALESCE(s1.tactics) AS tactics,
+								COALESCE(s1.investment) AS investment,
+								COALESCE(s1.sales_per_month) AS sales_per_month,
+								MAX(tbl_dvr.date) AS dvr_date,
+								COUNT(tbl_dvr.date) AS total_visits,
+								COALESCE(tbl_business_types.businesstype_name) AS businesstype_name 
+								
+								FROM business_data 
+								
+								LEFT JOIN tbl_cities ON business_data.City = tbl_cities.pk_city_id 
+								LEFT JOIN tbl_area ON business_data.Area = tbl_area.pk_area_id 
+								LEFT JOIN tbl_clients ON business_data.Customer = tbl_clients.pk_client_id 
+								LEFT JOIN user ON business_data.`Sales Person` = user.id 
+								LEFT JOIN tbl_business_types ON business_data.`Business Project`  = tbl_business_types.pk_businesstype_id
+								LEFT JOIN tbl_dvr ON business_data.pk_businessproject_id = tbl_dvr.fk_business_id
+								LEFT JOIN (SELECT * from tbl_project_strategy WHERE strategy_status = 1) s1 ON business_data.pk_businessproject_id = s1.fk_project_id
+								LEFT JOIN (SELECT * from tbl_project_strategy WHERE strategy_status = 1) s2 ON business_data.pk_businessproject_id = s2.fk_project_id AND s1.pk_project_strategy_id < s2.pk_project_strategy_id
+			
+			WHERE `Sales Person` = '".$user_id."' AND business_data.status='0' AND s2.pk_project_strategy_id IS NULL 
+			GROUP BY pk_businessproject_id
+			");
 		$get_sap_projects=$dbres->result_array();
 						
 		foreach ($get_sap_projects as $my_business_data) {
@@ -1230,97 +1260,16 @@ while($month < $end)
 						  {
 						  ?>
 						  <tr class="<?php if($my_business_data['priority']==1){ echo "danger even";} else { echo "odd gradeX";}?>">
-						  <!--
-							  <td>
-								  <?php 
-								  $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$my_business_data["Territory"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["office_name"]; 
-								  }?>
-							  </td>
-							 -->
-							  <td> <!-- City Name -->
-								  <?php 
-								  $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$my_business_data["City"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["city_name"]; 
-								  }?>
-							  </td>
-					<!--		  <td> <!-- Area Name 
-								  <?php 
-								  $ty=$this->db->query("select * from tbl_area where pk_area_id='".$my_business_data["Area"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["area"]; 
-								  }?> 
-							  </td> -->
-							  <td> <!-- Client Name -->
-								  <?php 
-								  $ty=$this->db->query("select * from tbl_clients where pk_client_id='".$my_business_data["Customer"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["client_name"]; 
-								  }?> 
-							  </td>
+						  <!--	<td><?php echo $my_business_data["office_name"]; ?></td>-->
+								<td><?php echo $my_business_data["city_name"]; ?></td>
+						<!--	<td><?php echo $my_business_data["area"]; ?></td>-->
+								<td><?php echo $my_business_data["client_name"]; ?></td>
+								<td><?php echo $my_business_data["businesstype_name"]; ?></td>
+								<td><?php echo $my_business_data["Project Description"]; ?></td>
+								<td><?php if($my_business_data["dvr_date"]!="") echo date('d-M-Y',strtotime($my_business_data["dvr_date"])); ?></td>
+								<td><?php echo $my_business_data["total_visits"]; ?></td>
+						<!--	<td><?php echo $my_business_data["Department"]; ?></td>-->
 							  
-							  
-							  <!--<td>
-								  <?php echo $my_business_data["Department"] ?>
-							  </td>
-							   <td>
-								  <?php 
-								  $ty=$this->db->query("select * from user where id='".$my_business_data["Sales Person"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["first_name"]; 
-								  }?> 
-							  </td>-->
-							  <td> <!-- Business Project -->
-								   <?php 
-								  $ty=$this->db->query("select * from tbl_business_types where pk_businesstype_id='".$my_business_data["Business Project"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["businesstype_name"]; 
-								  }?>
-							  </td>
-							  
-							  <td> <!-- Description -->
-								  <?php echo $my_business_data["Project Description"] ?>
-							  </td>
-							  <?php $obj=new Complaint_model(); ?>
-					<!--		  <td>
-								  <?php //echo date('d-M-Y', strtotime($my_business_data["Date"])); ?>
-								  <?php echo $obj->nicetime($my_business_data["Date"]); ?>
-							  </td> -->
-							  
-							  <td> <!-- Last Visit Date -->
-								<?php 
-								  $ty=$this->db->query("select * from tbl_dvr where fk_business_id='".$my_business_data["pk_businessproject_id"]."' ORDER BY  `pk_dvr_id` DESC ");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  //echo $rt[0]["date"];
-								  echo date('d-M-Y', strtotime($rt[0]["date"])); 
-								  }?>
-							  </td>
-							  <td> <!-- Total Visits -->
-								<?php 
-								  
-								  echo $ty->num_rows(); 
-								  ?>
-							  </td>
-							  
-							  <!--<td>
-								  <?php echo $my_business_data["Date"] ?>
-							  </td>-->
 							  <td><textarea rows="3"></textarea></td>
 							  
 						  </tr>
@@ -1337,99 +1286,16 @@ while($month < $end)
 						  {
 						  ?>
 						  <tr class="<?php if($my_business_data['priority']==1){ echo "danger even";} else { echo "odd gradeX";}?>">
-						  <!--
-							  <td>
-								  <?php 
-								  $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$my_business_data["Territory"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["office_name"]; 
-								  }?>
-							  </td>
-							 -->
-							  <td> <!-- City Name -->
-								  <?php 
-								  $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$my_business_data["City"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["city_name"]; 
-								  }?>
-							  </td>
-						<!--	  <td> <!-- Area Name 
-								  <?php 
-								  $ty=$this->db->query("select * from tbl_area where pk_area_id='".$my_business_data["Area"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["area"]; 
-								  }?> 
-							  </td> -->
-							  <td> <!-- Client Name -->
-								  <?php 
-								  $ty=$this->db->query("select * from tbl_clients where pk_client_id='".$my_business_data["Customer"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["client_name"]; 
-								  }?> 
-							  </td>
-							  
-							  
-							  <!--<td>
-								  <?php echo $my_business_data["Department"] ?>
-							  </td>
-							   <td>
-								  <?php 
-								  $ty=$this->db->query("select * from user where id='".$my_business_data["Sales Person"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["first_name"]; 
-								  }?> 
-							  </td>-->
-							  <td> <!-- Business Project -->
-								   <?php 
-								  $ty=$this->db->query("select * from tbl_business_types where pk_businesstype_id='".$my_business_data["Business Project"]."'");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  echo $rt[0]["businesstype_name"]; 
-								  }?>
-							  </td>
-							  
-							  <td> <!-- Description -->
-								  <?php echo $my_business_data["Project Description"] ?>
-							  </td>
-							  <?php $obj=new Complaint_model(); ?>
-					<!--		  <td>
-								  <?php //echo date('d-M-Y', strtotime($my_business_data["Date"])); ?>
-								  <?php echo $obj->nicetime($my_business_data["Date"]); ?>
-							  </td> -->
-							  
-							  <td> <!-- Last Visit Date -->
-								<?php 
-								  $ty=$this->db->query("select * from tbl_dvr where fk_business_id='".$my_business_data["pk_businessproject_id"]."' ORDER BY  `pk_dvr_id` DESC ");
-								  if($ty->num_rows()>0)
-								  {
-								  $rt=$ty->result_array();
-								  //echo $rt[0]["date"];
-								  echo date('d-M-Y', strtotime($rt[0]["date"])); 
-								  }?>
-							  </td>
-							  <td> <!-- Total Visits -->
-								<?php 
-								  
-								  echo $ty->num_rows(); 
-								  ?>
-							  </td>
-							  
-							  <!--<td>
-								  <?php echo $my_business_data["Date"] ?>
-							  </td>-->
+						  <!--	<td><?php echo $my_business_data["office_name"]; ?></td>-->
+								<td><?php echo $my_business_data["city_name"]; ?></td>
+						<!--	<td><?php echo $my_business_data["area"]; ?></td>-->
+								<td><?php echo $my_business_data["client_name"]; ?></td>
+								<td><?php echo $my_business_data["businesstype_name"]; ?></td>
+								<td><?php echo $my_business_data["Project Description"]; ?></td>
+								<td><?php if($my_business_data["dvr_date"]!="") echo date('d-M-Y',strtotime($my_business_data["dvr_date"])); ?></td>
+								<td><?php echo $my_business_data["total_visits"]; ?></td>
+						<!--	<td><?php echo $my_business_data["Department"]; ?></td>-->
 							  <td><textarea rows="3"></textarea></td>
-							  
 						  </tr>
 						  <?php
 						  }
@@ -1472,7 +1338,7 @@ while($month < $end)
 								$obj->current_status($pmc['status']);
 							echo '</td>';
 							echo '<td>'; ?>
-							<a class="btn btn-sm default purple-stripe" href="<?php echo base_url();?>complaint/ts_report_director/<?php echo $pmc["pk_complaint_id"] ?>">
+							<a class="btn btn-sm default purple-stripe" href="<?php echo base_url();?>complaint/technical_service_pvr/<?php echo $pmc["pk_complaint_id"] ?>">
 								TSR 
 								<i class="fa fa-eye"></i>
 							  </a>
@@ -1517,7 +1383,7 @@ while($month < $end)
 								$obj->current_status($pmc['status']);
 							echo '</td>';
 							echo '<td>'; ?>
-							<a class="btn btn-sm default purple-stripe" href="<?php echo base_url();?>complaint/ts_report_director/<?php echo $pmc["pk_complaint_id"] ?>">
+							<a class="btn btn-sm default purple-stripe" href="<?php echo base_url();?>complaint/technical_service_pvr/<?php echo $pmc["pk_complaint_id"] ?>">
 								TSR 
 								<i class="fa fa-eye"></i>
 							  </a>

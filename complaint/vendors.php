@@ -89,7 +89,11 @@
                       </thead>
                       <tbody>
                         <?php
-					   $ty=$this->db->query("select * from tbl_vendors where status = '0' order by pk_vendor_id DESC");
+					   $ty=$this->db->query("select tbl_vendors.*,COALESCE(GROUP_CONCAT(tbl_category.category_name SEPARATOR ', ')) AS category_name
+					   from tbl_vendors 
+					   LEFT JOIN tbl_vendor_category_bridge ON tbl_vendors.pk_vendor_id = tbl_vendor_category_bridge.fk_vendor_id
+					   LEFT JOIN tbl_category ON tbl_vendor_category_bridge.fk_category_id = tbl_category.pk_category_id
+					   where tbl_vendors.status = '0' GROUP BY tbl_vendors.pk_vendor_id order by pk_vendor_id DESC");
 					   $rt=$ty->result_array();
 						if (sizeof($rt) == "0") {
 							
@@ -100,22 +104,23 @@
 							<tr class="odd gradeX">
 								<td>
 									<?php 
-                                    $ty=$this->db->query("select * from tbl_vendor_category_bridge
-                                     WHERE fk_vendor_id='".$get_users_list["pk_vendor_id"]."'");
-                                    $rt=$ty->result_array();
-                                    $n=0;
-                                    foreach($rt as $brand)
-                                    {
-                                        if($n>0)
-                                        {
-                                            echo ', ';
-                                        }
-                                        $ty5=$this->db->query("select * from tbl_category
-                                        WHERE pk_category_id	='".$brand["fk_category_id"]."'");
-                                        $rt5=$ty5->result_array();
-                                        echo $rt5[0]['category_name'];
-                                        $n++;
-                                     }
+                                    // $ty=$this->db->query("select * from tbl_vendor_category_bridge
+                                     // WHERE fk_vendor_id='".$get_users_list["pk_vendor_id"]."'");
+                                    // $rt=$ty->result_array();
+                                    // $n=0;
+                                    // foreach($rt as $brand)
+                                    // {
+                                        // if($n>0)
+                                        // {
+                                            // echo ', ';
+                                        // }
+                                        // $ty5=$this->db->query("select * from tbl_category
+                                        // WHERE pk_category_id	='".$brand["fk_category_id"]."'");
+                                        // $rt5=$ty5->result_array();
+                                        // echo $rt5[0]['category_name'];
+                                        // $n++;
+                                     // }
+									 echo $get_users_list['category_name'];
                                      ?>
 								</td>
 								<td>

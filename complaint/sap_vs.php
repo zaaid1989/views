@@ -58,7 +58,7 @@ if (isset($_GET['p'])) {
 
             <div class="portlet-title">
 
-              <div class="caption"> <i class="fa fa-globe"></i>View DVR </div>
+              <div class="caption"> <i class="fa fa-globe"></i>View VS </div>
 
               <div class="tools"> <a href="javascript:;" class="collapse"> </a> <a href="javascript:;" class="remove"> </a> </div>
 
@@ -129,7 +129,17 @@ if (isset($_GET['p'])) {
                               <tbody>
                               <?php 
                               $no_of_total_records=0;
-                              if (sizeof($get_eng_vs) == "0") 
+							  
+							  $dbres = $this->db->query("
+							  SELECT tbl_vs.*,
+							  COALESCE(tbl_clients.client_name) AS client_name ,
+							  COALESCE(tbl_area.area) AS area
+							  FROM tbl_vs 
+							  LEFT JOIN tbl_clients ON tbl_vs.fk_customer_id = tbl_clients.pk_client_id
+							  LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+							  WHERE fk_engineer_id = '".$this->session->userdata('userid')."' ");
+							  $get_eng_vss=$dbres->result_array();
+                              if (sizeof($get_eng_vss) == "0") 
                               {
                                                         
                               } 
@@ -139,7 +149,7 @@ if (isset($_GET['p'])) {
 								$size_of_total_rows=0;
 								$visited_client_array= array();
 								///////////////// zaaid
-                                  foreach ($get_eng_vs as $eng_vs) 
+                                  foreach ($get_eng_vss as $eng_vs) 
                                   {
 								  /////////////////////////// zaaid
 								if (in_array($eng_vs['fk_customer_id'], $visited_client_array)) {
@@ -161,17 +171,18 @@ if (isset($_GET['p'])) {
                                                     }
                                                     else
                                                     {
-                                                         $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$eng_vs['fk_customer_id']."' ");
-                                                         $maxval=$maxqu->result_array();
-                                                         $myclient = $maxval[0]['client_name'];
+                                                         // $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$eng_vs['fk_customer_id']."' ");
+                                                         // $maxval=$maxqu->result_array();
+                                                         // $myclient = $maxval[0]['client_name'];
+														 $myclient = $eng_vs['client_name'];
                                                          //for area
-                                                         $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$eng_vs['fk_customer_id']."' ");
-                                                         $maxval=$maxqu->result_array();
-                                                         $myclient = $maxval[0]['client_name'];
+                                                         // $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$eng_vs['fk_customer_id']."' ");
+                                                         // $maxval=$maxqu->result_array();
+                                                         // $myclient = $maxval[0]['client_name'];
                                                          //for area finding
-                                                         $maxqu7 = $this->db->query("SELECT * FROM tbl_area where pk_area_id='".$maxval[0]['fk_area_id']."' "); 
-                                                         $maxval7=$maxqu7->result_array();
-                                                         $area = $maxval7[0]['area'];
+                                                         // $maxqu7 = $this->db->query("SELECT * FROM tbl_area where pk_area_id='".$maxval[0]['fk_area_id']."' "); 
+                                                         // $maxval7=$maxqu7->result_array();
+                                                         $area = $eng_vs['area'];
                                                     }
                                                  ?>
                                                  <?php echo $myclient;?>
@@ -201,7 +212,7 @@ if (isset($_GET['p'])) {
 											   //if($i==0){ $myndate=date('d-M-Y',strtotime('tomorrow'));} else {$myndate=date('Y-m-d', $t - 60 * 60 * 24 * $i);}
                                                 $zaaid=0;
 												
-												foreach ($get_eng_vs as $eng_vss) {
+												foreach ($get_eng_vss as $eng_vss) {
 															if( $myndate==date('Y-m-d',strtotime($eng_vss['date'])) AND $eng_vs['fk_customer_id'] == $eng_vss['fk_customer_id'] )
 															{ 
 																//echo '1';
@@ -272,7 +283,7 @@ if (isset($_GET['p'])) {
                                       ?>
                                       <script>
                                       $(document).ready( function(){
-                                      var class_ocurances = $(".<?php echo $myndateclass?>").length;
+                                      var class_ocurances = $(".<?php echo $myndateclass;?>").length;
                                       //alert('class ocurances = '+class_ocurances);
                                       var no_of_total_records = $("#no_of_total_records").val();
                                       //alert('no_of_total_records = '+no_of_total_records);
@@ -280,7 +291,7 @@ if (isset($_GET['p'])) {
                                       {
                                           //alert('class ocurances = '+class_ocurances + 'no_of_total_records = '+no_of_total_records);
                                           //$(".<?php echo $myndateclass?>"+Parent).css("background-color", "green");
-                                          $(".<?php echo $myndateclass.'Parent'?>").addClass('greenbackgrounclass');
+                                          $(".<?php echo $myndateclass.'Parent';?>").addClass('greenbackgrounclass');
                                       }
                                       });
                                       </script>

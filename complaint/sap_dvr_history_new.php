@@ -207,7 +207,29 @@ $maxval=$maxqu->result_array();
 							$id				=	"pk_vs_id";
 							$table			=	"tbl_vs";
 						}
-						$dbres 			= 	$this->db->query("SELECT * FROM $table where  date between '".$start_mydate_2."' AND '".$end_mydate_2."' AND fk_engineer_id = '".$engineer."' ORDER BY $id ASC");
+						$dbres 			= 	$this->db->query("
+						SELECT 
+						$table.* ,
+						COALESCE(NULLIF(tbl_complaints.ts_number, ''), '') AS ts_number,
+						COALESCE(NULLIF(tbl_complaints.problem_summary, ''), '') AS problem_summary,
+						COALESCE(tbl_area.area) AS area,
+						COALESCE(tbl_clients.client_name) AS client_name,
+						COALESCE(tbl_offices.office_name) AS office_name,
+						COALESCE(user.first_name) AS first_name,
+						COALESCE(business_data.`Project Description`) AS `Project Description`,
+						COALESCE(tbl_business_types.businesstype_name) AS businesstype_name 
+						
+						FROM $table 
+						LEFT JOIN tbl_offices ON $table.fk_customer_id = tbl_offices.client_option
+						LEFT JOIN tbl_clients ON $table.fk_customer_id = tbl_clients.pk_client_id
+						LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+						LEFT JOIN business_data ON $table.fk_business_id = business_data.pk_businessproject_id
+						LEFT JOIN tbl_business_types ON business_data.`Business Project` = tbl_business_types.pk_businesstype_id
+						LEFT JOIN tbl_complaints ON $table.fk_complaint_id = tbl_complaints.pk_complaint_id
+						LEFT JOIN user ON $table.fk_engineer_id = user.id
+						
+						WHERE  
+						$table.date between '".$start_mydate_2."' AND '".$end_mydate_2."' AND $table.fk_engineer_id = '".$engineer."' ORDER BY $id ASC");
 						$get_sup_dvr	=	$dbres->result_array();
 					}
 					if (isset($get_sup_dvr) && sizeof($get_sup_dvr) == "0") 
@@ -232,59 +254,37 @@ $maxval=$maxqu->result_array();
 								echo '</td>
 														   
 															<td>';
-								//for are and customer calculation
-								if(substr($sup_dvr['fk_customer_id'],0,1)=='o')
-									{
-										$office_id		=	substr($sup_dvr['fk_customer_id'],13,1);
-										$qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-										$gh2			=	$this->db->query($qu2);
-										$rt2			=	$gh2->result_array();
-										$myclient 		= 	$rt2[0]['office_name'];
+								//for area and customer calculation
+								if(substr($sup_dvr['fk_customer_id'],0,1)=='o') {
+										$myclient 		= 	$sup_dvr['office_name'];
 										$business		=   '';
-										//for area
 										$area			= $myclient;
-									}
-									else
-									{
-										 $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$sup_dvr['fk_customer_id']."' ");
-										 $maxval=$maxqu->result_array();
-										 $myclient = $maxval[0]['client_name'];
-										 //for area
-										$maxqu_area 	= $this->db->query("SELECT * FROM tbl_area where pk_area_id='".$maxval[0]['fk_area_id']."' ");
-										$maxval_area	=$maxqu_area->result_array();
-										$area			= $maxval_area[0]['area'];
+								}
+								else {
+										$myclient = $sup_dvr['client_name'];
+										$area			= $sup_dvr['area'];
 										 //for business project
-										 if($sup_dvr['fk_business_id']=='0')
-										 {
-											 if($sup_dvr['fk_complaint_id']=='0')
-											 {
+										 if($sup_dvr['fk_business_id']=='0') {
+											 if($sup_dvr['fk_complaint_id']=='0') {
 												 $business		=   'Others';
 											 }
-											 else
-											 {
-												 $ts_number 		= $this->db->query("SELECT * FROM tbl_complaints where pk_complaint_id='".$sup_dvr['fk_complaint_id']."' ");
-												 $qu_ts_number		= $ts_number->result_array();
-												 $business			= $qu_ts_number[0]['ts_number'];
+											 else {
+												 $business			= $sup_dvr['ts_number'];
 											 }
 										 }
-										 else
-										 {
-										 $maxqu3 = $this->db->query("SELECT * FROM business_data where pk_businessproject_id='".$sup_dvr['fk_business_id']."' ");
-										 $maxval3=$maxqu3->result_array();
-										 $maxqu4 = $this->db->query("SELECT * FROM tbl_business_types where pk_businesstype_id='".$maxval3[0]['Business Project']."' ");
-										 $maxval4=$maxqu4->result_array();
-										 $business = $maxval4[0]['businesstype_name'];
+										 else {
+										 $business = $sup_dvr['businesstype_name'];
 										 }
-									}
+								}
 								//
 																
 								echo $area;
 								echo '</td>
 															
 															<td>';
-								$maxqu_eng = $this->db->query("SELECT * FROM user where id='".$sup_dvr['fk_engineer_id']."' ");
-								$maxval_eng=$maxqu_eng->result_array();
-								echo $maxval_eng[0]['first_name'];
+								// $maxqu_eng = $this->db->query("SELECT * FROM user where id='".$sup_dvr['fk_engineer_id']."' ");
+								// $maxval_eng=$maxqu_eng->result_array();
+								echo $sup_dvr['first_name'];
 								echo'</td>
 															<td>';
 																 
@@ -300,9 +300,9 @@ $maxval=$maxqu->result_array();
 								echo '<td> <textarea readonly name="summery" id="textarea" class="input-medium" required="" rows="4">';
 								//
 								if($sup_dvr['fk_business_id']!='0'){
-								$maxqu3 = $this->db->query("SELECT * FROM business_data where pk_businessproject_id='".$sup_dvr['fk_business_id']."' ");
-								$maxval3=$maxqu3->result_array();
-								echo $maxval3[0]['Project Description'];
+								// $maxqu3 = $this->db->query("SELECT * FROM business_data where pk_businessproject_id='".$sup_dvr['fk_business_id']."' ");
+								// $maxval3=$maxqu3->result_array();
+								echo $sup_dvr['Project Description'];
 								}
 								else
 								{
@@ -312,7 +312,7 @@ $maxval=$maxqu->result_array();
 									}
 									else
 									{
-										echo $qu_ts_number[0]['problem_summary'];
+										echo $sup_dvr['problem_summary'];
 									}
 									
 								}

@@ -129,7 +129,8 @@ thead select {
                               <tbody>
                                 <?php
 								
-	$zquery="select business_data.*,tbl_project_strategy.*,tbl_clients.client_name,tbl_cities.city_name,tbl_area.area,user.first_name,tbl_business_types.businesstype_name 
+	$zquery="select business_data.*,tbl_project_strategy.*,COALESCE(tbl_clients.client_name) AS client_name,
+	COALESCE(tbl_cities.city_name) AS city_name,COALESCE(tbl_area.area) AS area,COALESCE(user.first_name) AS first_name,COALESCE(tbl_business_types.businesstype_name) AS businesstype_name 
 	from tbl_project_strategy
 	LEFT JOIN business_data ON business_data.pk_businessproject_id = tbl_project_strategy.fk_project_id
 	LEFT JOIN tbl_clients ON tbl_clients.pk_client_id = business_data.Customer
@@ -159,52 +160,60 @@ thead select {
 											  <tr class="<?php if($my_business_data['priority']==1){ echo "danger even";} else { echo "odd gradeX";}?>">
                                                   <!--<td>
                                                       <?php 
-													  $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$my_business_data["Territory"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["office_name"]; 
-													  }?>
+													  // $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$my_business_data["Territory"]."'");
+													  // if($ty->num_rows()>0)
+													  // {
+													  // $rt=$ty->result_array();
+													  // echo $rt[0]["office_name"]; 
+													  // }?>
 												  </td>-->
 												  <td>
                                                       <?php 
-													  $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$my_business_data["City"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["city_name"]; 
-													  }?>
+													  // $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$my_business_data["City"]."'");
+													  // if($ty->num_rows()>0)
+													  // {
+													  // $rt=$ty->result_array();
+													  // echo $rt[0]["city_name"]; 
+													  // }
+													  echo $my_business_data["city_name"];
+													  ?>
 												  </td>
                                                   <td>
 													  <?php 
-													  $ty=$this->db->query("select * from tbl_clients where pk_client_id='".$my_business_data["Customer"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["client_name"]; 
-													  }?> 
+													  // $ty=$this->db->query("select * from tbl_clients where pk_client_id='".$my_business_data["Customer"]."'");
+													  // if($ty->num_rows()>0)
+													  // {
+													  // $rt=$ty->result_array();
+													  // echo $rt[0]["client_name"]; 
+													  // }
+													  echo $my_business_data["client_name"];
+													  ?> 
 												  </td>
 												  
                                                   <td>
                                                       <?php 
-													  $ty=$this->db->query("select * from tbl_area where pk_area_id='".$my_business_data["Area"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["area"]; 
-													  }?> 
+													  // $ty=$this->db->query("select * from tbl_area where pk_area_id='".$my_business_data["Area"]."'");
+													  // if($ty->num_rows()>0)
+													  // {
+													  // $rt=$ty->result_array();
+													  // echo $rt[0]["area"]; 
+													  // }
+													  echo $my_business_data["area"];
+													  ?> 
 												  </td>
                                                   <td>
 													  <?php echo $my_business_data["Department"] ?>
 												  </td>
                                                    <td>
                                                       <?php 
-													  $ty=$this->db->query("select * from user where id='".$my_business_data["Sales Person"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["first_name"]; 
-													  }?> 
+													  // $ty=$this->db->query("select * from user where id='".$my_business_data["Sales Person"]."'");
+													  // if($ty->num_rows()>0)
+													  // {
+													  // $rt=$ty->result_array();
+													  // echo $rt[0]["first_name"]; 
+													  // }
+													  echo $my_business_data["first_name"];
+													  ?> 
 												  </td>
 											<!--	  <td>
 													  <?php echo date('d-M-Y', strtotime($my_business_data["Date"])); ?>
@@ -214,12 +223,14 @@ thead select {
 												  </td>
                                                   <td> 
                                                        <?php 
-													  $ty=$this->db->query("select * from tbl_business_types where pk_businesstype_id='".$my_business_data["Business Project"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["businesstype_name"]; 
-													  }?>
+													  // $ty=$this->db->query("select * from tbl_business_types where pk_businesstype_id='".$my_business_data["Business Project"]."'");
+													  // if($ty->num_rows()>0)
+													  // {
+													  // $rt=$ty->result_array();
+													  // echo $rt[0]["businesstype_name"]; 
+													  // }
+													  echo $my_business_data["businesstype_name"];
+													  ?>
 												  </td>
 												  
                                                   <td>

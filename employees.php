@@ -98,12 +98,14 @@
                                   <th>				 			</th>
                                   <th>				 			</th>
                                   <th>				 			</th>
+                                  <th>				 			</th>
                                 </tr>
                                 <tr>
-                                  <th class="sorting"> Territory 				</th>
+                                  <th> Territory 				</th>
                                   <th> City 					</th>
                                   <th> Department 				</th>
                                   <th> Full Name 				</th>
+								  <th> System Role				</th>
 								  <th> Username					</th>
                                   <th> Password 				</th>
                                   <th> Company Mobile 			</th>
@@ -142,6 +144,9 @@
 												  </td>
                                                   <td>
 													  <?php echo $get_users_list["first_name"] ?> 
+												  </td>
+												  <td>
+													  <?php echo $get_users_list["userrole"]; ?> 
 												  </td>
 												  <td>
 													  <?php echo $get_users_list["username"] ?> 
@@ -223,6 +228,7 @@
 			}).columnFilter({ sPlaceHolder: "head:before",
 					aoColumns: [ 	{type: "text" },
 					            { type: "text" },
+								{ type: "text" },
 								{ type: "text" },
 								{ type: "text" },
 								{ type: "text" },

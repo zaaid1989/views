@@ -65,8 +65,6 @@
                  		$ty22=$this->db->query("select * from tbl_complaints where pk_complaint_id='".$this->uri->segment('3')."'");
                         $rt22=$ty22->result_array();
 						
-						$ty33=$this->db->query("select * from user where id='".$rt22[0]['assign_to']."'");
-                        $rt33=$ty33->result_array();
 				 ?>
                  
                 

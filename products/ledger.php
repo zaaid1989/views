@@ -299,14 +299,14 @@ $(window).load(function() {
 														
 														//echozero($stock_entry['source_ts']);
 														if ($source_ts!='')
-															echo '<a  href="'.base_url().'complaint/ts_report_director/'.$stock_entry["source_complaint_id"].'">'.$source_ts.'</a>';
+															echo '<a  href="'.base_url().'complaint/technical_service_pvr/'.$stock_entry["source_complaint_id"].'">'.$source_ts.'</a>';
 														else
 															echo "Complaint not found";
 													}
 													
 												}
 												else
-													echo '<a  href="'.base_url().'complaint/ts_report_director/'.$stock_entry["fk_complaint_id"].'">'.echozero($stock_entry['ts_number']).'</a>';//echo echozero($stock_entry['ts_number']);
+													echo '<a  href="'.base_url().'complaint/technical_service_pvr/'.$stock_entry["fk_complaint_id"].'">'.echozero($stock_entry['ts_number']).'</a>';//echo echozero($stock_entry['ts_number']);
 											?> 
 									  </td>
 									  <td> <?php echo $stock_entry['customer_name']; ?> </td>

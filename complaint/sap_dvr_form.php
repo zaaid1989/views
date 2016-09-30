@@ -88,26 +88,24 @@
                                       <option value="officeoption_4">Multan Office (MO)</option>
                                       <option value="officeoption_5">Peshawar (PO)</option>
                                       <?php $qu="SELECT 
-                                                    tbl_clients.pk_client_id, tbl_clients.client_name,tbl_clients.fk_area_id
+                                                    tbl_clients.pk_client_id, COALESCE(tbl_clients.client_name) AS client_name,COALESCE(tbl_area.area) AS area
                                                      FROM 
                                                      tbl_customer_sap_bridge 
-                                                     INNER JOIN
-                                                     tbl_clients
-                                                     ON
-                                                     tbl_clients.pk_client_id 	=	tbl_customer_sap_bridge.fk_client_id
-                                                     where
+                                                     INNER JOIN tbl_clients ON tbl_clients.pk_client_id = tbl_customer_sap_bridge.fk_client_id
+													 LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+                                                     WHERE
                                                      tbl_customer_sap_bridge.fk_user_id =  '".$this->session->userdata('userid')."' AND tbl_clients.delete_status ='0'  ";
                                     
                                     $gh=$this->db->query($qu);
                                     $rt=$gh->result_array();
                                     foreach($rt as $value)
                                       {
-                                          $qu5="SELECT * FROM tbl_area  where pk_area_id =  '".$value['fk_area_id']."'";
-										  //echo $qu5;
-										  $gh5	=	$this->db->query($qu5);
-										  $rt5	=	$gh5->result_array();
+                                          // $qu5="SELECT * FROM tbl_area  where pk_area_id =  '".$value['fk_area_id']."'";
+										 // echo $qu5;
+										  // $gh5	=	$this->db->query($qu5);
+										  // $rt5	=	$gh5->result_array();
 										  ?>
-                                          <option value="<?php echo $value['pk_client_id'];?>"><?php echo $value['client_name'].'--('.$rt5[0]['area'].')';?>
+                                          <option value="<?php echo $value['pk_client_id'];?>"><?php echo $value['client_name'].'--('.$value['area'].')';?>
 										  <?php ///////////////////////////////////////////////////////// **** Zaaid *******/////////////////////////
 												/*	$quw2="SELECT * from tbl_cities where pk_city_id='".$value['fk_city_id']."'";
 													$ghw2=$this->db->query($quw2);
@@ -500,9 +498,40 @@
 
 
                 </thead>
-
+				
                 <tbody>
-                <?php if (sizeof($get_eng_dvr) == "0") 
+                <?php 
+				$dbres = $this->db->query("SELECT * FROM tbl_dvr where fk_engineer_id = '".$this->session->userdata('userid')."' AND date like '".date('Y-m-d')."%'");
+						$table 		= "tbl_dvr";
+						$engineer	= $this->session->userdata('userid');
+						$dbres 			= 	$this->db->query("
+						SELECT 
+						$table.* ,
+						COALESCE(NULLIF(tbl_complaints.ts_number, ''), '') AS ts_number,
+						COALESCE(NULLIF(tbl_complaints.problem_summary, ''), '') AS problem_summary,
+						COALESCE(tbl_area.area) AS area,
+						COALESCE(tbl_cities.city_name) AS city_name,
+						COALESCE(tbl_clients.client_name) AS client_name,
+						COALESCE(tbl_offices.office_name) AS office_name,
+						COALESCE(user.first_name) AS first_name,
+						COALESCE(business_data.`Project Description`) AS `Project Description`,
+						COALESCE(tbl_business_types.businesstype_name) AS businesstype_name 
+						
+						FROM $table 
+						LEFT JOIN tbl_offices ON $table.fk_customer_id = tbl_offices.client_option
+						LEFT JOIN tbl_clients ON $table.fk_customer_id = tbl_clients.pk_client_id
+						LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+						LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+						LEFT JOIN business_data ON $table.fk_business_id = business_data.pk_businessproject_id
+						LEFT JOIN tbl_business_types ON business_data.`Business Project` = tbl_business_types.pk_businesstype_id
+						LEFT JOIN tbl_complaints ON $table.fk_complaint_id = tbl_complaints.pk_complaint_id
+						LEFT JOIN user ON $table.fk_engineer_id = user.id
+						
+						WHERE  
+						$table.date like '".date('Y-m-d')."%' AND $table.fk_engineer_id = '".$engineer."'");
+						$get_eng_dvrr	=	$dbres->result_array();
+				
+				if (sizeof($get_eng_dvrr) == "0") 
 				{
 										  
 				} 
@@ -539,7 +568,7 @@
 											return "$difference $periods[$j] {$tense}";
 										}
 										//end nice time fucntion
-							  foreach ($get_eng_dvr as $eng_dvr) 
+							  foreach ($get_eng_dvrr as $eng_dvr) 
 							  {
 								  ?>
 								 <tr class="odd gradeX">
@@ -550,29 +579,33 @@
                                         <td> 
                                         	<?php echo date('h:i A', strtotime($eng_dvr['end_time']))?>			
                                         </td>
-                                       
-                                        <td> 
-                                        	<input type="text"  readonly 
-                                            value="<?php $maxqu = $this->db->query("SELECT * FROM tbl_cities where pk_city_id='".$eng_dvr['fk_city_id']."' ");
-											$maxval=$maxqu->result_array();echo $maxval[0]['city_name'];?>" class="form-control">  
-                                        </td>
-                                        <?php
+                                       <?php
                                         	// to check whether office id is stored or customer id is stored. office can be customer too.
 										if(substr($eng_dvr['fk_customer_id'],0,1)=='o')
 										{
-											$office_id		=	substr($eng_dvr['fk_customer_id'],13,1);
-											$qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-											$gh2			=	$this->db->query($qu2);
-											$rt2			=	$gh2->result_array();
-											$myclient 		= 	$rt2[0]['office_name'];
+											// $office_id		=	substr($eng_dvr['fk_customer_id'],13,1);
+											// $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
+											// $gh2			=	$this->db->query($qu2);
+											// $rt2			=	$gh2->result_array();
+											$myclient 		= 	$eng_dvr['office_name'];
+											$city_n			=   $eng_dvr['office_name'];
 										}
 										else
 										{
-											 $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$eng_dvr['fk_customer_id']."' ");
-											 $maxval=$maxqu->result_array();
-											 $myclient = $maxval[0]['client_name'];
+											 // $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$eng_dvr['fk_customer_id']."' ");
+											 // $maxval=$maxqu->result_array();
+											 $myclient = $eng_dvr['client_name'];
+											 $city_n	=   $eng_dvr['city_name'];
 										}
 										?>
+                                        <td> 
+                                        	<input type="text"  readonly 
+                                            value="<?php 
+											// $maxqu = $this->db->query("SELECT * FROM tbl_cities where pk_city_id='".$eng_dvr['fk_city_id']."' ");
+											// $maxval=$maxqu->result_array();
+											echo $city_n;?>" class="form-control">  
+                                        </td>
+                                        
                                         <td>
                                         	 <input type="text"  readonly
                                              value="<?php echo $myclient;?>" class="form-control"> 
@@ -599,14 +632,14 @@
 											 } */
 											 ?>
 											 <?php //////////////////// zaaid /////////////////////////////////
-										
+										/*
 										$maxqu = $this->db->query("SELECT * FROM business_data where pk_businessproject_id='".$eng_dvr['fk_business_id']."' ");
 											if($maxqu->num_rows()>0)
 											 { 
-												 $maxval			=	$maxqu->result_array();
-												 $maxqu2 			= 	$this->db->query("SELECT * FROM tbl_business_types where pk_businesstype_id='".$maxval[0]['Business Project']."' ");
-												 $maxval2			=	$maxqu2->result_array();
-												 $businesstype_name	=	$maxval2[0]['businesstype_name'];
+												 // $maxval			=	$maxqu->result_array();
+												 // $maxqu2 			= 	$this->db->query("SELECT * FROM tbl_business_types where pk_businesstype_id='".$maxval[0]['Business Project']."' ");
+												 // $maxval2			=	$maxqu2->result_array();
+												 $businesstype_name	=	$eng_dvr['businesstype_name'];
 												 // $description=$maxval[0]['Project Description'];
 												 $description		=	$eng_dvr['priority'];
 												 $timeline			=  $eng_dvr['timeline'];
@@ -616,7 +649,22 @@
 												 $businesstype_name	=	'Others';
 												 $description		=	$eng_dvr['priority'];
 												 $timeline			=  	$eng_dvr['timeline'];
-											 }
+											 }*/
+											 $description		=	$eng_dvr['priority'];
+											$timeline			=  	$eng_dvr['timeline'];
+											 if(substr($eng_dvr['fk_customer_id'],0,1)=='o') $businesstype_name		=   '';
+											 else {
+												 //for business project
+												 if($eng_dvr['fk_business_id']=='0') {
+													 if($eng_dvr['fk_complaint_id']=='0') $businesstype_name		=   'Others';
+													 else {
+														 $businesstype_name			= $eng_dvr['ts_number'];
+														 $description				= $eng_dvr['problem_summary'];
+													 }
+												 }
+												 else $businesstype_name = $eng_dvr['businesstype_name'];
+												 
+											}
 											 ////////////////////////// zaaid ////////////////////////////////
 											?>
 											

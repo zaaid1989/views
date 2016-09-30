@@ -1,4 +1,17 @@
 <?php $this->load->view('header');?>
+<?php
+if (isset($_GET['engineer']) && $this->session->userdata('userrole')=='Supervisor') {
+	$query = $this->db->query("SELECT * FROM user WHERE id='".$_GET['engineer']."'");
+	$ur = $query->result_array();
+	if ($ur[0]['fk_office_id']!=$this->session->userdata('territory')) show_404();
+}
+	
+if (isset($_GET['engineer']) && ($this->session->userdata('userrole')=='Salesman' || $this->session->userdata('userrole')=='FSE') ) {
+	$query = $this->db->query("SELECT * FROM user WHERE id='".$_GET['engineer']."'");
+	$ur = $query->result_array();
+	if ($ur[0]['id']!=$this->session->userdata('userid')) show_404();
+}
+?>
                     <!-- BEGIN PAGE HEADER-->
                     <h3 class="page-title">
                     DVR <small>Individual History</small>
@@ -65,13 +78,17 @@
 							  ?>
 						        <div class="row">
                             	<form method="get" action="<?php echo base_url();?>complaint/admin_dvr_new">
-                                <div class="col-md-4">
+								<?php if ($this->session->userdata('userrole')!='Salesman' && $this->session->userdata('userrole')!='FSE') { ?>
+                                <div class="col-md-4" >
                             		<div class="form-group">
                             			
                                         <select name="engineer" id="engineer" class="form-control" required>
                                             <option value="">--Select employee--</option>
 											<?php 
-											$maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+											$maxqu = "";
+											if ($this->session->userdata('userrole')=='Supervisor')
+												$maxqu = $this->db->query("SELECT * FROM user WHERE fk_office_id='".$this->session->userdata('territory')."' AND delete_status = '0' AND userrole='FSE' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+											else $maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 											$maxval=$maxqu->result_array();
                                             foreach($maxval as $val)
                                             {
@@ -86,6 +103,7 @@
                                         </select>
                             		</div>
                           		</div>
+								<?php } ?>
 								
                           		<div class="col-md-3">
                             		<div class="form-group">
@@ -150,7 +168,9 @@
                     <th class="bg-grey-gallery"> Project Description </th>
                     
                     <th class="bg-grey-gallery"> WD / DS</th>
-                    <th class="bg-grey-gallery"> Actions </th>
+					<?php if($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery') 
+                     echo '<th class="bg-grey-gallery"> Actions </th>';
+					?>
                     
                    
                  
@@ -163,12 +183,12 @@
                		<?php
 					$start_mydate_2	=	date("Y-m-d");
 					$end_mydate_2	=	date("Y-m-d");
-					$engineer		=	'*';
-					if(isset($_GET['engineer']) && isset($_GET['start_mydate']) && isset($_GET['end_mydate'])) {
+					$engineer		=	$this->session->userdata('userid');
+					if( isset($_GET['start_mydate']) && isset($_GET['end_mydate'])) {
 						
 						$start_mydate_2	=	date("Y-m-d", strtotime($_GET['start_mydate']) );
 						$end_mydate_2	=	date("Y-m-d", strtotime($_GET['end_mydate']) );
-						$engineer		=	$_GET['engineer'];
+						if (isset($_GET['engineer'])) $engineer	=	$_GET['engineer'];
 						if ($k==1) {
 							$id				=	"pk_dvr_id";
 							$table			=	"tbl_dvr";
@@ -178,8 +198,9 @@
 							$table			=	"tbl_vs";
 						}
 						$dbres 			= 	$this->db->query("SELECT $table.*,COALESCE(tbl_area.area) AS area,COALESCE(tbl_clients.client_name) AS client_name, COALESCE(user.first_name) AS first_name,tbl_complaints.ts_number, tbl_business_types.businesstype_name,
-						business_data.`Project Description`, tbl_complaints.problem_summary
+						business_data.`Project Description`, COALESCE(tbl_offices.office_name) AS office_name,tbl_complaints.problem_summary
 						FROM $table 
+						LEFT JOIN tbl_offices ON $table.fk_customer_id = tbl_offices.client_option
 						LEFT JOIN tbl_clients ON $table.fk_customer_id=tbl_clients.pk_client_id 
 						LEFT JOIN tbl_area ON tbl_clients.fk_area_id=tbl_area.pk_area_id 
 						LEFT JOIN tbl_complaints ON $table.fk_complaint_id=tbl_complaints.pk_complaint_id
@@ -214,11 +235,11 @@
 								//for are and customer calculation
 								if(substr($sup_dvr['fk_customer_id'],0,1)=='o')
 									{
-										$office_id		=	substr($sup_dvr['fk_customer_id'],13,1);
-										$qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-										$gh2			=	$this->db->query($qu2);
-										$rt2			=	$gh2->result_array();
-										$myclient 		= 	$rt2[0]['office_name'];
+										// $office_id		=	substr($sup_dvr['fk_customer_id'],13,1);
+										// $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
+										// $gh2			=	$this->db->query($qu2);
+										// $rt2			=	$gh2->result_array();
+										$myclient 		= 	$sup_dvr['office_name'];
 										$business		=   '';
 										//for area
 										$area			= $myclient;
@@ -303,6 +324,7 @@
 								echo '</textarea> </td>';
 								if ($k==1) 	$record_id 	= 	$sup_dvr['pk_dvr_id'];
 								else		$record_id	=	$sup_dvr['pk_vs_id'];
+								if($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery') {
 								if ($k==1)
 									echo '<td>
 															<a class="btn btn default yellow-gold" href="'. base_url() .'complaint/update_dvr_project/'.$record_id.'?engineer='.$engineer.'&start_mydate='.$_GET['start_mydate'].'&end_mydate='.$_GET['end_mydate'].'">
@@ -327,6 +349,7 @@
 																<i class="fa fa-trash-o"></i>
 															</a>
 														  </td>';
+								}
 									
 							   echo '</tr>';
 							}

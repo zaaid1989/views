@@ -31,7 +31,7 @@
 										  
 						  } 
 						  else 
-						  {
+						  { //// classifying into active inactive
 							  foreach ($get_sap_projects as $my_business_data) 
 							  {
 								  $ty=$this->db->query("select * from tbl_dvr where fk_business_id='".$my_business_data["pk_businessproject_id"]."' ORDER BY  `pk_dvr_id` DESC ");
@@ -597,7 +597,7 @@
                               </thead>
                               <tbody>
                                 <?php
-									  if (sizeof($get_sap_projects) == "0") {} else {
+									  if (sizeof($get_sap_projects) == "0") {} else { //active inactive ignored
 										  foreach ($get_sap_projects as $my_business_data) {
 											  for ($i=0;$i<=2;$i++) {
 											  if((in_array($my_business_data["pk_businessproject_id"],$active_projects_array) && $i==0) ||
@@ -606,16 +606,7 @@
 											  {
 											  ?>
 											  <tr class="<?php if($my_business_data['priority']==1){ echo "danger even";} else { echo "odd gradeX";}?>">
-                                                 <!-- <td>
-                                                      <?php 
-													  $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$my_business_data["Territory"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["office_name"]; 
-													  }?>
-												  </td> -->
-												  
+                                                 
 												  <td>
 												  <div class="btn-group-vertical btn-group-solid">
 												  <?php if ($my_business_data["strategy_status"] == '0' || $my_business_data["strategy_status"] != '0') { ?>
@@ -624,12 +615,6 @@
                                                     	Strategy <i class="fa fa-edit"></i>
                                                     </a>
 											  <?php } ?>
-											  <!--
-													<a class="btn btn-sm default blue" 
-                                                    href="<?php echo base_url();?>complaint/strategy_history/<?php echo $my_business_data["pk_businessproject_id"];?>">
-                                                      	Strategy History &nbsp;<i class="fa fa-eye"></i>
-                                                    </a>
-												-->	  
 													<a class="btn btn-sm default blue-hoki-stripe" 
                                                     href="<?php echo base_url();?>complaint/details_business_project/<?php echo $my_business_data["pk_businessproject_id"];?>">
                                                       	Details &nbsp;<i class="fa fa-eye"></i>
@@ -642,128 +627,30 @@
 													 </div>
 												  </td>
 												  <td> <?php if ($i==0) echo 'Active'; elseif ($i==1) echo 'Inactive'; else echo 'Ignored'; ?> </td>
-												  <td>
-                                                      <?php 
-													  $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$my_business_data["City"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["city_name"]; 
-													  }?>
-												  </td>
-                                                  <td>
-													  <?php 
-													  $ty=$this->db->query("select * from tbl_clients where pk_client_id='".$my_business_data["Customer"]."'");
-													  if($ty->num_rows()>0)
-													  {
-														  $rt=$ty->result_array();
-														  echo $rt[0]["client_name"]; 
-													  }?> 
-												  </td>
-												  
-                                                  <td>
-                                                      <?php 
-													  $ty=$this->db->query("select * from tbl_area where pk_area_id='".$my_business_data["Area"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["area"]; 
-													  }?> 
-												  </td>
-                                                  <!--<td>
-													  <?php echo $my_business_data["Department"] ?>
-												  </td>
-                                                   <td>
-                                                      <?php 
-													  $ty=$this->db->query("select * from user where id='".$my_business_data["Sales Person"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["first_name"]; 
-													  }?> 
-												  </td>-->
-												  <td>
-													  <?php echo $my_business_data["project_type"]; ?>
-												  </td>
-                                                  <td> 
-                                                       <?php 
-													  $ty=$this->db->query("select * from tbl_business_types where pk_businesstype_id='".$my_business_data["Business Project"]."'");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  echo $rt[0]["businesstype_name"]; 
-													  }?>
-												  </td>
-												  
-                                                  <td>
-													  <?php echo $my_business_data["Project Description"] ?>
-												  </td>
+												  <td><?php echo $my_business_data["city_name"]; ?></td>
+												  <td><?php echo $my_business_data["client_name"]; ?></td>
+                                                  <td><?php echo $my_business_data["area"]; ?></td>
+												  <td><?php echo $my_business_data["project_type"]; ?></td>
+												  <td><?php echo $my_business_data["businesstype_name"]; ?></td>
+                                                  <td><?php echo $my_business_data["Project Description"]; ?></td>
                                                   <?php $obj=new Complaint_model(); ?>
-												  <td>
-													  <?php //echo date('d-M-Y', strtotime($my_business_data["Date"])); ?>
-                                                      <?php echo $obj->nicetime($my_business_data["Date"]); ?>
-												  </td>
-												  
-												  
-                                                  <td>
-                                                  	<?php 
-													  $ty=$this->db->query("select * from tbl_dvr where fk_business_id='".$my_business_data["pk_businessproject_id"]."' ORDER BY  `pk_dvr_id` DESC ");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  //echo $rt[0]["date"];
-													  echo date('d-M-Y', strtotime($rt[0]["date"])); 
-													  }?>
-												  </td>
-												  
-                                                  <td>
-                                                  	<?php 
-													  
-													  echo $ty->num_rows(); 
-													  ?>
-												  </td>
+												  <td><?php echo $obj->nicetime($my_business_data["Date"]); ?></td>
+                                                  <td><?php echo date('d-M-Y', strtotime($my_business_data["dvr_date"]));?></td>
+                                                  <td><?php echo $my_business_data["total_visits"];?></td>
 												  <!----- Below Four are for strategy --------->
-												  <?php $strategy_date = "";
-														$strategy_target = "";
-														$strategyy = "";
-														$tactics = "";
-														$investment = "";
-														$sales_per_month = "";
-														$q = $this->db->query("SELECT * FROM tbl_project_strategy WHERE fk_project_id='".$my_business_data['pk_businessproject_id']."' AND strategy_status='1' ORDER BY `date` DESC");
-														$strategies = $q->result_array();
+												  <?php 
+													$strategy_date = "";
+													$strategy_target = "";
+													if ($my_business_data["strategy_date"]!='')
+														$strategy_date = date('d-M-Y',strtotime($my_business_data["strategy_date"]));
+													if ($my_business_data["target_date"]!='')
+														$strategy_target = date('d-M-Y',strtotime($my_business_data["target_date"]));
+														$strategyy = urldecode($my_business_data['strategy']);
+														$tactics = urldecode($my_business_data['tactics']);
+														$investment = $my_business_data['investment'];
+														$sales_per_month = $my_business_data['sales_per_month'];
 														
-														if (sizeof($strategies)>0) {
-															if ($strategies[0]["date"]!="0000-00-00")
-																$strategy_date = date('d-M-Y',strtotime($strategies[0]["date"]));
-															if ($strategies[0]["target_date"]!="0000-00-00")
-																$strategy_target = date('d-M-Y',strtotime($strategies[0]["target_date"]));
-															$strategyy = urldecode($strategies[0]["strategy"]);
-															$tactics = urldecode($strategies[0]["tactics"]);
-															$investment = $strategies[0]["investment"];
-															$sales_per_month = $strategies[0]["sales_per_month"];
-														}
 												  ?>
-												  <!--
-												  <td >
-                                                  	<?php 
-														if (sizeof($strategies)>0) {
-															echo '<table class="table-bordered table-condesnsed">';
-															foreach($strategies AS $strategy) {
-																echo '<tr>';
-																echo '<td>'.date('d-M-Y',strtotime($strategy["date"])).'</td>'; 
-																if ($strategy["target_date"] != '0000-00-00') 
-																	echo '<td>'.date('d-M-Y',strtotime($strategy["target_date"])).'</td>'; 
-																else echo '<td></td>';
-																	echo '<td>'.urldecode($strategy["strategy"]).'</td>'; 
-																	echo '<td>'.$strategy["investment"].'</td>'; 
-																	echo '<td>'.$strategy["sales_per_month"].'</td>'; 
-																echo '</tr>';
-															}
-															echo '</table>';
-														}
-													?>
-												  </td>
-												  -->
 												  <td>
                                                   	<?php echo $strategy_date; ?>
 												  </td>
@@ -853,7 +740,7 @@
                                 <?php
 									  if (sizeof($get_sap_projects) == "0" || $i>0) { //$i condition to make sure that the loop in else never runs as the code below will never be used. I have used loops to improve this code.
 										  
-									  } else {
+									  } else { /*
 										  foreach ($get_sap_projects as $my_business_data) {
 											   if(in_array($my_business_data["pk_businessproject_id"],$ignored_projects_array))
 											  {
@@ -1033,7 +920,7 @@
 											  <?php
 											  }
 										  }
-									  }
+									  */}
                               ?>
                                 
                               </tbody>
