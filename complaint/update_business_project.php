@@ -78,7 +78,12 @@ if (isset($_GET['approve_strategy'])) {
 
                                       <option value="">--Choose--</option>
                                       
-                                      <?php $quw="SELECT * from tbl_clients WHERE delete_status = '0'";
+                                      <?php 
+										$quw="
+											SELECT tbl_clients.*,tbl_cities.city_name,tbl_area.area from tbl_clients
+											LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+											LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+											WHERE tbl_clients.delete_status=0 ";
                                         $ghw=$this->db->query($quw);
                                         $rtw=$ghw->result_array();
                                         foreach($rtw as $value)
@@ -87,15 +92,10 @@ if (isset($_GET['approve_strategy'])) {
                                               <option value="<?php echo $value['pk_client_id'];?>" 
 											  <?php if($get_business_projects_list[0]['Customer']==$value['pk_client_id']){ echo 'selected';}?>>
 											  <?php echo $value['client_name'];?>
-											  <?php $quw2="SELECT * from tbl_cities where pk_city_id='".$value['fk_city_id']."'";
-													$ghw2=$this->db->query($quw2);
-													$rtw2=$ghw2->result_array();
-													echo '--('.$rtw2[0]['city_name'].')';
-													//for area
-													$quw3="SELECT * from tbl_area where pk_area_id='".$value['fk_area_id']."'";
-													$ghw3=$this->db->query($quw3);
-													$rtw3=$ghw3->result_array();
-													echo '--('.$rtw3[0]['area'].')';?>
+											  <?php 
+													echo '--('.$value['city_name'].')';
+													
+													echo '--('.$value['area'].')';?>
                                                     </option>
                                               <?php
                                           }?>
@@ -116,15 +116,8 @@ if (isset($_GET['approve_strategy'])) {
 
                                 
                                     <select class="form-control  " name="Territory" id="Territory" required>
-
-                                      <?php
-                                      		$quw3	=	"SELECT * from tbl_offices where pk_office_id='".$get_business_projects_list[0]['Territory']."'";
-											$ghw3	=	$this->db->query($quw3);
-											$rtw3	=	$ghw3->result_array();
-									  ?>
                                       <option value="">--Choose--</option>
-                                       <option value="<?php echo $get_business_projects_list[0]['Territory']?>" selected><?php echo $rtw3[0]['office_name']?></option>
-        
+                                       <option value="<?php echo $get_business_projects_list[0]['Territory']?>" selected><?php echo $get_business_projects_list[0]['office_name']?></option>
                                     </select>
 
                             </div>
@@ -136,14 +129,8 @@ if (isset($_GET['approve_strategy'])) {
 
                             <div class="col-md-8 city_td">
 
-                                
                                     <select class="form-control  " name="City" id="City" required>
-										<?php
-                                      		$quw3	=	"SELECT * from tbl_cities where pk_city_id='".$get_business_projects_list[0]['City']."'";
-											$ghw3	=	$this->db->query($quw3);
-											$rtw3	=	$ghw3->result_array();
-									  ?>
-                                      <option value="<?php echo $get_business_projects_list[0]['City']?>" selected><?php echo $rtw3[0]['city_name']?></option>
+                                      <option value="<?php echo $get_business_projects_list[0]['City'];?>" selected><?php echo $get_business_projects_list[0]['city_name'];?></option>
                                     </select>
 
                             </div>
@@ -157,12 +144,8 @@ if (isset($_GET['approve_strategy'])) {
 
                                 
                                     <select class="form-control  " name="Area" id="Area" required>
-										<?php
-                                      		$quw3	=	"SELECT * from tbl_area where pk_area_id='".$get_business_projects_list[0]['Area']."'";
-											$ghw3	=	$this->db->query($quw3);
-											$rtw3	=	$ghw3->result_array();
-									  ?>
-                                      <option value="<?php echo $get_business_projects_list[0]['Area']?>" selected><?php echo $rtw3[0]['area']?></option>
+										
+                                      <option value="<?php echo $get_business_projects_list[0]['Area'];?>" selected><?php echo $get_business_projects_list[0]['area'];?></option>
         
                                     </select>
 

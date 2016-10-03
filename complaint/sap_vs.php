@@ -19,6 +19,7 @@ if (isset($_GET['p'])) {
 	$project_type_id = $r[0]['Business Project'];
 	$project_description = urldecode($r[0]['Project Description']);
 }
+else show_404();
 ?>
                     <!-- BEGIN PAGE HEADER-->
                     <h3 class="page-title">
@@ -54,14 +55,10 @@ if (isset($_GET['p'])) {
           <!-- BEGIN EXAMPLE TABLE PORTLET--> 
 <?php if (!isset($project_id)) { ?>
 		  
-          <div class="portlet box grey-cascade">
-
+          <div class="portlet box blue">
             <div class="portlet-title">
-
               <div class="caption"> <i class="fa fa-globe"></i>View VS </div>
-
               <div class="tools"> <a href="javascript:;" class="collapse"> </a> <a href="javascript:;" class="remove"> </a> </div>
-
             </div>
 
             <div class="portlet-body">
@@ -71,9 +68,7 @@ if (isset($_GET['p'])) {
                        
                           <input type="hidden" name="engineer" value="<?php echo $this->session->userdata('userid');?>" />
                           <table class="table table-striped table-bordered table-hover">
-  
                               <thead>
-              
                                 <tr>
                                   <th> Customer&nbsp;Name </th>
                                   <th> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </th>
@@ -306,59 +301,38 @@ if (isset($_GET['p'])) {
           </div>
 <?php } ?>
 		  <!--Enter data of visit schedual here-->
-          <div class="portlet box grey-cascade">
-
+          <div class="portlet box grey-gallery">
             <div class="portlet-title">
-
               <div class="caption"> <i class="fa fa-globe"></i>Visit Schedule of Next Day</div>
-
-              <div class="tools"> <a href="javascript:;" class="collapse"> </a>  <a href="javascript:;" class="remove"> </a> </div>
-
+				<div class="tools"> <a href="javascript:;" class="collapse"> </a>  <a href="javascript:;" class="remove"> </a> </div>
             </div>
 
            <div class="portlet-body">
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="table-scrollable">
+                    <div class="">
                       <form action="<?php echo base_url();?>complaint/insert_vs" method="post">     
-                                  
                           <table class="table table-striped table-bordered table-hover">
-            
-                            <thead>
-            
+                            <thead class="bg-blue">
                               <tr>
-                              
                                 <th colspan="2" style="padding-right:50px;"> Time </th>
-                                
                                 <th style="padding-right:50px;" >  Customer</th>
-            
                                 <th  style="padding-right:50px;"> City</th>
-                                
                                 <th  style="padding-right:50px;">  Project </th>
-                                
                                 <th  style="padding-right:20px;">  Project Description</th>
-            
                                 <th> Purpose of visit </th>
-								
 								<?php if (!isset($project_id)) { ?>
                                 <th> Add&nbsp;Row&nbsp;<a href="javascript:void()"><i class="fa fa-plus" onclick="add_row()"></i></a> </th>
 								<?php } ?>
-                             
-            
                               </tr>
-            
                             </thead>
                             
-            
                             <tbody class="append_tbody">
-            
                               <tr class="odd gradeX visitschedule">
-            
                                 <td> <input  name="starttime[0]" type="text" class="form-control timepicker1 timepicker timepicker-no-seconds"  required>
-                            
                                 </td>
                                 
-                                <td> <input   name="endtime[0]" type="text" class="form-control timepicker2 timepicker timepicker-no-seconds"   required>						
+                                <td> <input   name="endtime[0]" type="text" class="form-control timepicker2 timepicker timepicker-no-seconds"   required>
                                 </td>
                              <?php if (!isset($project_id)) { ?>  
                                 <td> <select class="form-control  " name="customer[0]"  onchange="show_cities(this.value,0)" id="customer0" required>
@@ -382,15 +356,14 @@ if (isset($_GET['p'])) {
                                         //echo $qu;exit;
                                         $gh=$this->db->query($qu);
                                         $rt=$gh->result_array();
-                                        foreach($rt as $value)
-                                          {
+                                        foreach($rt as $value) {
                                               ?>
                                               <option value="<?php echo $value['pk_client_id'];?>"><?php echo $value['client_name'];?></option>
                                               <?php
                                           }?>
-            
-                                        </select>
+                                      </select>
                                 </td>
+								
                                 <td class="citiestd0"> 
                                 <select class="form-control  " name="city[0]" required>
                                           <option value="">--Choose--</option>
@@ -403,8 +376,12 @@ if (isset($_GET['p'])) {
             
                                         </select>
                                 </td>
+								
                                 <td> <textarea class="input-small periority0" name="periority[0]" readonly required rows="4"></textarea></td>
+								
+								
 							 <?php } else { ?>
+							 
 							 
 								<input type="hidden" name="periority[0]" value="<?php echo $project_description ;?>" />
 								<input type="hidden" name="business[0]" value="<?php echo $project_id ;//$project_type_id ;?>" />
@@ -418,6 +395,7 @@ if (isset($_GET['p'])) {
 								<td><?php echo $project_description ;?></td>
 								
 							 <?php } ?>
+							 
                                 <td> <textarea class="input-small summery0" name="summery[0]"  required rows="4"></textarea></td>
 								
 								<?php if (!isset($project_id)) { ?>
@@ -438,7 +416,7 @@ if (isset($_GET['p'])) {
                          <div class="form-actions">
                           <div class="row">
                             <div class="col-md-offset-5 col-md-9">
-                              <button type="submit" class="btn btn-circle blue" onclick="return check_range()">Submit</button>
+                              <button type="submit" class="btn btn-default blue" onclick="return check_range()">Submit</button>
                             <!--  <button type="button" class="btn btn-circle default">Cancel</button>	-->
                             </div>
                           </div>

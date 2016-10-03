@@ -67,7 +67,8 @@
 													COALESCE(tbl_vendors.vendor_name) AS vendor_name,
 													COALESCE(tbl_cities.city_name) AS city_name,
 													COALESCE(tbl_clients.client_name) AS client_name,
-													COALESCE(tbl_offices.office_name) AS office_name 
+													COALESCE(tbl_offices.office_name) AS office_name,
+													COALESCE(oc.office_name) AS office_client 													
 													
 													FROM tbl_instruments 
 													
@@ -76,6 +77,7 @@
 													LEFT JOIN tbl_clients ON tbl_instruments.fk_client_id = tbl_clients.pk_client_id
 													LEFT JOIN tbl_offices ON tbl_instruments.fk_office_id = tbl_offices.pk_office_id
 													LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+													LEFT JOIN tbl_offices oc ON tbl_instruments.fk_client_id = oc.client_option
 													
 													WHERE tbl_instruments.fk_category_id!=1");
 													
@@ -101,21 +103,21 @@
                                               <?php
                                                     if(substr($get_users_list['fk_client_id'],0,1)=='o')
                                                     {
-                                                        $office_id		=	substr($get_users_list['fk_client_id'],13,1);
-                                                        $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-                                                        $gh2			=	$this->db->query($qu2);
-                                                        $rt2			=	$gh2->result_array();
-                                                        $myclient 		= 	$rt2[0]['office_name'];
-                                                        $city 			= 	$rt2[0]['office_name'];
+                                                        // $office_id		=	substr($get_users_list['fk_client_id'],13,1);
+                                                        // $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
+                                                        // $gh2			=	$this->db->query($qu2);
+                                                        // $rt2			=	$gh2->result_array();
+                                                        $myclient 		= 	$get_users_list['office_client'];
+                                                        $city 			= 	$get_users_list['office_client'];
                                                     }
                                                     else
                                                     {
-                                                         $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$get_users_list['fk_client_id']."' ");
-                                                         $maxval=$maxqu->result_array();
+                                                         // $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$get_users_list['fk_client_id']."' ");
+                                                         // $maxval=$maxqu->result_array();
                                                          $myclient = $get_users_list["client_name"];
                                                          //for area
-                                                         $maxqu7 = $this->db->query("SELECT * FROM tbl_cities where pk_city_id='".$maxval[0]['fk_city_id']."' ");
-                                                         $maxval7=$maxqu7->result_array();
+                                                         // $maxqu7 = $this->db->query("SELECT * FROM tbl_cities where pk_city_id='".$maxval[0]['fk_city_id']."' ");
+                                                         // $maxval7=$maxqu7->result_array();
                                                          $city = $get_users_list["city_name"];
                                                     }
 													echo $city;
@@ -136,20 +138,6 @@
                                           <td>
                                               
 											  <?php
-                                              if(substr($get_users_list['fk_client_id'],0,1)=='o')
-                                                    {
-                                                        $office_id		=	substr($get_users_list['fk_client_id'],13,1);
-                                                        $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-                                                        $gh2			=	$this->db->query($qu2);
-                                                        $rt2			=	$gh2->result_array();
-                                                        $myclient 		= 	$rt2[0]['office_name'];
-                                                        $city 			= 	$rt2[0]['office_name'];
-                                                    }
-                                                    else
-                                                    {
-                                                         
-                                                         $myclient = $get_users_list["client_name"];
-                                                    }
 													echo $myclient;
 											  ?> 
                                           </td>

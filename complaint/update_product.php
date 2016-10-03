@@ -129,21 +129,23 @@
                        <select name="vendors[]" required class="js-example-tags form-control select2-hidden-accessible" 
                                 multiple="" tabindex="-1" aria-hidden="true">
                                   <?php
-                                  		$ty=$this->db->query("select * from tbl_vendor_category_bridge where 
-										fk_category_id='".$rt22[0]["fk_category_id"]."'");
+                                  		$ty=$this->db->query("select tbl_vendor_category_bridge.*, tbl_vendors.*
+										from tbl_vendor_category_bridge 
+										LEFT JOIN tbl_vendors ON tbl_vendor_category_bridge.fk_vendor_id = tbl_vendors.pk_vendor_id
+										where fk_category_id='".$rt22[0]["fk_category_id"]."'");
 										$my_vendors=$ty->result_array();
 										
 										foreach($my_vendors as $drt)
 										{
 											//
-											$rrr	=	"select * from tbl_vendors where pk_vendor_id ='". $drt["fk_vendor_id"]."' and status = '0'";
-											$nn=$this->db->query($rrr);
-											if($nn->num_rows()>0)
-											{
-												$nnm=$nn->result_array();
+											// $rrr	=	"select * from tbl_vendors where pk_vendor_id ='". $drt["fk_vendor_id"]."' and status = '0'";
+											// $nn=$this->db->query($rrr);
+											//if($nn->num_rows()>0)
+											if(isset($drt["vendor_name"])){
+												//$nnm=$nn->result_array();
 												//
 												echo '<option value="';
-												echo $nnm[0]["pk_vendor_id"];
+												echo $drt["pk_vendor_id"];
 												echo '"';
 												$ty=$this->db->query("select * from tbl_vendor_product_bridge where 
 												fk_vendor_id='".$drt['fk_vendor_id']."' AND fk_product_id='". $rt22[0]["pk_product_id"]."'");
@@ -152,7 +154,7 @@
 													echo ' selected ';
 												}
 												echo '">';
-												echo $nnm[0]["vendor_name"];
+												echo $drt["vendor_name"];
 												echo '</option>';
 											}
 										}

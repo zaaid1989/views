@@ -27,7 +27,7 @@
         <div class="col-md-12"> 
        
           <!-- BEGIN EXAMPLE TABLE PORTLET-->
-          <div class="portlet box grey-cascade">
+          <div class="portlet box purple">
 
             <div class="portlet-title">
 
@@ -43,7 +43,27 @@
 		   <div class="portlet-body form">
            <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url();?>complaint/update_aux_equipment_insert">
         	<?php
-				  $ty22=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$this->uri->segment('3')."'");
+				  $ty22=$this->db->query("
+				  SELECT 
+					tbl_instruments.*, 
+					COALESCE(tbl_products.product_name) AS product_name,
+					COALESCE(tbl_vendors.vendor_name) AS vendor_name,
+					COALESCE(tbl_cities.city_name) AS city_name,
+					COALESCE(tbl_clients.client_name) AS client_name,
+					COALESCE(tbl_category.category_name) AS category_name,
+					COALESCE(tbl_offices.office_name) AS office_name,
+					COALESCE(oc.office_name) AS office_client					
+					
+					FROM tbl_instruments 
+					
+					LEFT JOIN tbl_category ON tbl_instruments.fk_category_id = tbl_category.pk_category_id
+					LEFT JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id
+					LEFT JOIN tbl_vendors ON tbl_instruments.fk_vendor_id = tbl_vendors.pk_vendor_id
+					LEFT JOIN tbl_clients ON tbl_instruments.fk_client_id = tbl_clients.pk_client_id
+					LEFT JOIN tbl_offices ON tbl_instruments.fk_office_id = tbl_offices.pk_office_id
+					LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+					LEFT JOIN tbl_offices oc ON tbl_instruments.fk_client_id = oc.client_option
+				  WHERE pk_instrument_id='".$this->uri->segment('3')."'");
 				  $rt22=$ty22->result_array();
 			?>
             <div class="form-body">
@@ -86,11 +106,9 @@
                             <div class="col-md-8 equipmentss">
                               <select class="form-control  " onchange="select_vendor(this.value)" name="equipment" id="equipment" required>
                                 <option value="<?php echo $rt22[0]['fk_product_id'];?>">
-                                <?php
-                                  $qu="SELECT * from tbl_products WHERE fk_category_id='1' AND status ='0' AND pk_product_id='".$rt22[0]['fk_product_id']."'";
-                                  $gh=$this->db->query($qu);
-                                  $rt=$gh->result_array();
-                                  echo $rt[0]['product_name'];?></option>
+                               <?php 
+								echo $rt22[0]['product_name'];
+								?></option>
                                  
                               </select>
                             </div>
@@ -101,114 +119,13 @@
                             <div class="col-md-8 category_vendors">
                               <select class="form-control  " name="vendor" id="vendor"  required>
                                 <option value="<?php echo $rt22[0]['fk_vendor_id'];?>">
-								<?php 
-								$qu6="SELECT * from tbl_vendors where pk_vendor_id='".$rt22[0]['fk_vendor_id']."'";
-                                $gh6=$this->db->query($qu6);
-                                $rt6=$gh6->result_array();
-								echo $rt6[0]['vendor_name'];?></option>
+								<?php echo $rt22[0]['vendor_name'];?>
+								</option>
                               </select>
                             </div>
                         </div>
                         
-                        <!--
-					
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Location</label>
-                            <div class="col-md-8">
-                              <select class="form-control  " name="cutomer" id="cutomer" onchange="show_main(this.value)" required>
-                                <option value="">--Choose--</option>
-                                <option value="officeoption_1" <?php if($rt22[0]['fk_client_id']=='officeoption_1'){ ?> selected="selected"<?php }?>>Rawalpindi Office (HO)</option>
-                                <option value="officeoption_2" <?php if($rt22[0]['fk_client_id']=='officeoption_2'){ ?> selected="selected"<?php }?>>Lahore Office (LO)</option>
-                                <option value="officeoption_3" <?php if($rt22[0]['fk_client_id']=='officeoption_3'){ ?> selected="selected"<?php }?>>Karachi Office (KO)</option>
-                                <option value="officeoption_4" <?php if($rt22[0]['fk_client_id']=='officeoption_4'){ ?> selected="selected"<?php }?>>Multan Office (MO)</option>
-                                <option value="officeoption_5" <?php if($rt22[0]['fk_client_id']=='officeoption_5'){ ?> selected="selected"<?php }?>>Peshawar (PO)</option>
-                                <?php
-                                  $qu="SELECT * from tbl_clients where delete_status = '0'";
-                                  $gh=$this->db->query($qu);
-                                  $rt=$gh->result_array();
-                                  foreach($rt as $value)
-                                    {
-                                        ?>
-                                        <option value="<?php echo $value['pk_client_id'];?>"
-                                        <?php if($value['pk_client_id']==$rt22[0]['fk_client_id']){ ?> selected="selected"<?php }?>>
-											<?php echo $value['client_name'];
-													$qu2="SELECT * from tbl_cities where pk_city_id = '".$value['fk_city_id']."' ";
-													$gh2=$this->db->query($qu2);
-													$rt2=$gh2->result_array();
-													echo '--('.$rt2[0]['city_name'].')';
-													//
-													$qu3="SELECT * from tbl_area where pk_area_id = '".$value['fk_area_id']."' ";
-													$gh3=$this->db->query($qu3);
-													$rt3=$gh3->result_array();
-													echo '--('.$rt3[0]['area'].')';
-											?>					  
-                                        </option>
-                                        <?php
-                                    }?>
-                              </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Territory</label>
-                            <div class="col-md-8">
-                              <select class="form-control" name="office" id="office" required>
-                                <option value="">--Choose--</option>
-                                <?php
-                                  $qu="SELECT * from tbl_offices ";
-                                  $gh=$this->db->query($qu);
-                                  $rt=$gh->result_array();
-                                  foreach($rt as $value)
-                                    {
-                                        ?>
-                                        <option value="<?php echo $value['pk_office_id'];?>"
-                                        <?php if($value['pk_office_id']==$rt22[0]['fk_office_id']){ ?> selected="selected"<?php }?>>
-											<?php echo $value['office_name'];?>					  
-                                        </option>
-                                        <?php
-                                    }?>
-                              </select>
-                            </div>
-                        </div>
-                      -->
-						
-						<!-- Commenting this one as the main equipment will be changed from relocation page
-						<div class="form-group">
-                            <label class="col-md-3 control-label">Main Equipment</label>
-                            <div class="col-md-8 sent_to_bridge type_products">
-                                <select class="form-control"  name="main_equipment[]" required multiple="multiple">
-                                  <?php
-                                  		$rrr	=	"SELECT tbl_instruments.pk_instrument_id ,tbl_instruments.serial_no ,tbl_instruments.main_equipment,tbl_products.product_name
-										FROM tbl_instruments
-										JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id
-										WHERE tbl_instruments.fk_category_id!=1 AND tbl_products.status=0
-										ORDER BY   `product_name`,`serial_no`";
-										//echo $rrr;exit;
-										$nn=$this->db->query($rrr);
-										$nnm=$nn->result_array();
-										foreach($nnm as $drt)
-										{
-											/*
-											$main_equipment_list= explode(",",$rt22[0]['main_equipment']);
-											echo '<option>zaaid'.$rt22[0]['main_equipment'];
-											//print_r($main_equipment_list);
-											echo '</option>';
-											*/
-											echo '<option value="';
-											echo $drt["pk_instrument_id"];
-											echo '"';
-											$main_equipment_list= explode(",",$rt22[0]['main_equipment']);
-                                      		if (in_array($drt["pk_instrument_id"], $main_equipment_list)) {
-												echo ' selected ';
-											}
-											echo '">';
-											echo $drt["product_name"].' - '.$drt["serial_no"];
-											echo '</option>';
-										}
-								  ?>
-                                </select>
-                            </div>
-                        </div>
-						-->
+                        
 						
                         <div class="form-group">
 
@@ -228,7 +145,7 @@
                             <div class="col-md-8">
 
                                 <input type="text"   name="invoice_date"  class="form-control datepicker" id="invoice_date"  
-                                value="<?php echo date('d-M-Y', strtotime($rt22[0]['invoice_date']));?>" required>	        
+                                value="<?php if($rt22[0]['invoice_date']!='0000-00-00 00:00:00') echo date('d-M-Y', strtotime($rt22[0]['invoice_date']));?>" required>	        
                             </div>
 
                         </div>
@@ -263,7 +180,7 @@
                             <div class="col-md-8">
 
                                 <input type="text"   name="warranty_start_date"  class="form-control datepicker" 
-                                value="<?php echo date('d-M-Y', strtotime($rt22[0]['warranty_start_date']));?>" id="warranty_start_date"  >	        
+                                value="<?php if($rt22[0]['warranty_start_date']!='0000-00-00 00:00:00') echo date('d-M-Y', strtotime($rt22[0]['warranty_start_date']));?>" id="warranty_start_date"  >	        
                             </div>
 
                         </div>
@@ -351,7 +268,7 @@
               <div class="row">
                 <div class="col-md-offset-5 col-md-9">
                   <input type="hidden" name="pk_instrument_id" value="<?php echo $this->uri->segment(3); ?>">
-                  <button type="submit" class="btn btn-circle blue">Submit</button>
+                  <button type="submit" class="btn btn-default blue">Submit</button>
          <!--         <button type="button" class="btn btn-circle default">Cancel</button>	-->
                 </div>
               </div>

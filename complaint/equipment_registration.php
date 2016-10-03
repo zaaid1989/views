@@ -27,7 +27,7 @@
         <div class="col-md-12"> 
        
           <!-- BEGIN EXAMPLE TABLE PORTLET-->
-          <div class="portlet box grey-cascade">
+          <div class="portlet box blue">
 
             <div class="portlet-title">
 
@@ -103,7 +103,11 @@
                                 <option value="officeoption_4">Multan Office (MO)</option>
                                 <option value="officeoption_5">Peshawar (PO)</option>
                                 <?php
-                                  $qu="SELECT * from tbl_clients  where delete_status = '0'";
+                                  $qu="SELECT tbl_clients.*,COALESCE(tbl_cities.city_name) AS city_name ,COALESCE(tbl_area.area) AS area 
+								  from tbl_clients  
+								  LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+								  LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+								  where tbl_clients.delete_status = '0'";
                                   $gh=$this->db->query($qu);
                                   $rt=$gh->result_array();
                                   foreach($rt as $value)
@@ -111,15 +115,8 @@
                                         ?>
                                         <option value="<?php echo $value['pk_client_id'];?>">
 											<?php echo $value['client_name'];
-													$qu2="SELECT * from tbl_cities where pk_city_id = '".$value['fk_city_id']."' ";
-													$gh2=$this->db->query($qu2);
-													$rt2=$gh2->result_array();
-													echo '--('.$rt2[0]['city_name'].')';
-													//
-													$qu3="SELECT * from tbl_area where pk_area_id = '".$value['fk_area_id']."' ";
-													$gh3=$this->db->query($qu3);
-													$rt3=$gh3->result_array();
-													echo '--('.$rt3[0]['area'].')';
+													echo '--('.$value['city_name'].')';
+													echo '--('.$value['area'].')';
 											
 											?>					  
                                         </option>
@@ -148,86 +145,57 @@
                               </select>
                             </div>
                         </div>
+						
                         <div class="form-group">
-
                             <label class="col-md-3 control-label">Serial Number</label>
-
                             <div class="col-md-8">
-
                                 <input type="text"   name="serial_no"  class="form-control serial_no" id="serial_no" required>	        
                             </div>
-
                         </div>
+						
                         <div class="form-group">
-
                             <label class="col-md-3 control-label">Invoice Number</label>
-
                             <div class="col-md-8">
-
                                 <input type="text"   name="invoice_number"  class="form-control" id="invoice_number" >	        
                             </div>
-
                         </div>
+						
                         <div class="form-group">
-
                             <label class="col-md-3 control-label">Invoice Date</label>
-
                             <div class="col-md-8">
-
                                 <input type="text"   name="invoice_date"  class="form-control datepicker" id="invoice_date" required>	        
                             </div>
-
                         </div>
+						
                         <div class="form-group">
-
                             <label class="col-md-3 control-label">Equipment Price</label>
-
                             <div class="col-md-8">
-
                                 <input type="text"   name="equipment_price"  class="form-control" id="equipment_price" >	        
                             </div>
 
                         </div>
+						
                         <div class="form-group">
-
                             <label class="col-md-3 control-label">Warranty Start Date</label>
-
                             <div class="col-md-8">
-
-                                <input type="text"   name="warranty_start_date"  class="form-control datepicker" id="warranty_start_date"  required>	        
+                               <input type="text"   name="warranty_start_date"  class="form-control datepicker" id="warranty_start_date"  required>	        
                             </div>
-
                         </div>
 						
 						<div class="form-group">
                             <label class="col-md-3 control-label">Warranty Period (Months)</label>
                             <div class="col-md-8">
 							<input class="form-control col-md-2" type="number" name="warranty_months" id="warranty_months" required>
-                                <!--
-								<select class="form-control" name="warranty_months" id="warranty_months" required>
-                                <option value="-1">--Choose--</option>
-                                <option value="0">No Warranty</option>
-                                <option value="6">6 Months</option>
-                                <option value="12">1 Year</option>
-								<option value="24">2 Years</option>
-								<option value="36">3 Years</option>
-								<option value="48">4 Years</option>
-                              </select>
-							  -->
                             </div>
                         </div>
                         
                         <div class="form-group">
-
                             <label class="col-md-3 control-label"> Description</label>
-
                             <div class="col-md-8">
-
                                 <textarea name="description" class="input-xlarge" id="textarea" rows="5"></textarea>
-
                             </div>
-
                         </div>
+						
                         <div class="form-group">
                             <label class="col-md-3 control-label">Status </label>
                             <div class="col-md-8">

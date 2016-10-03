@@ -85,26 +85,7 @@
                     </div>
                 </div>
                 
-                <!--<div class="form-group">
-                    <label class="col-md-3 control-label">Category Type</label>
-                    <div class="col-md-4">
-                       <select class="from_control" name="type_name">
-                       <?php 
-						  $ty=$this->db->query("select * from tbl_product_types ");
-						  $rt=$ty->result_array();
-						  foreach($rt as $result)
-						  {
-						   ?>
-							<option value="<?php echo $result["pk_product_type_id"];?>" 
-							<?php if($result["pk_product_type_id"]==$rt22[0]["fk_type_id"]){?> selected="selected"<?php }?>>
-								<?php echo $result["product_type"];?>
-                            </option>
-							<?php
-							  }
-							?>
-                       </select>
-                    </div>
-                </div>-->
+               
                     
                 </div>
                 <div class="form-actions">

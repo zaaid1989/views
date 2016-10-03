@@ -1179,52 +1179,6 @@ $(document).ready(function() {
 				
                 <div class="row">
                 	<div class="col-lg-12">
-                    	<!--<div class="portlet box grey-cascade">
-                          <div class="portlet-title">
-                            <div class="caption"> <i class="fa fa-globe"></i>News </div>
-                            <div class="tools"> <a href="javascript:;" class="collapse"> </a>  <a href="javascript:;" class="remove"> </a> </div>
-                          </div>
-                          <div class="portlet-body">
-                        	<div class="portlet-body flip-scroll">
-                             <table class="table table-striped table-bordered table-hover flip-content" id="sample_2">
-                              <thead>
-                                <tr>
-                                  <th> News Title 				</th>
-                                  <th> Description 					</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <?php
-									  $ty22=$this->db->query("select * from tbl_news order by pk_news_id DESC");
-									  $rt22=$ty22->result_array();
-									  if (sizeof($rt22) == "0") {
-										  
-									  } else {
-										  foreach ($rt22 as $get_users_list) {
-											  ?>
-											  <tr class="odd gradeX">
-												  
-                                                  <td>
-													  <?php echo $get_users_list["news_title"] ?>
-												  </td>
-                                                  <td>
-                                                      <textarea name="news_description" class="input-xlarge" id="news_description" rows="5" 
-                                                      required><?php echo $get_users_list["news_description"] ?></textarea>
-												  </td>
-												  
-                                                  
-												 
-											  </tr>
-											  <?php
-										  }
-									  }
-                              ?>
-                                
-                              </tbody>
-                            </table>
-                                      </div>
-                          </div>
-                        </div>-->
                     </div>
                 </div>
 				

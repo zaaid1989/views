@@ -1,21 +1,13 @@
 <?php $this->load->view('header');?>
                     <!-- BEGIN PAGE HEADER-->
                     <h3 class="page-title">
-                    Update VS <small>edit schedule details</small>
+						Update VS <small>edit schedule details</small>
                     </h3>
                     <div class="page-bar">
                         <ul class="page-breadcrumb">
-                            <li>
-                                <i class="fa fa-home"></i>
-                                Home
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                Update VS
-                            </li>
-                            
+                            <li><i class="fa fa-home"></i>Home<i class="fa fa-angle-right"></i></li>
+                            <li>Update VS</li>
                         </ul>
-                      
                     </div>
                     <!-- END PAGE HEADER--> 
                     <!-- BEGIN PAGE CONTENT-->
@@ -45,122 +37,79 @@
                         
                       
                         <div class="portlet box blue">
-              
                           <div class="portlet-title">
-              
                             <div class="caption"> <i class="fa fa-edit"></i>Update VS</div>
-              
                             <div class="tools"> 
                                 <a href="javascript:;" class="collapse"> </a> 
-                                
                                 <a href="javascript:;" class="remove"> </a> 
                             </div>
                           </div>
               
-                          <div class="portlet-body">
-                            <div class="table-scrollable">       
+                          <div class="portlet-body">    
                              <table class="table table-striped table-bordered table-hover">
-              
                               <thead>
-              
                                 <tr>
-                                  
-                                  <th colspan="2" style="padding-right:160px;"> Time </th>
-              
-                                  <th style="padding-right:150px;"> Customer</th>
-                                  
-                                  <th style="padding-right:100px;"> City </th>
-                                  
+                                  <th colspan="2"> Time </th>
+                                  <th> Customer</th>
+                                  <th> City </th>
                                   <th> Business Project </th>
-              
+								  <th> Project Description </th>
                                   <th> Working Details/ Discussion Summary </th>
                                 </tr>
-              
-              
-                              </thead>
+							</thead>
                               
               
                               <tbody class="append_tbody">
-              
-                                <tr class="odd gradeX">
-              
+                                <tr>
+								
                                   <td> <input  name="starttime[0]" type="text" class="form-control timepicker1 timepicker timepicker-no-seconds" 
                                           value="<?php echo date('h:i A', strtotime($get_update_vs_project_list[0]['start_time']));?>" required>
                                           <input type="hidden" name="engineer" value="<?php echo $get_update_vs_project_list[0]['fk_engineer_id'];?>" />
-                              
                                   </td>
                                   
                                   <td> <input   name="endtime[0]" type="text" class="form-control timepicker2 timepicker timepicker-no-seconds"  
-                                       value="<?php echo date('h:i A', strtotime($get_update_vs_project_list[0]['end_time']));?>" required>						
+                                       value="<?php echo date('h:i A', strtotime($get_update_vs_project_list[0]['end_time']));?>" required>
                                   </td>
                                  
                                   <td> 
-                                          <?php
-											$nsql="select * from user where id ='".$get_update_vs_project_list[0]['fk_engineer_id']."'";
-											  $n2sql=$this->db->query($nsql);
-											  $n3sql=$n2sql->result_array();
-											  //echo $qu;exit;
-											?>
-                                          <select class="form-control  " name="customer[0]" id="customer0"  onchange="show_cities(this.value,0)">
-              
+                                          <select class="form-control  " name="customer[0]" id="customer0"  onchange="show_cities(this.value,0,
+										  <?php echo $get_update_vs_project_list[0]['fk_engineer_id']; ?>)">
                                             <?php 
 							  
-											  if($n3sql[0]['userrole']=='Salesman')
-											  {
-												  $qu="SELECT 
-																tbl_clients.pk_client_id, tbl_clients.client_name
-																 FROM 
-																 tbl_customer_sap_bridge 
-																 INNER JOIN
-																 tbl_clients
-																 ON
-																 tbl_clients.pk_client_id 	=	tbl_customer_sap_bridge.fk_client_id";
-												
+											  if($get_update_vs_project_list[0]['userrole']=='Salesman') {
+												  $qu = "SELECT tbl_clients.pk_client_id, tbl_clients.client_name
+														 FROM tbl_customer_sap_bridge 
+														 INNER JOIN tbl_clients ON tbl_clients.pk_client_id = tbl_customer_sap_bridge.fk_client_id 
+														 WHERE tbl_clients.delete_status = '0'";
 											  }
-											  else
-											  {
+											  else {
 												  // get all client of this this office id
-												  $qu="SELECT * from tbl_clients where fk_office_id =  '".$n3sql[0]['fk_office_id']."'";
+												  $qu="SELECT * from tbl_clients where tbl_clients.fk_office_id =  '".$get_update_vs_project_list[0]['user_office']."' AND tbl_clients.delete_status = '0'";
 											  }
 										//
-										if(substr($get_update_vs_project_list[0]['fk_customer_id'],0,1)=='o')
-										{ 
-											$office_id		=	substr($get_update_vs_project_list[0]['fk_customer_id'],13,1);
-											
-											$qu2="SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-											$gh2=$this->db->query($qu2);
-											$rt2=$gh2->result_array();
+										if(substr($get_update_vs_project_list[0]['fk_customer_id'],0,1)=='o') { 
 											?>
-											<option value="<?php echo $rt2[0]['pk_office_id'];?>" selected="selected" >
-                                                  <?php echo $rt2[0]['office_name'];?>
+											<option value="<?php echo $get_update_vs_project_list[0]['pk_office_id'];?>" selected="selected" >
+                                                  <?php echo $get_update_vs_project_list[0]['office_name'];?>
                                                 </option>
 											<?php
 										}
-										else
-										{
+										
                                           $gh=$this->db->query($qu);
                                           $rt=$gh->result_array();
-                                          foreach($rt as $value)
-                                            {
-                                                ?>
-                                                <?php if($value['pk_client_id']==$get_update_vs_project_list[0]['fk_customer_id'])
-													  { ?>
-                                                        <option value="<?php echo $value['pk_client_id'];?>" selected="selected" >
-                                                          <?php echo $value['client_name'];?>
-                                                        </option>
-                                                <?php }
-                                            }
-										}?>
-              
+                                          foreach($rt as $value) { ?>
+											<option value="<?php echo $value['pk_client_id'];?>"  
+											<?php if($value['pk_client_id']==$get_update_vs_project_list[0]['fk_customer_id']) echo 'selected="selected"'; ?>
+											>
+                                            <?php echo $value['client_name'];?>
+											</option>
+											<?php } ?>
                                           </select>
                                   </td>
                                   <td class="citiestd0"> 
                                   <select class="form-control  " name="city[0]">
-                                            <?php $qu8="SELECT * from tbl_cities where pk_city_id ='".$get_update_vs_project_list[0]['fk_city_id']."'";
-                                                  $gh8=$this->db->query($qu8);
-                                                  $rt8=$gh8->result_array(); 
-                                              ?>
-                                              <option value="<?php echo $rt8[0]['pk_city_id']?>" selected="selected"><?php echo $rt8[0]['city_name']?></option>
+                                            
+                                              <option value="<?php echo $get_update_vs_project_list[0]['pk_city_id']?>" selected="selected"><?php echo $get_update_vs_project_list[0]['city_name']?></option>
                                             </select>
                                   </td>
               
@@ -172,50 +121,38 @@
                                        //for business project
                                        echo '<select class="form-control  " name="business['.$rowid.']" onchange="fill_business_dec_and_timeelapsed(this.value,'.$rowid.')" 
                                             id="business'.$rowid.'" required>';
-                                         if($get_update_vs_project_list[0]['fk_business_id']=='0')
-                                         {
-                                            //
-                                         }
-                                         else
-                                         {
-                                         $maxqu3 = $this->db->query("SELECT * FROM business_data where pk_businessproject_id='".$get_update_vs_project_list[0]['fk_business_id']."' ");
-                                         $maxval3=$maxqu3->result_array();
-                                         //
+                                         if($get_update_vs_project_list[0]['fk_business_id']=='0') {}
+                                         else {
                                          echo '<option value="';
-                                          echo $maxval3[0]['pk_businessproject_id'];
-                                          echo '" selected="selected">';
-                                          $qu5="select * from tbl_business_types where pk_businesstype_id='".$maxval3[0]['Business Project']."'";
-                                          $gh5=$this->db->query($qu5);
-                                          $rt5=$gh5->result_array();
-                                          
-                                          echo $rt5[0]['businesstype_name'];
+                                          echo $get_update_vs_project_list[0]['fk_business_id'];
+                                          echo '"';
+										  echo ' selected="selected"';
+										  echo '>';
+                                          echo $get_update_vs_project_list[0]['businesstype_name'];
                                           echo '</option>';
                                          }
-                          
-                                          
                                           echo '<option value="others">Others</option>';
                                       echo '</select>';
                                   ?>
                                   </td>
-                                  
-                                  
-                                  
-                                  <td> 
+								  
+								  <td class="business_description0"> 
+									<?php echo urldecode($get_update_vs_project_list[0]['Project Description']);?>
+                                  </td>
+									
+								  <td> 
                                   <textarea  name="summery[0]" id="textarea" class="input-medium" required="" rows="4"><?php echo urldecode($get_update_vs_project_list[0]['summery']);?></textarea>
                                   </td>
-              
                                 </tr>
-              
-                                
-                              </tbody>
-              
-                            </table>
+							</tbody>
+                           </table>
                             <script type="text/javascript">
-                              function show_cities(client_id,rowid)
+                              function show_cities(client_id,rowid,user_id)
                               {
                                   var formdata =
                                     {
                                       client_id: client_id,
+									  user_id: user_id,
                                       rowid: rowid
                                     };
                                 $.ajax({
@@ -224,10 +161,19 @@
                                   data: formdata,
                                   success: function(msg){
                                       $(".citiestd"+rowid).html(msg);
-                                      $(".businessestd"+rowid).html('<select class="form-control  "  name="business['+rowid+']"><option value="2">--Choose--</option></select>');
+                                     // $(".businessestd"+rowid).html('<select class="form-control  "  name="business['+rowid+']"><option value="2">--Choose--</option></select>');
                                       //alert(msg);
                                       }
                                   })
+								$.ajax({
+									url: "<?php echo base_url();?>complaint/business_select_ajax",
+									type: 'POST',
+									data: formdata,
+									success: function(msg){
+										$(".businessestd"+rowid).html(msg);
+										//alert(msg);
+										}
+									})
                                   return false;
                               }
                               function show_business(city_id,rowid)
@@ -260,6 +206,7 @@
                                     $(".time_elaped"+rowid).prop("readonly",false);
                                     $(".time_elaped"+rowid).val('');
                                     $(".business_description"+rowid).val('');
+									$(".business_description"+rowid).html('');
                                 }
                                 else
                                 {
@@ -277,7 +224,7 @@
                                   type: 'POST',
                                   data: formdata,
                                   success: function(msg){
-                                      $(".business_description"+rowid).val(msg);
+                                      $(".business_description"+rowid).html(msg);
                                       //alert(msg);
                                       }
                                   })
@@ -311,7 +258,7 @@
                                   defaultTime:false
                               });
                             </script>
-                          </div>
+                          
                           <div class="form-actions">
                             <div class="row">
                               <div class="col-md-offset-5 col-md-7">

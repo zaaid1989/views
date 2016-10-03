@@ -1,20 +1,13 @@
 <?php $this->load->view('header');?>
                     <!-- BEGIN PAGE HEADER-->
                     <h3 class="page-title">
-                    Update DVR <small>Edit report data </small>
+						Update DVR <small>Edit report data </small>
                     </h3>
                     <div class="page-bar">
                         <ul class="page-breadcrumb">
-                            <li>
-                                <i class="fa fa-home"></i>
-                                Home
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                Update DVR
-                            </li>                           
+                            <li><i class="fa fa-home"></i>Home<i class="fa fa-angle-right"></i></li>
+                            <li>Update DVR</li>                           
                         </ul>
-                      
                     </div>
                     <!-- END PAGE HEADER--> 
                     <!-- BEGIN PAGE CONTENT-->
@@ -29,7 +22,6 @@
                       DVR Updated Successfully.  
                     </div>';
             }
-			
          ?>
           <!-- BEGIN EXAMPLE TABLE PORTLET-->
 		<form method="post" action="<?php echo base_url();?>complaint/edit_dvr_business/<?php echo $get_update_dvr_project_list[0]['pk_dvr_id']?>">
@@ -43,16 +35,11 @@
 			<?php }
 			?>
           
-		
           <div class="portlet box red">
-
             <div class="portlet-title">
-
               <div class="caption"> <i class="fa fa-edit"></i>Update DVR</div>
-
               <div class="tools"> 
                   <a href="javascript:;" class="collapse"> </a> 
-                  
                   <a href="javascript:;" class="remove"> </a> 
               </div>
             </div>
@@ -60,42 +47,30 @@
             <div class="portlet-body">
               <div class="table-scrollable">       
                <table class="table table-striped table-bordered table-hover">
-
                 <thead>
-
                   <tr>
-					<th style="padding-right:100px;"> Date	</th>
-                    
-                    <th colspan="2" style="padding-right:160px;"> Time </th>
-
-                    <th style="padding-right:150px;"> Customer</th>
-                    
-                    <th style="padding-right:100px;"> City </th>
-                    
+					<th > Date	</th>
+                    <th colspan="2"> Time </th>
+                    <th> Customer</th>
+                    <th> City </th>
                     <th> Business Project </th>
-                    <th style="padding-right:100px;"> Description </th>
-
+                    <th> Description </th>
                     <th> Working Details/ Discussion Summary </th>
-                    
                     <th> Next Plan  </th>
                   </tr>
-
-
-                </thead>
+				</thead>
                 
 
                 <tbody class="append_tbody">
-
-                  <tr class="odd gradeX">
+                  <tr>
 				  
-				  <td>
-				  <input type="text" class="datepicker2 form-control" name="date" value="<?php echo date('d-M-Y', strtotime($get_update_dvr_project_list[0]['date'])); ?>" required/>
-				  </td>
+					  <td>
+					  <input type="text" class="datepicker2 form-control " name="date" value="<?php echo date('d-M-Y', strtotime($get_update_dvr_project_list[0]['date'])); ?>" required/>
+					  </td>
 
                     <td> <input  name="starttime[0]" type="text" class="form-control timepicker1 timepicker timepicker-no-seconds" 
                     		value="<?php echo date('h:i A', strtotime($get_update_dvr_project_list[0]['start_time']));?>" required>
                             <input type="hidden" name="engineer" value="<?php echo $get_update_dvr_project_list[0]['fk_engineer_id'];?>" />
- 				
                     </td>
                     
                     <td> <input   name="endtime[0]" type="text" class="form-control timepicker2 timepicker timepicker-no-seconds"  
@@ -103,45 +78,29 @@
                     </td>
                    
                     <td> 
-                    		
-                            <?php
-                            $nsql="select * from user where id ='".$get_update_dvr_project_list[0]['fk_engineer_id']."'";
-							  $n2sql=$this->db->query($nsql);
-							  $n3sql=$n2sql->result_array();
-							  //echo $qu;exit;
-							?>
                             <select class="form-control  " name="customer[0]" id="customer0"  onchange="show_cities(this.value,0)">
-
                               <option value="">--Choose--</option>
 							  <?php 
+							  if($get_update_dvr_project_list[0]['userrole']=='Salesman'){
+								  $qu="
+									SELECT tbl_clients.pk_client_id, tbl_clients.client_name, tbl_cities.city_name, tbl_area.area
+									 FROM tbl_customer_sap_bridge 
+									 INNER JOIN tbl_clients ON tbl_clients.pk_client_id = tbl_customer_sap_bridge.fk_client_id 
+									 LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+									 LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+									 WHERE tbl_clients.delete_status = '0'";
+							  }
+							  else $qu = "
+									SELECT tbl_clients.*, tbl_cities.city_name, tbl_area.area
+									from tbl_clients 
+									LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+									LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+									where tbl_clients.delete_status = '0' AND tbl_clients.fk_office_id =  '".$get_update_vs_project_list[0]['user_office']."'";
 							  
-							  if($n3sql[0]['userrole']=='Salesman')
-							  {
-								  $qu="SELECT 
-												tbl_clients.pk_client_id, tbl_clients.client_name, tbl_clients.fk_city_id, tbl_clients.fk_area_id
-												 FROM 
-												 tbl_customer_sap_bridge 
-												 INNER JOIN
-												 tbl_clients
-												 ON
-												 tbl_clients.pk_client_id 	=	tbl_customer_sap_bridge.fk_client_id";
-								
-							  }
-							  else
-							  {
-								  // get all client of this this office id
-								  $qu="SELECT * from tbl_clients where fk_office_id =  '".$n3sql[0]['fk_office_id']."'";
-							  }
-							if(substr($get_update_dvr_project_list[0]['fk_customer_id'],0,1)=='o')
-							{ 
-								$office_id		=	substr($get_update_dvr_project_list[0]['fk_customer_id'],13,1);
-								
-								$qu2="SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-								$gh2=$this->db->query($qu2);
-								$rt2=$gh2->result_array();
+							if(substr($get_update_dvr_project_list[0]['fk_customer_id'],0,1)=='o') { 
 								?>
-								<option value="<?php echo $rt2[0]['client_option'];?>" selected="selected" >
-								  <?php echo $rt2[0]['office_name'];?>
+								<option value="<?php echo $get_update_vs_project_list[0]['client_option'];?>" selected="selected" >
+								  <?php echo $get_update_vs_project_list[0]['office_name'];?>
                                 </option>
 								<?php
 								// below is new code added to show all customers if user want to update customer
@@ -151,42 +110,25 @@
 								{
 								  ?>
 								  <option value="<?php echo $value['pk_client_id'];?>"  >
-								  	<?php echo $value['client_name'];?>
-                                    <?php $quw2="SELECT * from tbl_cities where pk_city_id='".$value['fk_city_id']."'";
-													$ghw2=$this->db->query($quw2);
-													$rtw2=$ghw2->result_array();
-													echo '--('.$rtw2[0]['city_name'].')';
-													//for area
-													$quw3="SELECT * from tbl_area where pk_area_id='".$value['fk_area_id']."'";
-													$ghw3=$this->db->query($quw3);
-													$rtw3=$ghw3->result_array();
-													echo '--('.$rtw3[0]['area'].')';?>
+								  	<?php 	echo $value['client_name'];
+											echo '--('.$value['city_name'].')';
+											echo '--('.$value['area'].')';?>
                                   </option>
                              <?php
-							  }
+								}
 								//end foreach
 							}
-							else
-							{
+							else {
 							  $gh=$this->db->query($qu);
 							  $rt=$gh->result_array();
-							  foreach($rt as $value)
-							  {
+							  foreach($rt as $value) {
 								  ?>
 								  <option value="<?php echo $value['pk_client_id'];?>" 
-								  	<?php if($value['pk_client_id']==$get_update_dvr_project_list[0]['fk_customer_id']){ ?>selected="selected"<?php }?> >
-								  	<?php echo $value['client_name'];?>
-                                    <?php $quw2="SELECT * from tbl_cities where pk_city_id='".$value['fk_city_id']."'";
-													$ghw2=$this->db->query($quw2);
-													$rtw2=$ghw2->result_array();
-													echo '--('.$rtw2[0]['city_name'].')';
-													//for area
-													$quw3="SELECT * from tbl_area where pk_area_id='".$value['fk_area_id']."'";
-													$ghw3=$this->db->query($quw3);
-													$rtw3=$ghw3->result_array();
-													echo '--('.$rtw3[0]['area'].')';?>
+								  	<?php if($value['pk_client_id']==$get_update_dvr_project_list[0]['fk_customer_id']){ ?> selected="selected"<?php }?> >
+								  	<?php 	echo $value['client_name'];
+											echo '--('.$value['city_name'].')';
+											echo '--('.$value['area'].')';?>
                                   </option>
-                                  
 								  <?php
 							  }
 							}?>
@@ -194,11 +136,7 @@
                     </td>
                     <td class="citiestd0"> 
                     <select class="form-control  " name="city[0]">
-                              <?php $qu8="SELECT * from tbl_cities where pk_city_id ='".$get_update_dvr_project_list[0]['fk_city_id']."'";
-									$gh8=$this->db->query($qu8);
-									$rt8=$gh8->result_array(); 
-								?>
-                                <option value="<?php echo $rt8[0]['pk_city_id']?>" selected="selected"><?php echo $rt8[0]['city_name']?></option>
+                                <option value="<?php echo $get_update_dvr_project_list[0]['pk_city_id']?>" selected="selected"><?php echo $get_update_dvr_project_list[0]['city_name']?></option>
                               </select>
                     </td>
 
@@ -214,67 +152,49 @@
 						 //for business project
 						 echo '<select class="form-control  " name="business['.$rowid.']" onchange="fill_business_dec_and_timeelapsed(this.value,'.$rowid.')" 
 							  id="business'.$rowid.'" required>';
-						   if($get_update_dvr_project_list[0]['fk_business_id']=='0')
-						   {
+						   if($get_update_dvr_project_list[0]['fk_business_id']=='0') {
 							  //////////////// Query for complaints
-						   $ts_umber_quer="select * from tbl_complaints where fk_customer_id='".$cutomer_id."' 
-							AND status NOT IN ('Closed', 'Completed','Pending Registration')";
-							//echo $ts_umber_quer;exit;
+						   $ts_umber_quer="
+							SELECT tbl_complaints.*, user.first_name, tbl_instruments.serial_no,tbl_products.product_name 
+							FROM tbl_complaints 
+							LEFT JOIN user ON tbl_complaints.assign_to = user.id
+							LEFT JOIN tbl_instruments ON tbl_complaints.fk_instrument_id = tbl_instruments.pk_instrument_id
+							LEFT JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id
+							WHERE tbl_complaints.fk_customer_id='".$cutomer_id."' AND tbl_complaints.status NOT IN ('Closed', 'Completed','Pending Registration')";
+							
 							$gh_tsnumber=$this->db->query($ts_umber_quer);
 							$rt_ts_number=$gh_tsnumber->result_array();
 							foreach($rt_ts_number as $value)
 							{
-								echo '<option value="';
-								echo 'tsnumber_'.$value['pk_complaint_id'];
-								echo '"';
-								if($value['pk_complaint_id']==$get_update_dvr_project_list[0]['fk_complaint_id'])
-								{
-									echo ' selected="selected"';
-								}
+								echo '<option value="tsnumber_' . $value['pk_complaint_id'] . '"';
+								if($value['pk_complaint_id']==$get_update_dvr_project_list[0]['fk_complaint_id']) echo ' selected="selected"';
 								echo '>';
 								$cn = "TS";
 								if ($value['complaint_nature']=='PM') $cn = "PM";
-								$q = $this->db->query("SELECT first_name from user where id = '".$value['assign_to']."'");
-								$u = $q->result_array();
-								$q = $this->db->query("SELECT fk_product_id,serial_no from tbl_instruments where pk_instrument_id = '".$value['fk_instrument_id']."'");
-								$i = $q->result_array();
-								$q = $this->db->query("SELECT product_name from tbl_products where pk_product_id = '".$i[0]['fk_product_id']."'");
-								$p = $q->result_array();
-								echo $value['ts_number'].' - '.$cn.' - '.$p[0]['product_name'].' ('.$i[0]['serial_no'].') - '.$u[0]['first_name'];//.' - '.$value['problem_summary'];
+								echo $value['ts_number'].' - '.$cn.' - '.$value['product_name'].' ('.$value['serial_no'].') - '.$value['first_name'];//.' - '.$value['problem_summary'];
 								echo '</option>';
 							}
 						   }
 						   else
 						   {
-						   $maxqu3 = $this->db->query("select * from business_data where 
-						   Customer='".$get_update_dvr_project_list[0]['fk_customer_id']."' AND City='".$rt8[0]['pk_city_id']."'
-						    and status='0' 
-							AND Department='".$rt6[0]['department']."' And `Sales Person`='".$rt6[0]['id']."'");
-						   //echo "SELECT * FROM business_data where pk_businessproject_id='".$get_update_dvr_project_list[0]['fk_business_id']."' ";
+						   $maxqu3 = $this->db->query("
+							SELECT business_data.*, tbl_business_types.businesstype_name
+							FROM business_data 
+							LEFT JOIN tbl_business_types ON business_data.`Business Project` = tbl_business_types.pk_businesstype_id
+							WHERE Customer='".$get_update_dvr_project_list[0]['fk_customer_id']."' AND business_data.status='0' And `Sales Person`='".$get_update_dvr_project_list[0]['id']."'");
 						   $maxval3=$maxqu3->result_array();
-						   
 							
-						   foreach($maxval3 as $business)
-						   {
-						   //
-						   echo '<option value="';
+						   foreach($maxval3 as $business) {
+							echo '<option value="';
 							echo $business['pk_businessproject_id'];
 							echo '"';
-							if($business['pk_businessproject_id']==$get_update_dvr_project_list[0]['fk_business_id'])
-							{
-								echo ' selected="selected"';
-							}
+							if($business['pk_businessproject_id']==$get_update_dvr_project_list[0]['fk_business_id']) echo ' selected="selected"';
 							echo '>';
-							$qu5="select * from tbl_business_types where pk_businesstype_id='".$business['Business Project']."'";
-							$gh5=$this->db->query($qu5);
-							$rt5=$gh5->result_array();
-							
-							echo $rt5[0]['businesstype_name'];
+							echo $business['businesstype_name'];
 							echo '</option>';
 						    }
 						   }
 			
-							
 							echo '<option value="others">Others</option>';
 						echo '</select>';
 					?>
@@ -288,10 +208,7 @@
                     <td> 
                     <textarea  name="next_plan[0]" id="textarea" class="input-medium" required="" rows="4"><?php echo urldecode($get_update_dvr_project_list[0]['next_plan']);?></textarea>
                     </td>
-
                   </tr>
-
-                  
                 </tbody>
 
               </table>
@@ -465,5 +382,10 @@
       </div>
     <!-- END CONTENT -->
 </div>
+<style>
+input.form-control {
+  width: auto;
+}
+</style>
 <!-- END CONTAINER -->
 <?php $this->load->view('footer');?>

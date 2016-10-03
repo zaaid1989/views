@@ -40,7 +40,6 @@
                       <ul class="page-breadcrumb">
                         <li> <i class="fa fa-home"></i> Home <i class="fa fa-angle-right"></i> </li>
                         <li> Employees </li>
-                        
                       </ul>
                       
                     </div>
@@ -93,7 +92,7 @@
                                   <th>				 			</th>
                                   <th>				 			</th>
                                   <th>				 			</th>
-                                  <th>				 			</th>
+								  <th>				 			</th>
                                   <th>				 			</th>
                                   <th>				 			</th>
                                   <th>				 			</th>
@@ -105,9 +104,9 @@
                                   <th> City 					</th>
                                   <th> Department 				</th>
                                   <th> Full Name 				</th>
-								  <th> System Role				</th>
 								  <th> Username					</th>
                                   <th> Password 				</th>
+								  <th> System Role 				</th>
                                   <th> Company Mobile 			</th>
                                   <th> Company Email Address 	</th>
                                   <th> Employment Duration		</th>
@@ -123,67 +122,18 @@
 									  } else {
 										  foreach ($get_users_lists as $get_users_list) {
 											  ?>
-											  <tr class="odd gradeX">
-
-												  
-                                                  <td>
-													  <?php //echo $get_users_list["fk_office_id"] ?>
-                                                      <?php 
-													  $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$get_users_list["fk_office_id"]."'");
-													  $rt=$ty->result_array();
-													  echo $rt[0]["office_name"] ?>
-												  </td>
-                                                  <td>
-													  <?php 
-													  $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$get_users_list["fk_city_id"]."'");
-													  $rt=$ty->result_array();
-													  echo $rt[0]["city_name"] ?>
-												  </td>
-												  <td>
-													  <?php echo $get_users_list["department"] ?>
-												  </td>
-                                                  <td>
-													  <?php echo $get_users_list["first_name"] ?> 
-												  </td>
-												  <td>
-													  <?php echo $get_users_list["userrole"]; ?> 
-												  </td>
-												  <td>
-													  <?php echo $get_users_list["username"] ?> 
-												  </td>
-												  <td>
-													  <?php echo $get_users_list["password"] ?> 
-												  </td>
-                                                  <td>
-													  <?php echo $get_users_list["company_mobile"] ?>
-												  </td>
-                                                  <td>
-													  <?php echo $get_users_list["company_email"] ?>
-												  </td>
-                                                  
-                                                  <td>
-													  <?php echo nicetime($get_users_list["date_of_joining"]); //date('d-M-Y',strtotime($get_users_list["date_of_joining"])); ?>
-												  </td>
-                                                  <td>
-                                                      <?php 
-													  $ty=$this->db->query("select * from tbl_trainings
-													   WHERE fk_engineer_id='".$get_users_list["id"]."'");
-													  $rt=$ty->result_array();
-													  $n=0;
-													  foreach($rt as $brand)
-													  {
-														  if($n>0)
-														  {
-															  echo ', ';
-														  }
-														  $ty5=$this->db->query("select * from tbl_products
-														  WHERE pk_product_id='".$brand["fk_brand_id"]."'");
-														  $rt5=$ty5->result_array();
-														  echo $rt5[0]['product_name'];
-														  $n++;
-													  }
-													   ?>
-												  </td>
+											  <tr>
+                                                  <td><?php echo $get_users_list["office_name"]; ?></td>
+                                                  <td><?php echo $get_users_list["city_name"]; ?></td>
+												  <td><?php echo $get_users_list["department"]; ?></td>
+                                                  <td><?php echo $get_users_list["first_name"]; ?> </td>
+												  <td><?php echo $get_users_list["username"]; ?> </td>
+												  <td><?php echo $get_users_list["password"]; ?> </td>
+												  <td><?php echo $get_users_list["userrole"]; ?> </td>
+                                                  <td><?php echo $get_users_list["company_mobile"]; ?></td>
+                                                  <td><?php echo $get_users_list["company_email"]; ?></td>
+                                                  <td><?php echo nicetime($get_users_list["date_of_joining"]);  ?></td>
+                                                  <td><?php echo $get_users_list["training_equipment"] ?></td>
 												  <td>
 													  <a class="btn btn-sm default yellow-gold-stripe"  href="<?php echo base_url();?>profile/update_employee/<?php echo $get_users_list["id"];?>">
                                                       	Update <i class="fa fa-edit"></i>
@@ -196,7 +146,6 @@
 														<i class="fa fa-trash-o"></i>
                                                       </a>
 												  </td>
-												 
 											  </tr>
 											  <?php
 										  }
@@ -205,15 +154,13 @@
                                 
                               </tbody>
                             </table>
-                                      </div>
+                             </div>
                           </div>
                         </div>
                         <!-- END EXAMPLE TABLE PORTLET--> 
                       </div>
                     </div>
       				<!-- END PAGE CONTENT-->
-                    
-                    
                 </div>
             </div>
             <!-- END CONTENT -->

@@ -88,16 +88,7 @@
                                         <td>
                                             <?php echo $get_users_list["category_name"] ?>
                                         </td>
-                                        <!--<td>
-                                            <?php 
-                                            $ty=$this->db->query("select * from tbl_product_types where 
-                                            pk_product_type_id='".$get_users_list["fk_type_id"]."'");
-                                            $rt=$ty->result_array();
-                                            echo $rt[0]["product_type"] ?>
-                                        </td>-->
-                                        
                                         <td>
-										
 													<a class="btn btn-sm default purple-stripe"  
                                                      href="<?php echo base_url();?>complaint/update_category/<?php echo $get_users_list["pk_category_id"];?>">
 													 <i class="fa fa-edit"></i>

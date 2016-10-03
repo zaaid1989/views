@@ -56,7 +56,7 @@ if (isset($_GET['equipment']))
                                         <select name="product" id="product" onchange="selectequipment(this.value)" class="form-control" required>
                                             <option value="">--Select Product--</option>
 											<?php 
-											$maxqu = $this->db->query("SELECT * FROM tbl_products where fk_type_id!='2' AND status!=1");
+											//$maxqu = $this->db->query("SELECT * FROM tbl_products where fk_type_id!='2' AND status!=1");
 											$maxqu = $this->db->query("SELECT * FROM tbl_products where status!=1 ORDER BY fk_category_id");
 											$maxval=$maxqu->result_array();
                                             foreach($maxval as $val)
@@ -131,7 +131,27 @@ if (isset($_GET['equipment']))
 		   <div class="portlet-body form">
            <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url();?>complaint/update_equipment_location_insert">
         	<?php
-				  $ty22=$this->db->query("select * from tbl_instruments where pk_instrument_id='".$equipment_id."'");
+				  $ty22=$this->db->query("
+				  
+					SELECT 
+					tbl_instruments.*, 
+					COALESCE(tbl_products.product_name) AS product_name,
+					COALESCE(tbl_vendors.vendor_name) AS vendor_name,
+					COALESCE(tbl_cities.city_name) AS city_name,
+					COALESCE(tbl_clients.client_name) AS client_name,
+					COALESCE(tbl_category.category_name) AS category_name,
+					COALESCE(tbl_offices.office_name) AS office_name 
+					
+					FROM tbl_instruments 
+					
+					LEFT JOIN tbl_category ON tbl_instruments.fk_category_id = tbl_category.pk_category_id
+					LEFT JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id
+					LEFT JOIN tbl_vendors ON tbl_instruments.fk_vendor_id = tbl_vendors.pk_vendor_id
+					LEFT JOIN tbl_clients ON tbl_instruments.fk_client_id = tbl_clients.pk_client_id
+					LEFT JOIN tbl_offices ON tbl_instruments.fk_office_id = tbl_offices.pk_office_id
+					LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+													
+				  where pk_instrument_id='".$equipment_id."'");
 				  $rt22=$ty22->result_array();
 			?>
             <div class="form-body">
@@ -146,6 +166,7 @@ if (isset($_GET['equipment']))
                               <select class="form-control" name="category" id="category"  onchange="select_vendor(this.value)" style="display:none;" required>
                                 <option value="">--Choose--</option>
                                 <?php
+								/*
                                   $qu="SELECT * from tbl_category ";
                                   $gh=$this->db->query($qu);
                                   $rt=$gh->result_array();
@@ -157,10 +178,10 @@ if (isset($_GET['equipment']))
 											<?php echo $value['category_name'];?>					  
                                         </option>
                                         <?php
-                                    }?>
+                                    } */ ?>
                               </select>
 							  -->
-							  <input type="text"     class="form-control" readonly value="<?php echo $categoryy;?>" >	
+							  <input type="text"     class="form-control" readonly value="<?php echo $rt22[0]['category_name'];?>" >	
                             </div>
                         </div>
                         
@@ -171,13 +192,13 @@ if (isset($_GET['equipment']))
                               <select class="form-control  " name="vendor" id="vendor" style="display:none;"  required>
                                 <option value="<?php echo $rt22[0]['fk_vendor_id'];?>">
 								<?php 
-								$qu6="SELECT * from tbl_vendors where pk_vendor_id='".$rt22[0]['fk_vendor_id']."'";
-                                $gh6=$this->db->query($qu6);
-                                $rt6=$gh6->result_array();
-								echo $rt6[0]['vendor_name'];?></option>
+								// $qu6="SELECT * from tbl_vendors where pk_vendor_id='".$rt22[0]['fk_vendor_id']."'";
+                                // $gh6=$this->db->query($qu6);
+                                // $rt6=$gh6->result_array();
+								// echo $rt6[0]['vendor_name'];?></option>
                               </select>
 							  -->
-							  <input type="text" class="form-control" readonly value="<?php echo $rt6[0]['vendor_name'];?>" >	
+							  <input type="text" class="form-control" readonly value="<?php echo $rt22[0]['vendor_name'];?>" >	
                             </div>
                         </div>
                         
@@ -188,19 +209,21 @@ if (isset($_GET['equipment']))
                               <select class="form-control  " name="equipment" id="equipment" style="display:none;" required>
                                 <option value="<?php echo $rt22[0]['fk_product_id'];?>">
 								<?php 
+								
 								$category_check = 0;
-								$qu6="SELECT * from tbl_products where pk_product_id='".$rt22[0]['fk_product_id']."'";
-                                $gh6=$this->db->query($qu6);
-                                $rt6=$gh6->result_array();
-								if($gh6->num_rows()>0)
-								{
-								echo $rt6[0]['product_name'];
-								$category_check = $rt6[0]['fk_category_id'];
-								}
+								if ($rt22[0]['product_name']!="")		$category_check = $rt22[0]['fk_category_id'];
+								// $qu6="SELECT * from tbl_products where pk_product_id='".$rt22[0]['fk_product_id']."'";
+                                // $gh6=$this->db->query($qu6);
+                                // $rt6=$gh6->result_array();
+								// if($gh6->num_rows()>0)
+								// {
+								// echo $rt6[0]['product_name'];
+								// $category_check = $rt6[0]['fk_category_id'];
+								// }
 								?></option>
                               </select>
 							  -->
-							  <input type="text" class="form-control" readonly value="<?php echo $rt6[0]['product_name'];?>" >	
+							  <input type="text" class="form-control" readonly value="<?php echo $rt22[0]['product_name'];?>" >	
                             </div>
                         </div>
 						
@@ -215,7 +238,7 @@ if (isset($_GET['equipment']))
                         <div class="form-group">
                             <label class="col-md-3 control-label">New Location</label>
                             <div class="col-md-8">
-                              <select class="form-control  " name="cutomer" id="cutomer" <?php if ($category_check == 1) echo 'onchange="show_main(this.value)"'; ?> required>
+                              <select class="form-control  " name="cutomer" id="cutomer" <?php if ($category_check == 1) echo 'onchange="show_main(this.value)"'; // for showing parent of aux equipment ?> required>
                                 <option value="">--Choose--</option>
                                 <option value="officeoption_1" <?php if($rt22[0]['fk_client_id']=='officeoption_1'){ ?> selected="selected"<?php }?>>Rawalpindi Office (HO)</option>
                                 <option value="officeoption_2" <?php if($rt22[0]['fk_client_id']=='officeoption_2'){ ?> selected="selected"<?php }?>>Lahore Office (LO)</option>
@@ -223,7 +246,10 @@ if (isset($_GET['equipment']))
                                 <option value="officeoption_4" <?php if($rt22[0]['fk_client_id']=='officeoption_4'){ ?> selected="selected"<?php }?>>Multan Office (MO)</option>
                                 <option value="officeoption_5" <?php if($rt22[0]['fk_client_id']=='officeoption_5'){ ?> selected="selected"<?php }?>>Peshawar (PO)</option>
                                 <?php
-                                  $qu="SELECT * from tbl_clients WHERE delete_status=0 ";
+                                  $qu="SELECT tbl_clients.*,tbl_cities.city_name,tbl_area.area from tbl_clients
+								  LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+								  LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+								  WHERE tbl_clients.delete_status=0 ";
                                   $gh=$this->db->query($qu);
                                   $rt=$gh->result_array();
                                   foreach($rt as $value)
@@ -232,15 +258,10 @@ if (isset($_GET['equipment']))
                                         <option value="<?php echo $value['pk_client_id'];?>"
                                         <?php if($value['pk_client_id']==$rt22[0]['fk_client_id']){ ?> selected="selected"<?php }?>>
 											<?php echo $value['client_name'];
-													$qu2="SELECT * from tbl_cities where pk_city_id = '".$value['fk_city_id']."' ";
-													$gh2=$this->db->query($qu2);
-													$rt2=$gh2->result_array();
-													echo '--('.$rt2[0]['city_name'].')';
-													//
-													$qu3="SELECT * from tbl_area where pk_area_id = '".$value['fk_area_id']."' ";
-													$gh3=$this->db->query($qu3);
-													$rt3=$gh3->result_array();
-													echo '--('.$rt3[0]['area'].')';
+													
+													echo '--('.$value['city_name'].')';
+													
+													echo '--('.$value['area'].')';
 											?>					  
                                         </option>
                                         <?php
@@ -290,12 +311,6 @@ if (isset($_GET['equipment']))
 										$nnm=$nn->result_array();
 										foreach($nnm as $drt)
 										{
-											/*
-											$main_equipment_list= explode(",",$rt22[0]['main_equipment']);
-											echo '<option>zaaid'.$rt22[0]['main_equipment'];
-											//print_r($main_equipment_list);
-											echo '</option>';
-											*/
 											echo '<option value="';
 											echo $drt["pk_instrument_id"];
 											echo '"';

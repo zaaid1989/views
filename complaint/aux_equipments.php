@@ -147,7 +147,6 @@
                                   }
                               }
                       ?>
-                        
                       </tbody>
                     </table>
                    </div>
@@ -199,7 +198,6 @@
                    <table class="table table-striped table-bordered table-hover flip-content" id="dataaTable">
                       <thead class="bg-grey-gallery">
 					  <tr>
-<!--                          <th> Category   			</th>-->
                           <th>  </th>
                           <th>  </th>
                           <th>  </th>
@@ -214,9 +212,7 @@
                           <th>  </th>
                         </tr>
                         <tr>
-<!--                          <th> Category   			</th>-->
                           <th> Equipment   			</th>
-						 <!-- <th> Territory 			</th> -->
                           <th> City 			    </th>
                           <th> Location   			</th>
                           <th> Vendor Name 			</th>
@@ -240,6 +236,7 @@
 													COALESCE(tbl_vendors.vendor_name) AS vendor_name,
 													COALESCE(tbl_cities.city_name) AS city_name,
 													COALESCE(tbl_clients.client_name) AS client_name,
+													COALESCE(co.office_name) AS client_office, 
 													COALESCE(tbl_offices.office_name) AS office_name 
 													
 													FROM tbl_instruments 
@@ -248,6 +245,7 @@
 													LEFT JOIN tbl_vendors ON tbl_instruments.fk_vendor_id = tbl_vendors.pk_vendor_id
 													LEFT JOIN tbl_clients ON tbl_instruments.fk_client_id = tbl_clients.pk_client_id
 													LEFT JOIN tbl_offices ON tbl_instruments.fk_office_id = tbl_offices.pk_office_id
+													LEFT JOIN tbl_offices co ON tbl_instruments.fk_client_id = co.client_option
 													LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
 													
 													WHERE tbl_instruments.fk_category_id=1");
@@ -257,47 +255,20 @@
                               } else {
                                   foreach ($rt as $get_users_list) {
                                       ?>
-                                      <tr class="odd gradeX">
+                                      <tr>
 									  
 										  <td> <!-- Equipment -->
-                                              <?php 
-											  		/*$ty=$this->db->query("select * from tbl_products where pk_product_id='".$get_users_list["fk_product_id"]."'");
-                             						$rt=$ty->result_array();*/
-													echo $get_users_list["product_name"]; ?> 
+                                              <?php echo $get_users_list["product_name"]; ?> 
                                           </td>
-										  
-                              <!--            <td> <!-- Territory 
-                                              <?php
-											  		/*$ty=$this->db->query("select * from tbl_category where
-													pk_category_id='".$get_users_list["fk_category_id"]."'");
-                             						$rt=$ty->result_array();
-													echo $rt[0]["category_name"];*/
-                                                   /* $ty=$this->db->query("select * from tbl_offices where
-													pk_office_id='".$get_users_list["fk_office_id"]."'");
-                             						$rt=$ty->result_array();*/
-													echo $get_users_list["office_name"];
-                                              ?>
-                                          </td> -->
-										  
+								
                                           <td> <!-- City -->
                                               <?php
-                                                    if(substr($get_users_list['fk_client_id'],0,1)=='o')
-                                                    {
-                                                        $office_id		=	substr($get_users_list['fk_client_id'],13,1);
-                                                        $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-                                                        $gh2			=	$this->db->query($qu2);
-                                                        $rt2			=	$gh2->result_array();
-                                                        $myclient 		= 	$rt2[0]['office_name'];
-                                                        $city 			= 	$rt2[0]['office_name'];
+                                                    if(substr($get_users_list['fk_client_id'],0,1)=='o') {
+                                                        $myclient 		= 	$get_users_list['client_office'];
+                                                        $city 			= 	$get_users_list['client_office'];
                                                     }
-                                                    else
-                                                    {
-                                                       /*  $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$get_users_list['fk_client_id']."' ");
-                                                         $maxval=$maxqu->result_array();*/
+                                                    else {
                                                          $myclient = $get_users_list['client_name'];
-                                                         //for area
-                                                        /* $maxqu7 = $this->db->query("SELECT * FROM tbl_cities where pk_city_id='".$maxval[0]['fk_city_id']."' ");
-                                                         $maxval7=$maxqu7->result_array(); */
                                                          $city = $get_users_list['city_name'];
                                                     }
 													echo $city;
@@ -305,44 +276,17 @@
                                           </td>
 										  
                                           <td> <!-- Location -->
-                                              
-											  <?php
-                                              if(substr($get_users_list['fk_client_id'],0,1)=='o')
-                                                    {
-                                                        $office_id		=	substr($get_users_list['fk_client_id'],13,1);
-                                                        $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-                                                        $gh2			=	$this->db->query($qu2);
-                                                        $rt2			=	$gh2->result_array();
-                                                        $myclient 		= 	$rt2[0]['office_name'];
-                                                        $city 			= 	$rt2[0]['office_name'];
-                                                    }
-                                                    else
-                                                    {
-                                                       /*  $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$get_users_list['fk_client_id']."' ");
-                                                         $maxval=$maxqu->result_array(); */
-                                                         $myclient = $get_users_list['client_name'];
-                                                    }
-													echo $myclient;
-											  ?> 
+											  <?php echo $myclient; ?> 
                                           </td>
 										  
                                           <td> <!-- Vendor Name -->
-                                              <?php 
-											  		/*$ty2=$this->db->query("select * from tbl_vendors where 
-													pk_vendor_id='".$get_users_list["fk_vendor_id"]."'");
-													if($ty2->num_rows()>0)
-													{
-                             						$rt2=$ty2->result_array();
-													echo $rt2[0]["vendor_name"]; 
-													}*/
-													echo $get_users_list['vendor_name'];
-													?> 
-                                                    
+                                              <?php echo $get_users_list['vendor_name'];?> 
                                           </td>
                                           
                                           <td> <!-- Invoice Date -->
                                               <?php  echo date('d-M-Y', strtotime($get_users_list["invoice_date"]));?>
                                           </td>
+										  
                                           <td> <!-- Serial No -->
                                               <?php echo $get_users_list["serial_no"]; ?>
                                           </td>
@@ -355,10 +299,6 @@
 												  $months_to_add = "+".$get_users_list["warranty_months"]." months";
 												  echo date('d-M-Y', strtotime($months_to_add, strtotime($get_users_list["warranty_start_date"])));
 											  }
-                                                    
-                                                    /*$difference		=	strtotime($get_users_list["warranty_start_date"]) - time();
-								                    $interval		=	floor($difference/(60*60*24));
-                                                    echo $interval." days";*/
                                               ?>
                                           </td>
 										  <td> <!-- Price of Aux -->
