@@ -55,7 +55,7 @@ if ($userrole=="Salesman") {
 									$mas_hour_result=0;
 								  ?>
                             </div>
-                                <div class="portlet-body flip-scroll">
+                                <div class="portlet-body ">
                             <?php if ($this->session->userdata('userrole') == "Admin" || $this->session->userdata('userrole') == "secratery"  || $ss==1) {?>
                                 <div class="row">
                                     <form method="post" action="<?php echo base_url();?>complaint/employee_asc">
@@ -101,7 +101,7 @@ if ($userrole=="Salesman") {
                            		</div>  
 								<?php } ?>
                                          
-                                      <table class="table table-striped table-bordered flip-content sample_z" id="sample_4">
+                                      <table class="table table-striped table-bordered  sample_z" id="sample_4">
               
                                           <thead>
                           
@@ -250,7 +250,7 @@ if ($userrole=="Salesman") {
             <div class="portlet-body">
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="">
+                    <div class="table-scrollable">
                     <table class="table table-bordered table-hover">
       
                       <thead class="bg-grey-gallery">

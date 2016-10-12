@@ -110,22 +110,19 @@ function dispzero($val) {
 								
 								$ty22=$this->db->query($parts_query);
 								$rt22=$ty22->result_array();
-								if (sizeof($rt22) == "0") 
-								{} 
+								if (sizeof($rt22) == "0") {} 
 								else {
 								  foreach ($rt22 as $get_users_list) {
 									  // for finding total stock
 										$stock_total=0;
 										$stock_demand=0;
 										$stock_demand_aggregate=0;
-										$stock = $this->db->query("select * from tbl_stock where  fk_part_id='".$get_users_list['pk_part_id']."'");
-										  if($stock->num_rows()>0)
-										  {
+										
+										//*********total stock */
+										$stock = $this->db->query("select SUM(stock) AS stock_sum from tbl_stock where  fk_part_id='".$get_users_list['pk_part_id']."'");
+										  if($stock->num_rows()>0) {
 											  $stock_result = $stock->result_array();
-											  foreach($stock_result as $total_stock)
-											  {
-												  $stock_total= $stock_total + $total_stock['stock'];
-											  }
+											  $stock_total = $stock_result[0]['stock_sum'];
 										  }
 										  
 										  $qd = $this->db->query("SELECT fk_part_id, SUM(quantity) AS demand FROM `tbl_sprf` WHERE status=0 AND fk_part_id = '".$get_users_list['pk_part_id']."' GROUP BY fk_part_id");
@@ -137,7 +134,7 @@ function dispzero($val) {
 										  
 										  if($stock_total>=$get_users_list["minimum_quantity"] && $stock_demand_aggregate<=0) continue;
 										  
-										  
+										//demand detail string  
 										  $demand_detail = "";
 										  $qd = $this->db->query("SELECT `tbl_sprf`.fk_complaint_id,`tbl_sprf`.quantity, `tbl_clients`.client_name,`tbl_complaints`.ts_number
 											FROM `tbl_sprf` 
@@ -145,10 +142,10 @@ function dispzero($val) {
 											LEFT JOIN tbl_clients ON `tbl_clients`.pk_client_id = `tbl_complaints`.fk_customer_id
 											WHERE `tbl_sprf`.status=0 AND `tbl_sprf`.fk_part_id = '".$get_users_list['pk_part_id']."'");
                                           $rd = $qd->result_array();
-										  if (sizeof($rd)>0)
-												foreach ($rd AS $dd) {
+										  if (sizeof($rd)>0) foreach ($rd AS $dd) {
 													$demand_detail .= $dd['quantity'].' ('.$dd['client_name'].' - '.$dd['ts_number'].'), ';
 												}
+										//Quantity Ordered
 										$order_quantity = "";		
 										$qd = $this->db->query("SELECT * from tbl_orders
 											WHERE status=1 AND fk_part_id = '".$get_users_list['pk_part_id']."' ORDER BY date ASC");
@@ -159,50 +156,26 @@ function dispzero($val) {
 												}
 										?>
 										<tr>
-										<td class="font-red" align="center">
-										  <?php 
-                                          	echo dispzero($get_users_list["minimum_quantity"]);
-                                          ?>
-										</td>
-                                        <td style="font-weight:bold;" align="center"> <!-- Stock -->
-										  <?php // for finding total stock
-                                          	$stock = $this->db->query("select * from tbl_stock where  fk_part_id='".$get_users_list['pk_part_id']."'");
-                                                  if($stock->num_rows()>0)
-                                                  {
-                                                      $stock_result = $stock->result_array();
-													  $stock_total=0;
-													  foreach($stock_result as $total_stock)
-													  {
-														  $stock_total= $stock_total + $total_stock['stock'];
-													  }
-                                                      echo dispzero($stock_total);
-                                                  }
-                                                  else
-                                                  {
-                                                      echo '-';
-                                                  }
-                                          ?>
-										</td>
-										<td align="center"> <!-- Orders -->
-											<?php 
-												echo dispzero($get_users_list["minimum_quantity"]-$stock_total);
-											?>
-										</td>
-										
-										<td align="center">
-										<?php if ($stock_demand_aggregate>0) echo '<span title="'.$demand_detail.'">'.$stock_demand_aggregate.'</span>'; 
-										else echo '-';
-										?>
-										</td>
-										
-										<td align="center"> <!-- Order Status -->
-											<?php 
-												//echo $get_users_list["order_status"];
-												if ($order_quantity != "") echo substr($order_quantity,0,-2);
-												else echo '-';
-												
-											?>
-										</td>
+											<td class="font-red" align="center">
+											  <?php echo dispzero($get_users_list["minimum_quantity"]);?>
+											</td>
+											
+											<td style="font-weight:bold;" align="center"> <!-- Stock -->
+											  <?php echo dispzero($stock_total);?>
+											</td>
+											
+											<td align="center"> <!-- Orders -->
+												<?php echo dispzero($get_users_list["minimum_quantity"]-$stock_total);?>
+											</td>
+											
+											<td align="center">
+											<?php if ($stock_demand_aggregate>0) echo '<span title="'.$demand_detail.'">'.$stock_demand_aggregate.'</span>'; 
+											else echo '-';?>
+											</td>
+											
+											<td align="center"> <!-- Order Status -->
+												<?php if ($order_quantity != "") echo substr($order_quantity,0,-2); else echo '-';?>
+											</td>
 									</tr>
 <?php										
 /*  */                                     } 

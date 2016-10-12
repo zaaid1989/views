@@ -242,7 +242,7 @@
                                             foreach($rt as $option)
                                             {
                                         ?> 
-                                            <option value="<?php echo $option['pk_part_id'];?>"><?php echo $option['part_number'];?></option>
+                                            <option value="<?php echo $option['pk_part_id'];?>"><?php echo $option['part_number'].' - '.urldecode($option['description']);?></option>
                                         <?php }?>
                                     </select>
 									</div>

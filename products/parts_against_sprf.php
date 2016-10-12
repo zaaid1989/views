@@ -27,7 +27,7 @@ thead select {
 					
                     <div class="page-bar">
                       <ul class="page-breadcrumb">
-                        <li> <i class="fa fa-home"></i> <a href="<?php echo "site_url();"?>">Home</a> <i class="fa fa-angle-right"></i> </li>
+                        <li> <i class="fa fa-home"></i>Home <i class="fa fa-angle-right"></i> </li>
                         <li> Parts Status Against SPRF </li>
                       </ul>
                       
@@ -100,6 +100,7 @@ thead select {
                                   <th>	</th>
                                   <th> 	</th>
 								  <th> 	</th>
+								  <th> 	</th>
 								 <!-- <th> 	</th> -->
                                 </tr>
                              
@@ -115,13 +116,14 @@ thead select {
                                   <th>Part Description	</th>
                                   <th>Quantity 	</th>
 								  <th>Stock 	</th>
+								  <th>Quantity Ordered 	</th>
 								  <th>Actions 	</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <?php
 								
-								$zquery = "	select tbl_sprf.*,tbl_complaints.ts_number,tbl_clients.client_name,tbl_cities.city_name,tbl_products.product_name,tbl_instruments.serial_no,tbl_instruments.pk_instrument_id,tbl_complaints.status AS `complaint_status`,tbl_vendors.vendor_name,tbl_parts.part_number,tbl_parts.description,tbl_parts.pk_part_id,tbl_complaints.pk_complaint_id
+								$zquery = "	select tbl_sprf.*,tbl_complaints.ts_number,tbl_clients.client_name,tbl_cities.city_name,tbl_products.product_name,tbl_instruments.serial_no,tbl_instruments.pk_instrument_id,tbl_complaints.status AS `complaint_status`,tbl_vendors.vendor_name,tbl_parts.part_number,tbl_parts.description,tbl_parts.pk_part_id,tbl_complaints.pk_complaint_id, torders.order_quantity
 											from tbl_sprf
 											LEFT JOIN tbl_complaints ON tbl_sprf.fk_complaint_id = tbl_complaints.pk_complaint_id
 											LEFT JOIN tbl_clients ON tbl_complaints.fk_customer_id = tbl_clients.pk_client_id
@@ -130,7 +132,8 @@ thead select {
 											LEFT JOIN tbl_products ON tbl_products.pk_product_id = tbl_instruments.fk_product_id
 											LEFT JOIN tbl_parts ON tbl_parts.pk_part_id = tbl_sprf.fk_part_id
 											LEFT JOIN tbl_vendors ON tbl_parts.fk_vendor_id = tbl_vendors.pk_vendor_id
-											where tbl_sprf.`status`='0' AND tbl_complaints.status='Pending SPRF'";
+											LEFT JOIN (SELECT * FROM tbl_orders WHERE status='1') torders ON tbl_sprf.fk_part_id = torders.fk_part_id
+											where tbl_sprf.`status`='0' AND tbl_complaints.status='Pending SPRF' ";
 								
 								$ty=$this->db->query($zquery);
 								$rt=$ty->result_array();
@@ -161,6 +164,7 @@ thead select {
 													else
 														echo '0';
 											  echo "</td>";
+											   echo "<td>".$spr['order_quantity']."</td>";
 											  echo "<td>";
 											   echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'complaint/technical_service_pvr/'.$spr['pk_complaint_id'].'">TSR <i class="fa fa-eye"></i></a>';
 											   echo '<a class="btn btn-sm default green-meadow-stripe" href="'.base_url().'products/supervisor_sprf/'.$spr['pk_complaint_id'].'">SPRF <i class="fa fa-eye"></i></a>';
@@ -206,6 +210,7 @@ thead select {
 								{ type: "text" },
 								{ type: "text" },
 				    	 		{ type: "text" },
+								{ type: "text" },
 								{ type: "text" },
 								{ type: "text" },
                                 { type: "text" },

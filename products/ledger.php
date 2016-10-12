@@ -58,6 +58,8 @@ elseif(isset($_GET['order']) && $_GET['order'] == "invoice_ascending") {$query .
 elseif(isset($_GET['order']) && $_GET['order'] == "invoice_descending") {$query .=	" ORDER BY tbl_stock.invoice_date DESC";}
 elseif(isset($_GET['order']) && $_GET['order'] == "dc_ascending") {$query .=	" ORDER BY tbl_stock.dc_number ASC";}
 elseif(isset($_GET['order']) && $_GET['order'] == "dc_descending") {$query .=	" ORDER BY tbl_stock.dc_number DESC";}
+elseif(isset($_GET['order']) && $_GET['order'] == "serial_ascending") {$query .=	" ORDER BY tbl_stock.equipment_serial ASC";}
+elseif(isset($_GET['order']) && $_GET['order'] == "serial_descending") {$query .=	" ORDER BY tbl_stock.equipment_serial DESC";}
 elseif(isset($_GET['order']) && $_GET['order'] == "office") {$query .=	" ORDER BY tbl_stock.fk_office_id ASC";}
 elseif(isset($_GET['order']) && $_GET['order'] == "stock_type") {$query .=	" ORDER BY tbl_stock.stock_type ASC";}
 elseif(isset($_GET['order']) && $_GET['order'] == "stock_out") {$query .=	" ORDER BY CAST(`stock` AS SIGNED) ASC";}
@@ -150,7 +152,7 @@ $(window).load(function() {
                                                 
                                                 ?>
                                                 <option value="<?php echo $val['pk_part_id'];//pk_product_id?>" <?php if(isset($_GET['part']) && $_GET['part']==$val['pk_part_id']){ echo 'selected="selected"';}//pk_instrument_id?>>
-													<?php echo $val['part_number'].' - '.$val['product_name'];?>
+													<?php echo $val['part_number'].' - '.$val['product_name'].' - '.urldecode($val['description']);?>
                                                 </option>
                                                 <?php 
                                             }
@@ -210,6 +212,8 @@ $(window).load(function() {
 									<option value="invoice_descending" <?php if(isset($_GET['order']) && $_GET['order']=='invoice_descending'){ echo ' selected="selected"';}?>>Invoice Descending</option>
 									<option value="dc_ascending" <?php if(isset($_GET['order']) && $_GET['order']=='dc_ascending'){ echo ' selected="selected"';}?>>DC Number Ascending</option>
 									<option value="dc_descending" <?php if(isset($_GET['order']) && $_GET['order']=='dc_descending'){ echo ' selected="selected"';}?>>DC Number Descending</option>
+									<option value="serial_ascending" <?php if(isset($_GET['order']) && $_GET['order']=='serial_ascending'){ echo ' selected="selected"';}?>>Equipment Serial Ascending</option>
+									<option value="serial_descending" <?php if(isset($_GET['order']) && $_GET['order']=='serial_descending'){ echo ' selected="selected"';}?>>Equipment Serial Descending</option>
 									<option value="office" <?php if(isset($_GET['order']) && $_GET['order']=='office'){ echo ' selected="selected"';}?>>Office</option>
 									<option value="stock_type" <?php if(isset($_GET['order']) && $_GET['order']=='stock_type'){ echo ' selected="selected"';}?>>Stock Type</option>
 									<option value="stock_in" <?php if(isset($_GET['order']) && $_GET['order']=='stock_in'){ echo ' selected="selected"';}?>>Stock In</option>
@@ -245,7 +249,7 @@ $(window).load(function() {
 									  <th> Invoice<br/>Date </th>
 									  <th> <?php echo $product_name;?><br/>Serial </th>
 									  <th> Old Inventory<br/>Description </th>
-									  <th> TS<br/>Destination </th>
+									  <th> TSR<br/>Number </th>
 									  <th> Customer<br/>Name </th>
 									  <th> City </th>
 									  <th> Office </th>
