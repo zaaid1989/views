@@ -222,7 +222,7 @@
 								  </div>
 								  <div class="modal-body">
 								  <!-- Modal from Metronics -->
-								   <form action="<?php echo base_url();?>complaint/submit_sprf" class="form-horizontal" method="post">
+								   <form action="<?php echo base_url();?>sys/submit_sprf" class="form-horizontal" method="post">
                 
 									
 				
@@ -755,7 +755,7 @@
 
                          </div>   
                        </div>
-					<form action="<?php echo base_url();?>complaint/submit_sprf_pending" class="form-horizontal" method="post">
+					<form action="<?php echo base_url();?>sys/submit_sprf_pending" class="form-horizontal" method="post">
                       <div class="form-actions">
 
                         <div class="row">

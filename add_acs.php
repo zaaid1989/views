@@ -6,7 +6,7 @@
                     <div class="page-bar">
                       <ul class="page-breadcrumb">
                         <li> <i class="fa fa-home"></i> <a href="<?php echo site_url(); ?>">Home</a> <i class="fa fa-angle-right"></i> </li>
-                        <li> <a href="<?php echo site_url(); ?>complaint/acs">ACS</a> <i class="fa fa-angle-right"></i> </li>
+                        <li> <a href="<?php echo site_url(); ?>sys/acs">ACS</a> <i class="fa fa-angle-right"></i> </li>
                         <li> Assign Customer </li>
                       </ul>
                       
@@ -33,7 +33,7 @@
 									  
 								?>
                                     <!-- BEGIN FORM-->
-                                    <form action="<?php echo base_url(); ?>complaint/insert_acs" id="form_sample_1" method="post" 
+                                    <form action="<?php echo base_url(); ?>sys/insert_acs" id="form_sample_1" method="post" 
                                     class="form-horizontal" enctype="multipart/form-data" >
                                         <div class="form-body">
                                             <div class="alert alert-danger display-hide">
@@ -105,9 +105,9 @@
                                                     <button type="submit" class="btn yellow-casablanca">Add</button>
 								<!--
 													<?php if ($redirect_customer=="no"){  ?>
-                                                    <a href="<?php echo site_url();?>complaint/acs" class="btn default">Cancel</a>
+                                                    <a href="<?php echo site_url();?>sys/acs" class="btn default">Cancel</a>
 													<?php } else {?>
-				   <a href="<?php echo site_url();?>complaint/edit_customer/<?php echo $this->uri->segment(3);?>" class="btn default">Cancel</a>
+				   <a href="<?php echo site_url();?>sys/edit_customer/<?php echo $this->uri->segment(3);?>" class="btn default">Cancel</a>
 				    <?php }  ?>
 					-->
                                                 </div>

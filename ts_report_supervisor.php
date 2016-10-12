@@ -339,7 +339,7 @@
 							  <div class="col-md-6">
 								<div class="btn-group">
 								<?php /* Button for opening page
-								  <a href="<?php echo base_url();?>complaint/add_working_details/<?php echo $this->uri->segment(3); ?>" id="sample_editable_1_new" class="btn green-seagreen"> 
+								  <a href="<?php echo base_url();?>sys/add_working_details/<?php echo $this->uri->segment(3); ?>" id="sample_editable_1_new" class="btn green-seagreen"> 
 									  Add Working / Troubleshooting Details
 									  <i class="fa fa-plus"></i> 
 								  </a>
@@ -362,7 +362,7 @@
 								  </div>
 								  <div class="modal-body">
 								  <!-- Modal from Metronics -->
-								   <form action="<?php echo base_url();?>complaint/add_working_details_insert" class="form-horizontal" method="post">
+								   <form action="<?php echo base_url();?>sys/add_working_details_insert" class="form-horizontal" method="post">
                 
 									
 				
@@ -537,7 +537,7 @@
 							  <div class="col-md-6">
 								<div class="btn-group">
 								<?php /*
-								  <a href="<?php echo base_url();?>complaint/add_qc_data/<?php echo $this->uri->segment(3); ?>" id="sample_editable_1_new" class="btn yellow-gold"> 
+								  <a href="<?php echo base_url();?>sys/add_qc_data/<?php echo $this->uri->segment(3); ?>" id="sample_editable_1_new" class="btn yellow-gold"> 
 									  Add Calibration / Quality Control Data
 									  <i class="fa fa-plus"></i> 
 								  </a> */ ?>
@@ -562,7 +562,7 @@
 								  </div>
 								  <div class="modal-body">
 								  <!-- Modal from Metronics -->
-								   <form action="<?php echo base_url();?>complaint/add_qc_data_insert" class="form-horizontal" method="post">
+								   <form action="<?php echo base_url();?>sys/add_qc_data_insert" class="form-horizontal" method="post">
 
 									
 									<div class="form-group row">
@@ -919,7 +919,7 @@
             </div>
           </div>
           <!-- END EXAMPLE TABLE PORTLET-->
-          <form action="<?php echo base_url();?>complaint/update_ts_report_supervisor" class="form-horizontal" method="post" enctype="multipart/form-data">
+          <form action="<?php echo base_url();?>sys/update_ts_report_supervisor" class="form-horizontal" method="post" enctype="multipart/form-data">
           <!-- BEGIN EXAMPLE TABLE PORTLET-->
           <div class="portlet box blue">
 
@@ -1041,7 +1041,7 @@
 									complaint_id: <?php echo $this->uri->segment(3);?>
 								  };
 							  $.ajax({
-								url: "<?php echo base_url();?>complaint/select_user_complaint_ajax",
+								url: "<?php echo base_url();?>sys/select_user_complaint_ajax",
 								type: 'POST',
 								data: formdata,
 								success: function(msg){

@@ -199,7 +199,7 @@
                                 <div class="col-md-offset-6 col-md-6">
                                     <input type="hidden" name="part_hidden_id" value="<?php echo $this->uri->segment(3);?>" />
                                     <button type="submit" class="btn default yellow-zed">Update</button>
-								<!--	<a href="<?php echo site_url();?>complaint/news" class="btn default">Cancel</a>  -->
+								<!--	<a href="<?php echo site_url();?>sys/news" class="btn default">Cancel</a>  -->
                                 </div>
                             </div>
                         </div>

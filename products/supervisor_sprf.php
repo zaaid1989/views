@@ -232,7 +232,7 @@ if($this->session->userdata('userrole')=='Supervisor')
 								  </div>
 								  <div class="modal-body">
 								  <!-- Modal from Metronics -->
-								   <form action="<?php echo base_url();?>complaint/submit_sprf" class="form-horizontal" method="post">
+								   <form action="<?php echo base_url();?>sys/submit_sprf" class="form-horizontal" method="post">
                 
 									
 				
@@ -358,7 +358,7 @@ if($this->session->userdata('userrole')=='Supervisor')
 
 							  </div>
 							</div>
-<form action="<?php echo base_url();?>complaint/submit_sprf_approve" class="form-horizontal" method="post">                        
+<form action="<?php echo base_url();?>sys/submit_sprf_approve" class="form-horizontal" method="post">                        
                         
 			<input type="hidden" name="engineer_id" value="<?php echo $dbresResult[0]["assign_to"]?>" />
             <input type="hidden" name="sprf_date" value="<?php echo date('Y-m-d', strtotime($date));?>" />
@@ -905,7 +905,7 @@ if($this->session->userdata('userrole')=='Supervisor')
 							}?>
 							</form>
                             
-                            <form action="<?php echo base_url();?>complaint/submit_sprf_complaint_pending" class="form-horizontal" method="post">
+                            <form action="<?php echo base_url();?>sys/submit_sprf_complaint_pending" class="form-horizontal" method="post">
 						  <input type="hidden" name="complaint_id" value="<?php echo $this->uri->segment(3);?>" />
                             <?php if ($status == "Pending SPRF" ) { 
 									if($this->session->userdata('userrole')!='secratery')

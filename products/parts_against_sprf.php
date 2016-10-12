@@ -166,10 +166,10 @@ thead select {
 											  echo "</td>";
 											   echo "<td>".$spr['order_quantity']."</td>";
 											  echo "<td>";
-											   echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'complaint/technical_service_pvr/'.$spr['pk_complaint_id'].'">TSR <i class="fa fa-eye"></i></a>';
+											   echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'sys/technical_service_pvr/'.$spr['pk_complaint_id'].'">TSR <i class="fa fa-eye"></i></a>';
 											   echo '<a class="btn btn-sm default green-meadow-stripe" href="'.base_url().'products/supervisor_sprf/'.$spr['pk_complaint_id'].'">SPRF <i class="fa fa-eye"></i></a>';
 											   echo '<a class="btn btn-sm default blue-stripe" href="'.base_url().'products/ledger?part='.$spr['pk_part_id'].'">Ledger <i class="fa fa-eye"></i></a>';
-											   echo '<a class="btn btn-sm default yellow-stripe" href="'.base_url().'complaint/equipment_audit?equipment='.$spr['pk_instrument_id'].'">Audit <i class="fa fa-eye"></i></a>';
+											   echo '<a class="btn btn-sm default yellow-stripe" href="'.base_url().'sys/equipment_audit?equipment='.$spr['pk_instrument_id'].'">Audit <i class="fa fa-eye"></i></a>';
 											   echo '<a class="btn btn-sm default red-stripe" href="'.base_url().'products/delete_sprf/'.$spr['pk_sprf_id'].'" onClick="return confirm(\'Are you sure you want to delete?\')">Delete <i class="fa fa-trash"></i></a>';
 											  echo "</td>";
 											  echo "</tr>";

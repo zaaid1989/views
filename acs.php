@@ -41,7 +41,7 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="btn-group">
-                                    <a href="<?php echo base_url();?>complaint/add_acs" id="sample_editable_1_new" class="btn green"> Assign New Customer&nbsp;<i class="fa fa-plus"></i> </a>
+                                    <a href="<?php echo base_url();?>sys/add_acs" id="sample_editable_1_new" class="btn green"> Assign New Customer&nbsp;<i class="fa fa-plus"></i> </a>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -110,7 +110,7 @@
 												  </td>
 												  <td>
                                                   	  <a class="btn default btn-sm red-thunderbird" onClick="return confirm('Are you sure you want to delete?')" 
-                                                      href="<?php echo base_url();?>complaint/delete_asc/<?php echo $get_acs_list["pk_customer_sap_bridge_id"];?>">
+                                                      href="<?php echo base_url();?>sys/delete_asc/<?php echo $get_acs_list["pk_customer_sap_bridge_id"];?>">
                                                       	Delete
 														<i class="fa fa-trash-o"></i>
                                                       </a>

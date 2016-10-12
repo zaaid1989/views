@@ -44,7 +44,7 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="btn-group">
-                                    <a href="<?php echo base_url();?>complaint/add_complaint" id="sample_editable_1_new" class="btn green"> Add New <i class="fa fa-plus"></i> </a>
+                                    <a href="<?php echo base_url();?>sys/add_complaint" id="sample_editable_1_new" class="btn green"> Add New <i class="fa fa-plus"></i> </a>
                                   </div>
                                 </div>
                                 <div class="col-md-6">

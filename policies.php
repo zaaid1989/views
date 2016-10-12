@@ -59,7 +59,7 @@
 						<div class="row">
                         <div class="col-md-6">
                           <div class="btn-group">
-                            <a href="<?php echo base_url();?>complaint/add_policy" id="sample_editable_1_new" class="btn red-flamingo"> 
+                            <a href="<?php echo base_url();?>sys/add_policy" id="sample_editable_1_new" class="btn red-flamingo"> 
                             	Add New Policy
                                 <i class="fa fa-plus"></i> 
                             </a>
@@ -93,10 +93,10 @@
 									
 									if ($this->session->userdata('userrole')=='Admin') {
 										echo '<div class="row">
-														<a href="'. base_url().'complaint/edit_policy?policy='.$policy['pk_policy_id'].'"  class="pull-right btn blue"> 
+														<a href="'. base_url().'sys/edit_policy?policy='.$policy['pk_policy_id'].'"  class="pull-right btn blue"> 
 															Edit Policy
 														</a>
-														<a href="'. base_url().'complaint/delete_policy/'.$policy['pk_policy_id'].'"  class="pull-right btn red"> 
+														<a href="'. base_url().'sys/delete_policy/'.$policy['pk_policy_id'].'"  class="pull-right btn red"> 
 															Delete Policy
 														</a>
 												</div>';

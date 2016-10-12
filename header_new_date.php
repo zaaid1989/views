@@ -777,38 +777,38 @@ if ($new_menu)	{
                   <ul class="sub-menu">
 				 <?php if ($menu_admin_secratery) { ?>
 					 <li class="<?php if($uri=='employee_asc') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/employee_asc"> <i class="icon-reload"></i> ACS Individual </a> 
+                    	<a href="<?php echo base_url();?>sys/employee_asc"> <i class="icon-reload"></i> ACS Individual </a> 
                     </li>
 					<li class="<?php if($uri=='admin_dvr_new') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/admin_dvr_new"> <i class="icon-reload"></i> DR History </a> 
+                    	<a href="<?php echo base_url();?>sys/admin_dvr_new"> <i class="icon-reload"></i> DR History </a> 
                     </li>
 					<li class="<?php if($uri=='all_employee_dvr_vs') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/all_employee_dvr_vs"> <i class="icon-reload"></i> DR Overview All </a> 
+                    	<a href="<?php echo base_url();?>sys/all_employee_dvr_vs"> <i class="icon-reload"></i> DR Overview All </a> 
                     </li>
 					<li class="<?php if($uri=='admin_dvr_form') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/admin_dvr_form"> <i class="icon-reload"></i> DR Previous Entry </a> 
+                    	<a href="<?php echo base_url();?>sys/admin_dvr_form"> <i class="icon-reload"></i> DR Previous Entry </a> 
                     </li>
 				<?php } ?>
 				<?php if ($menu_fse_supervisor) { ?>
 					 <li class="<?php if($uri=='engineer_dvr_form') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_dvr_form"> <i class="icon-reload"></i> DR Form </a> 
+                    	<a href="<?php echo base_url();?>sys/engineer_dvr_form"> <i class="icon-reload"></i> DR Form </a> 
                     </li>
 					<li class="<?php if($uri=='engineer_vs') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_vs"> <i class="icon-reload"></i> VS Form </a> 
+                    	<a href="<?php echo base_url();?>sys/engineer_vs"> <i class="icon-reload"></i> VS Form </a> 
                     </li>
 					<li class="<?php if($uri=='engineer_dvr_history') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_dvr_history"> <i class="icon-reload"></i> DR History </a> 
+                    	<a href="<?php echo base_url();?>sys/engineer_dvr_history"> <i class="icon-reload"></i> DR History </a> 
                     </li>
 				<?php } ?>
 				<?php if ($sap) { ?>
 					<li class="<?php if($uri=='sap_dvr_form') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/sap_dvr_form"> <i class="icon-reload"></i> DR Form </a> 
+                    	<a href="<?php echo base_url();?>sys/sap_dvr_form"> <i class="icon-reload"></i> DR Form </a> 
                     </li>
 					<li class="<?php if($uri=='sap_vs') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/sap_vs"> <i class="icon-reload"></i> VS Form </a> 
+                    	<a href="<?php echo base_url();?>sys/sap_vs"> <i class="icon-reload"></i> VS Form </a> 
                     </li>
 					 <li class="<?php if($uri=='sap_dvr_history') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/sap_dvr_history"> <i class="icon-reload"></i> DR History </a> 
+                    	<a href="<?php echo base_url();?>sys/sap_dvr_history"> <i class="icon-reload"></i> DR History </a> 
                     </li>
 				<?php } ?>
 				 </ul>
@@ -827,17 +827,17 @@ if ($new_menu)	{
                     </a>
                   <ul class="sub-menu">
 					<li class="<?php if($uri=='all_leaves') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/all_leaves"> <i class="icon-reload"></i> Leaves Data </a> 
+                    	<a href="<?php echo base_url();?>sys/all_leaves"> <i class="icon-reload"></i> Leaves Data </a> 
                     </li>
 				 <?php if ($menu_admin_secratery) { ?>
 					 <li class="<?php if($uri=='leave_statistics') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/leaves_statistics"> <i class="icon-reload"></i> Leave Statistics </a> 
+                    	<a href="<?php echo base_url();?>sys/leaves_statistics"> <i class="icon-reload"></i> Leave Statistics </a> 
                     </li>
 					<li class="<?php if($uri=='leave_form') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/leave_form"> <i class="icon-reload"></i> Leave Form </a> 
+                    	<a href="<?php echo base_url();?>sys/leave_form"> <i class="icon-reload"></i> Leave Form </a> 
                     </li>
 					<li class="<?php if($uri=='pending_leaves') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/pending_leaves"> <i class="icon-reload"></i> 
+                    	<a href="<?php echo base_url();?>sys/pending_leaves"> <i class="icon-reload"></i> 
                         <?php
 							$query2 		 = $this->db->query("select * from tbl_temporary_leaves WHERE `status`='0'");
 							$amount_count = $query2->result_array();
@@ -849,7 +849,7 @@ if ($new_menu)	{
 				<?php } ?>
 				<?php if ($menu_supervisor_fse_sap) { ?>
 					<li class="<?php if($uri=='submitted_leaves') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/submitted_leaves"> <i class="icon-reload"></i> 
+                    	<a href="<?php echo base_url();?>sys/submitted_leaves"> <i class="icon-reload"></i> 
 						<?php
 							$query2 		 = $this->db->query("select * from tbl_temporary_leaves 
 											 where `fk_employee_id`='".$this->session->userdata('userid')."' AND `status`='1' AND `viewed` ='0'");
@@ -869,7 +869,7 @@ if ($new_menu)	{
 						Submitted</a> 
                     </li>
 					<li class="<?php if($uri=='leave_form_t') echo 'active'; ?>"> 
-                    	<a href="<?php echo base_url();?>complaint/leave_form_t"> <i class="icon-reload"></i> Leave Form </a> 
+                    	<a href="<?php echo base_url();?>sys/leave_form_t"> <i class="icon-reload"></i> Leave Form </a> 
                     </li>
 					
 				<?php } ?>
@@ -929,7 +929,7 @@ if ($static_menu) {
 ?>		
 	<?php			if($obj->is_allowed('Admin') || $obj->is_allowed('secratery') ){ ?>
                 <li class="start  <?php if($this->uri->segment(2)=='news'){ echo 'active open';}?>">
-                 <a href="<?php echo base_url();?>complaint/news"> 
+                 <a href="<?php echo base_url();?>sys/news"> 
                    <i class="icon-feed"></i> 
                    <span class="title">
                       News
@@ -942,7 +942,7 @@ if ($static_menu) {
 				<?php
 				if($obj->is_allowed('Admin')){ ?>
                 <li class="start  <?php if($this->uri->segment(2)=='dc'){ echo 'active open';}?>">
-                 <a href="<?php echo base_url();?>complaint/dc"> 
+                 <a href="<?php echo base_url();?>sys/dc"> 
                    <i class="icon-feed"></i> 
                    <span class="title">
                       Direct Challan
@@ -973,7 +973,7 @@ if ($static_menu) {
                     </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='all_leaves'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/all_leaves"> <i class="icon-reload"></i> 
+                    	<a href="<?php echo base_url();?>sys/all_leaves"> <i class="icon-reload"></i> 
 						<?php
 							$query2 		 = $this->db->query("select * from tbl_leaves 
 											 where fk_employee_id='".$this->session->userdata('userid')."' AND viewed ='0'");
@@ -987,7 +987,7 @@ if ($static_menu) {
                     </li>
 					
 					<li class="<?php if( $this->uri->segment(2)=='submitted_leaves'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/submitted_leaves"> <i class="icon-reload"></i> 
+                    	<a href="<?php echo base_url();?>sys/submitted_leaves"> <i class="icon-reload"></i> 
 						<?php
 							$query2 		 = $this->db->query("select * from tbl_temporary_leaves 
 											 where `fk_employee_id`='".$this->session->userdata('userid')."' AND `status`='1' AND `viewed` ='0'");
@@ -1008,7 +1008,7 @@ if ($static_menu) {
                     </li>
 					
                     <li class="<?php if( $this->uri->segment(2)=='leave_form_t'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/leave_form_t"> <i class="icon-reload"></i> Leave Form</a> 
+                    	<a href="<?php echo base_url();?>sys/leave_form_t"> <i class="icon-reload"></i> Leave Form</a> 
                     </li>
                    </ul>
                  </li>
@@ -1045,13 +1045,13 @@ if ($static_menu) {
                     <span class="arrow <?php if($this->uri->segment(2)=='director_statistics' || $this->uri->segment(2)=='pending_sprf' || $this->uri->segment(2)=='director_view_pm' || $this->uri->segment(2)=='director_view_complaints'  || $this->uri->segment(2)=='view_half_complaints'  || $this->uri->segment(2)=='add_complaint'  || $this->uri->segment(2)=='pm_statistics' || $this->uri->segment(2)=='supervisor_assign_pm' || $this->uri->segment(2)=='territory_statistics'){ echo 'open';} ?>"></span> </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='director_view_pm' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/director_view_pm"> <i class="icon-bulb"></i> View PMs</a> 
+                    	<a href="<?php echo base_url();?>sys/director_view_pm"> <i class="icon-bulb"></i> View PMs</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='add_complaint' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/add_complaint/d"> <i class="icon-plus"></i> Create New Complaint</a> 
+                    	<a href="<?php echo base_url();?>sys/add_sys/d"> <i class="icon-plus"></i> Create New Complaint</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='director_view_complaints' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/director_view_complaints"> <i class="icon-book-open"></i>
+                    	<a href="<?php echo base_url();?>sys/director_view_complaints"> <i class="icon-book-open"></i>
 						<?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
 											 where status = 'Pending SPRF' AND complaint_nature='complaint'");
@@ -1072,7 +1072,7 @@ if ($static_menu) {
                     </li>
 				<!--
 					<li class=" <?php if($this->uri->segment(2)=='pending_sprf'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/pending_sprf"> 
+                    	<a href="<?php echo base_url();?>sys/pending_sprf"> 
                         	 <i class="icon-bar-chart"></i>
 							 <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
@@ -1087,7 +1087,7 @@ if ($static_menu) {
                     </li>
 				-->
                     <li class="<?php if( $this->uri->segment(2)=='view_half_complaints' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/view_half_complaints"> <i class="icon-book-open"></i> 
+                    	<a href="<?php echo base_url();?>sys/view_half_complaints"> <i class="icon-book-open"></i> 
                         <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
 											 where status = 'Pending Registration'");
@@ -1099,16 +1099,16 @@ if ($static_menu) {
                         Register Complaints</a> 
                     </li>
 					<li class="<?php if( $this->uri->segment(2)=='pm_statistics' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/pm_statistics"> <i class="icon-bulb"></i> PM Statistics</a> 
+                    	<a href="<?php echo base_url();?>sys/pm_statistics"> <i class="icon-bulb"></i> PM Statistics</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='supervisor_assign_pm' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/supervisor_assign_pm"> <i class="icon-bulb"></i> Assign PM</a> 
+                    	<a href="<?php echo base_url();?>sys/supervisor_assign_pm"> <i class="icon-bulb"></i> Assign PM</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='director_statistics' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/director_statistics"> <i class="icon-bulb"></i> Director Statistics</a> 
+                    	<a href="<?php echo base_url();?>sys/director_statistics"> <i class="icon-bulb"></i> Director Statistics</a> 
                     </li>
 					<li class="<?php if( $this->uri->segment(2)=='territory_statistics' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/territory_statistics"> <i class="icon-graph"></i> Territory Statistics</a>
+                    	<a href="<?php echo base_url();?>sys/territory_statistics"> <i class="icon-graph"></i> Territory Statistics</a>
                     </li>
                   </ul>
                 </li>
@@ -1130,19 +1130,19 @@ if ($static_menu) {
                    </a>
                   <ul class="sub-menu">
         			<li class=" <?php if($this->uri->segment(2)=='engineer_dvr_form'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_dvr_form"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_dvr_form"> 
                         	 <i class="icon-bar-chart"></i>
                         	 DVR Form
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='engineer_vs'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_vs"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_vs"> 
                         	 <i class="icon-bar-chart"></i>
                         	 VS Form
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='engineer_dvr_history'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_dvr_history"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_dvr_history"> 
                         	 <i class="icon-bar-chart"></i>
                         	 DVR History
                         </a> 
@@ -1176,14 +1176,14 @@ if ($static_menu) {
                      
                   <ul class="sub-menu">
                             <li class="<?php if( $this->uri->segment(2)=='engineer_asc'){ echo 'active';}?>"> 
-                                <a href="<?php echo base_url();?>complaint/engineer_asc"> 
+                                <a href="<?php echo base_url();?>sys/engineer_asc"> 
                                     <i class="icon-link"></i> 
                                     ACS 
                                 </a> 
                              </li>
-                             <li class="<?php if( $this->uri->segment(2)=='engineer_projects'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/engineer_projects"> <i class="icon-briefcase"></i> Projects </a> </li>
-                             <li class="<?php if( $this->uri->segment(2)=='engineer_statistics'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/engineer_statistics"> <i class="icon-bar-chart"></i> Statistics </a> </li>
-                            <li class="<?php if( $this->uri->segment(2)=='engineer_view_complaints'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/engineer_view_complaints"> <i class="icon-bar-chart"></i>
+                             <li class="<?php if( $this->uri->segment(2)=='engineer_projects'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/engineer_projects"> <i class="icon-briefcase"></i> Projects </a> </li>
+                             <li class="<?php if( $this->uri->segment(2)=='engineer_statistics'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/engineer_statistics"> <i class="icon-bar-chart"></i> Statistics </a> </li>
+                            <li class="<?php if( $this->uri->segment(2)=='engineer_view_complaints'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/engineer_view_complaints"> <i class="icon-bar-chart"></i>
 							<?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
 											 where status != 'Pending Verification' AND status != 'Closed'  AND complaint_nature='complaint' AND assign_to='".$this->session->userdata('userid')."'");
@@ -1193,7 +1193,7 @@ if ($static_menu) {
 							echo '<span class="badge badge-roundless badge-danger">'.$pending_v.'</span>';
 							?>
 							Complaints</a> </li>
-                            <li class="<?php if( $this->uri->segment(2)=='engineer_view_pm'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/engineer_view_pm"> <i class="icon-bar-chart"></i>
+                            <li class="<?php if( $this->uri->segment(2)=='engineer_view_pm'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/engineer_view_pm"> <i class="icon-bar-chart"></i>
 							<?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
 											 where status != 'Pending Verification' AND status != 'Completed'  AND complaint_nature='PM' AND assign_to='".$this->session->userdata('userid')."'");
@@ -1212,10 +1212,10 @@ if ($static_menu) {
 							?>
 							PM</a> </li>
                      		<li class="<?php if( $this->uri->segment(2)=='territory_statistics' ){ echo 'active';}?>"> 
-                                <a href="<?php echo base_url();?>complaint/territory_statistics"> <i class="icon-graph"></i> Territory Statistics</a>
+                                <a href="<?php echo base_url();?>sys/territory_statistics"> <i class="icon-graph"></i> Territory Statistics</a>
                             </li>
                      
-                    <!--<li class="<?php if( $this->uri->segment(2)=='engineer_dvr'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/engineer_dvr"> <i class="icon-bar-chart"></i> View DVR</a> </li>-->
+                    <!--<li class="<?php if( $this->uri->segment(2)=='engineer_dvr'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/engineer_dvr"> <i class="icon-bar-chart"></i> View DVR</a> </li>-->
                      
                     
                     
@@ -1234,14 +1234,14 @@ if ($static_menu) {
                     </a>
                   <ul class="sub-menu">
                     
-                    <li class="<?php if( $this->uri->segment(2)=='sap_dvr_form'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/sap_dvr_form"> <i class="icon-bar-chart"></i> View DVR FORM</a> </li>
-                    <!--<li class="<?php if( $this->uri->segment(2)=='sap_dvr'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/sap_dvr"> <i class="icon-bar-chart"></i> View DVR</a> </li>-->
-                    <li class="<?php if( $this->uri->segment(2)=='sap_asc'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/sap_asc"> <i class="icon-bar-chart"></i> ACS </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='sap_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/sap_vs"> <i class="icon-bar-chart"></i> VS </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='sap_dvr_history'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/sap_dvr_history"> <i class="icon-bar-chart"></i> DVR History </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='sap_projects'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/sap_projects"> <i class="icon-bar-chart"></i> Projects </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='sap_dvr_form'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/sap_dvr_form"> <i class="icon-bar-chart"></i> View DVR FORM</a> </li>
+                    <!--<li class="<?php if( $this->uri->segment(2)=='sap_dvr'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/sap_dvr"> <i class="icon-bar-chart"></i> View DVR</a> </li>-->
+                    <li class="<?php if( $this->uri->segment(2)=='sap_asc'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/sap_asc"> <i class="icon-bar-chart"></i> ACS </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='sap_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/sap_vs"> <i class="icon-bar-chart"></i> VS </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='sap_dvr_history'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/sap_dvr_history"> <i class="icon-bar-chart"></i> DVR History </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='sap_projects'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/sap_projects"> <i class="icon-bar-chart"></i> Projects </a> </li>
                     
-                    <li class="<?php if( $this->uri->segment(2)=='sap_statistics'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/sap_statistics"> <i class="icon-bar-chart"></i> SAP Statistics </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='sap_statistics'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/sap_statistics"> <i class="icon-bar-chart"></i> SAP Statistics </a> </li>
                   </ul>
                 </li>
                  <?php }?>
@@ -1264,31 +1264,31 @@ if ($static_menu) {
                    </a>
                   <ul class="sub-menu">
         			<li class=" <?php if($this->uri->segment(2)=='engineer_dvr_form'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_dvr_form"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_dvr_form"> 
                         	 <i class="icon-bar-chart"></i>
                         	 DVR Form
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='engineer_vs'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_vs"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_vs"> 
                         	 <i class="icon-bar-chart"></i>
                         	 VS Form
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='engineer_dvr_history'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_dvr_history"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_dvr_history"> 
                         	 <i class="icon-bar-chart"></i>
                         	 DVR History
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='supervisor_dvr'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/supervisor_dvr"> 
+                    	<a href="<?php echo base_url();?>sys/supervisor_dvr"> 
                         	 <i class="icon-bar-chart"></i>
                         	 View DVR
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='supervisor_vs'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/supervisor_vs"> 
+                    	<a href="<?php echo base_url();?>sys/supervisor_vs"> 
                         	 <i class="icon-bar-chart"></i>
                         	 View VS
                         </a> 
@@ -1328,25 +1328,25 @@ if ($static_menu) {
                    </a>
                   <ul class="sub-menu">
         			<li class=" <?php if($this->uri->segment(2)=='engineer_asc'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_asc"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_asc"> 
                         	 <i class="icon-bar-chart"></i>
                         	 ACS
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='engineer_projects'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_projects"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_projects"> 
                         	 <i class="icon-bar-chart"></i>
                         	 Projects
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='engineer_statistics'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_statistics"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_statistics"> 
                         	 <i class="icon-bar-chart"></i>
                         	 Statistics
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='engineer_view_complaints'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_view_complaints"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_view_complaints"> 
                         	 <i class="icon-bar-chart"></i>
 							 <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
@@ -1360,7 +1360,7 @@ if ($static_menu) {
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='engineer_view_pm'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/engineer_view_pm"> 
+                    	<a href="<?php echo base_url();?>sys/engineer_view_pm"> 
                         	 <i class="icon-bar-chart"></i>
 							 <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
@@ -1402,7 +1402,7 @@ if ($static_menu) {
                   <ul class="sub-menu">
 				  <?php /* ?>
         			<li class=" <?php if($this->uri->segment(2)=='complaint_varification'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/complaint_varification"> 
+                    	<a href="<?php echo base_url();?>sys/complaint_varification"> 
                         	 <i class="icon-bar-chart"></i>
 							 <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
@@ -1416,7 +1416,7 @@ if ($static_menu) {
                         </a> 
                     </li> <?php */ ?>
 					<li class=" <?php if($this->uri->segment(2)=='supervisor_view_complaints'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/supervisor_view_complaints"> 
+                    	<a href="<?php echo base_url();?>sys/supervisor_view_complaints"> 
                         	 <i class="icon-bar-chart"></i>
 							  <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
@@ -1438,7 +1438,7 @@ if ($static_menu) {
                         </a> 
                     </li>
 					<li class=" <?php if($this->uri->segment(2)=='pending_sprf'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/pending_sprf"> 
+                    	<a href="<?php echo base_url();?>sys/pending_sprf"> 
                         	 <i class="icon-bar-chart"></i>
 							 <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
@@ -1452,7 +1452,7 @@ if ($static_menu) {
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='supervisor_pm'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/supervisor_pm"> 
+                    	<a href="<?php echo base_url();?>sys/supervisor_pm"> 
                         	 <i class="icon-bar-chart"></i>
 							 <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
@@ -1474,22 +1474,22 @@ if ($static_menu) {
                         </a> 
                     </li>
 					<li class=" <?php if($this->uri->segment(2)=='supervisor_pm_completed'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/supervisor_pm_completed"> 
+                    	<a href="<?php echo base_url();?>sys/supervisor_pm_completed"> 
                         	 <i class="icon-bar-chart"></i>
                         	 Completed PM Calls
                         </a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='supervisor_assign_pm'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/supervisor_assign_pm"> 
+                    	<a href="<?php echo base_url();?>sys/supervisor_assign_pm"> 
                         	 <i class="icon-bar-chart"></i>
                         	 Assign PM Calls
                         </a> 
                     </li>
 					<li class="<?php if( $this->uri->segment(2)=='pm_statistics' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/pm_statistics"> <i class="icon-bulb"></i> PM Statistics</a> 
+                    	<a href="<?php echo base_url();?>sys/pm_statistics"> <i class="icon-bulb"></i> PM Statistics</a> 
                     </li>
                     <li class=" <?php if($this->uri->segment(2)=='territory_statistics'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/territory_statistics"> 
+                    	<a href="<?php echo base_url();?>sys/territory_statistics"> 
                         	 <i class="icon-bar-chart"></i>
                         	 Territory Statistics
                         </a> 
@@ -1504,7 +1504,7 @@ if ($static_menu) {
 				if($obj->is_allowed('Admin')){ ?>
                 <!--<li class="start "> <a href="javascript:;"> <i class="icon-home"></i> <span class="title">DC</span> <span class="arrow "></span> </a>
                   <ul class="sub-menu">
-                    <li> <a href="<?php echo base_url();?>complaint/operator_view_dc"> <i class="icon-graph"></i> View DC</a> </li>
+                    <li> <a href="<?php echo base_url();?>sys/operator_view_dc"> <i class="icon-graph"></i> View DC</a> </li>
                   </ul>
                 </li>-->
                 <?php }?>
@@ -1587,7 +1587,7 @@ if ($static_menu) {
                 <?php 
 				if($obj->is_allowed('FSE') || $obj->is_allowed('Salesman') || $obj->is_allowed('Supervisor')){ ?>
                 <li class="start  <?php if($this->uri->segment(2)=='add_complaint_half'){ echo 'active open';}?>">
-                 <a href="<?php echo base_url();?>complaint/add_complaint_half"> 
+                 <a href="<?php echo base_url();?>sys/add_complaint_half"> 
                    <i class="icon-users"></i> 
                    <span class="title">
                       Add Complaint
@@ -1611,22 +1611,22 @@ if ($static_menu) {
                     </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='acs'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/acs"> <i class="icon-link"></i> Assigned Sheet</a> 
+                    	<a href="<?php echo base_url();?>sys/acs"> <i class="icon-link"></i> Assigned Sheet</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='business_data'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/business_data"> <i class="icon-briefcase"></i> Projects</a> 
+                    	<a href="<?php echo base_url();?>sys/business_data"> <i class="icon-briefcase"></i> Projects</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='projects_statistics'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/projects_statistics"> <i class="icon-bar-chart"></i> Projects Statistics</a> 
+                    	<a href="<?php echo base_url();?>sys/projects_statistics"> <i class="icon-bar-chart"></i> Projects Statistics</a> 
                     </li>
 					<li class="<?php if( $this->uri->segment(2)=='deleted_business_data'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/deleted_business_data"> <i class="icon-briefcase"></i> Deleted Projects</a> 
+                    	<a href="<?php echo base_url();?>sys/deleted_business_data"> <i class="icon-briefcase"></i> Deleted Projects</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='customers_view'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/customers_view"> <i class="icon-magic-wand"></i> Customer List</a> 
+                    	<a href="<?php echo base_url();?>sys/customers_view"> <i class="icon-magic-wand"></i> Customer List</a> 
                     </li>
                     <li class="start  <?php if($this->uri->segment(2)=='cities'){ echo 'active open';}?>">
-                     <a href="<?php echo base_url();?>complaint/cities"> 
+                     <a href="<?php echo base_url();?>sys/cities"> 
                        <i class="icon-pointer"></i> 
                        <span class="title">
                           Cities
@@ -1635,7 +1635,7 @@ if ($static_menu) {
                      </a> 
                     </li>
                     <li class="start  <?php if($this->uri->segment(2)=='areas'){ echo 'active open';}?>">
-                     <a href="<?php echo base_url();?>complaint/areas"> 
+                     <a href="<?php echo base_url();?>sys/areas"> 
                        <i class="icon-pointer"></i> 
                        <span class="title">
                           Areas
@@ -1663,10 +1663,10 @@ if ($static_menu) {
                     </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='all_leaves'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/all_leaves"> <i class="icon-reload"></i> All Leaves</a> 
+                    	<a href="<?php echo base_url();?>sys/all_leaves"> <i class="icon-reload"></i> All Leaves</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='pending_leaves'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/pending_leaves"> <i class="icon-reload"></i> 
+                    	<a href="<?php echo base_url();?>sys/pending_leaves"> <i class="icon-reload"></i> 
                         <?php
 							$query2 		 = $this->db->query("select * from tbl_temporary_leaves WHERE `status`='0'");
 							$amount_count = $query2->result_array();
@@ -1676,10 +1676,10 @@ if ($static_menu) {
 					   ?> Pending Leaves</a>
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='leave_form'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/leave_form"> <i class="icon-screen-tablet"></i> Leave Form</a> 
+                    	<a href="<?php echo base_url();?>sys/leave_form"> <i class="icon-screen-tablet"></i> Leave Form</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='leaves_statistics'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/leaves_statistics"> <i class="icon-eyeglasses"></i> Leaves Statistics</a> 
+                    	<a href="<?php echo base_url();?>sys/leaves_statistics"> <i class="icon-eyeglasses"></i> Leaves Statistics</a> 
                     </li>
                     
                   </ul>
@@ -1695,14 +1695,14 @@ if ($static_menu) {
                     </span> 
                     </a>
                   <ul class="sub-menu">
-                    <li class="<?php if( $this->uri->segment(2)=='admin_dvr_form'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/admin_dvr_form"> <i class="icon-action-undo"></i> DVR Previous Entry </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='admin_dvr_new'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/admin_dvr_new"> <i class="icon-pie-chart"></i> DVR/VS Individual</a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='all_employee_dvr_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/all_employee_dvr_vs"> <i class="icon-layers"></i> DVR/VS Overview All </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='admin_dvr_form'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/admin_dvr_form"> <i class="icon-action-undo"></i> DVR Previous Entry </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='admin_dvr_new'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/admin_dvr_new"> <i class="icon-pie-chart"></i> DVR/VS Individual</a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='all_employee_dvr_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/all_employee_dvr_vs"> <i class="icon-layers"></i> DVR/VS Overview All </a> </li>
 					<?php /*
-                    <li class="<?php if( $this->uri->segment(2)=='admin_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/admin_vs"> <i class="icon-doc"></i> VS History Individual</a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='all_employee_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/all_employee_vs"> <i class="icon-docs"></i> VS Overview All </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='admin_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/admin_vs"> <i class="icon-doc"></i> VS History Individual</a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='all_employee_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/all_employee_vs"> <i class="icon-docs"></i> VS Overview All </a> </li>
 					*/ ?>
-                    <li class="<?php if( $this->uri->segment(2)=='employee_asc'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/employee_asc"> <i class="icon-badge"></i> ACS Individual </a> </li> 
+                    <li class="<?php if( $this->uri->segment(2)=='employee_asc'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/employee_asc"> <i class="icon-badge"></i> ACS Individual </a> </li> 
                     
                   </ul>
                 </li>
@@ -1718,10 +1718,10 @@ if ($static_menu) {
                     </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='director_view_complaints'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/director_view_complaints"> <i class="icon-action-undo"></i> View Complaints </a> 
+                    	<a href="<?php echo base_url();?>sys/director_view_complaints"> <i class="icon-action-undo"></i> View Complaints </a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='director_view_pms'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/director_view_pms"> <i class="icon-pie-chart"></i> View PMs</a> 
+                    	<a href="<?php echo base_url();?>sys/director_view_pms"> <i class="icon-pie-chart"></i> View PMs</a> 
                     </li>
                   </ul>
                 </li>-->
@@ -1736,10 +1736,10 @@ if ($static_menu) {
                     </span> 
                     </a>
                   <ul class="sub-menu">
-                    <li class="<?php if( $this->uri->segment(2)=='categories'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/categories"> <i class="icon-shuffle"></i>  Categories </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='vendors'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/vendors"> <i class="icon-eye"></i>  Vendors </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='products'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/products"> <i class="icon-anchor"></i>  Products </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='equipments'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/equipments"> <i class="icon-flag"></i>  Equipments </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='categories'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/categories"> <i class="icon-shuffle"></i>  Categories </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='vendors'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/vendors"> <i class="icon-eye"></i>  Vendors </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='products'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/products"> <i class="icon-anchor"></i>  Products </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='equipments'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/equipments"> <i class="icon-flag"></i>  Equipments </a> </li>
                     <li class="<?php if( $this->uri->segment(2)=='spare_part_registration'){ echo 'active';}?>"> <a href="<?php echo base_url();?>products/spare_part_registration"> <i class="icon-flag"></i>  Spare Part Registration  </a> </li>
                     <li class="<?php if( $this->uri->segment(2)=='spare_parts'){ echo 'active';}?>"> <a href="<?php echo base_url();?>products/spare_parts"> <i class="icon-flag"></i>  Spare Parts  </a> </li>
                   </ul>
@@ -1754,8 +1754,8 @@ if ($static_menu) {
                     </span> 
                     </a>
                   <ul class="sub-menu">
-                    <li class="<?php if( $this->uri->segment(2)=='create_pef'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/create_pef"> <i class="icon-note"></i></i>  Create PEF </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='employee_view_pef'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/employee_view_pef"> <i class="icon-speedometer"></i>  PEF </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='create_pef'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/create_pef"> <i class="icon-note"></i></i>  Create PEF </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='employee_view_pef'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/employee_view_pef"> <i class="icon-speedometer"></i>  PEF </a> </li>
                   </ul>
                 </li>
                  <?php }?>
@@ -1772,18 +1772,18 @@ if ($static_menu) {
                     </span> 
                     </a>
                   <ul class="sub-menu">
-                    <li class="<?php if( $this->uri->segment(2)=='admin_dvr_form'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/admin_dvr_form"> <i class="icon-bar-chart"></i> DVR Previous Entry</a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='admin_dvr_new'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/admin_dvr_new"> <i class="icon-bar-chart"></i> DVR/VS Individual</a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='all_employee_dvr_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/all_employee_dvr_vs"> <i class="icon-bar-chart"></i> DVR/VS Overview All</a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='admin_dvr_form'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/admin_dvr_form"> <i class="icon-bar-chart"></i> DVR Previous Entry</a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='admin_dvr_new'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/admin_dvr_new"> <i class="icon-bar-chart"></i> DVR/VS Individual</a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='all_employee_dvr_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/all_employee_dvr_vs"> <i class="icon-bar-chart"></i> DVR/VS Overview All</a> </li>
 					<?php /*
-                    <li class="<?php if( $this->uri->segment(2)=='admin_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/admin_vs"> <i class="icon-bar-chart"></i> VS History Individual </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='all_employee_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/all_employee_vs"> <i class="icon-bar-chart"></i> VS Overview All</a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='admin_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/admin_vs"> <i class="icon-bar-chart"></i> VS History Individual </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='all_employee_vs'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/all_employee_vs"> <i class="icon-bar-chart"></i> VS Overview All</a> </li>
                     */ ?>
-					<li class="<?php if( $this->uri->segment(2)=='employee_asc'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/employee_asc"> <i class="icon-bar-chart"></i> ACS Individual</a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='business_data'){ echo 'active';}?>"> <a href="<?php echo base_url();?>complaint/business_data"> <i class="icon-bar-chart"></i> Business Projects </a> </li>
+					<li class="<?php if( $this->uri->segment(2)=='employee_asc'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/employee_asc"> <i class="icon-bar-chart"></i> ACS Individual</a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='business_data'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/business_data"> <i class="icon-bar-chart"></i> Business Projects </a> </li>
                     
                     <!--<li class="<?php if( $this->uri->segment(2)=='fine'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/fine"> <i class="icon-bar-chart"></i> Add fine </a> 
+                    	<a href="<?php echo base_url();?>sys/fine"> <i class="icon-bar-chart"></i> Add fine </a> 
                     </li>-->
                   </ul>
                 </li>
@@ -1816,10 +1816,10 @@ if ($static_menu) {
                     </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='operator_view_complaints'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/director_view_complaints"> <i class="icon-action-undo"></i> View Complaints </a> 
+                    	<a href="<?php echo base_url();?>sys/director_view_complaints"> <i class="icon-action-undo"></i> View Complaints </a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='operator_view_pms'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/operator_view_pms"> <i class="icon-pie-chart"></i> View PMs</a> 
+                    	<a href="<?php echo base_url();?>sys/operator_view_pms"> <i class="icon-pie-chart"></i> View PMs</a> 
                     </li>
                   </ul>
                 </li>-->
@@ -1831,14 +1831,14 @@ if ($static_menu) {
                     <span class="arrow <?php if($this->uri->segment(2)=='pm_statistics' || $this->uri->segment(2)=='pending_sprf' ||  $this->uri->segment(2)=='director_view_pm'  || $this->uri->segment(2)=='territory_statistics' || $this->uri->segment(2)=='view_half_complaints' || $this->uri->segment(2)=='add_complaint' || $this->uri->segment(2)=='director_view_complaints'){ echo 'open';}?>"></span> </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='add_complaint' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/add_complaint"> <i class="icon-plus"></i> Create New Complaint</a> 
+                    	<a href="<?php echo base_url();?>sys/add_complaint"> <i class="icon-plus"></i> Create New Complaint</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='director_view_complaints' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/director_view_complaints"> <i class="icon-book-open"></i> View Complaints</a> 
+                    	<a href="<?php echo base_url();?>sys/director_view_complaints"> <i class="icon-book-open"></i> View Complaints</a> 
                     </li>
 					
                     <li class="<?php if( $this->uri->segment(2)=='view_half_complaints' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/view_half_complaints"> <i class="icon-book-open"></i>
+                    	<a href="<?php echo base_url();?>sys/view_half_complaints"> <i class="icon-book-open"></i>
 						<?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
 											 where status = 'Pending Registration'");
@@ -1850,13 +1850,13 @@ if ($static_menu) {
 						Register Complaints</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='territory_statistics' ){ echo 'active';}?>"> 
-                        <a href="<?php echo base_url();?>complaint/territory_statistics"> <i class="icon-graph"></i> Territory Statistics</a>
+                        <a href="<?php echo base_url();?>sys/territory_statistics"> <i class="icon-graph"></i> Territory Statistics</a>
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='director_view_pm'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/director_view_pm"> <i class="icon-flag"></i>  PM  </a> 
+                    	<a href="<?php echo base_url();?>sys/director_view_pm"> <i class="icon-flag"></i>  PM  </a> 
                     </li>        
 					<li class="<?php if( $this->uri->segment(2)=='pm_statistics' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/pm_statistics"> <i class="icon-bulb"></i> PM Statistics</a> 
+                    	<a href="<?php echo base_url();?>sys/pm_statistics"> <i class="icon-bulb"></i> PM Statistics</a> 
                     </li>
                   </ul>
                 </li>
@@ -1872,13 +1872,13 @@ if ($static_menu) {
                     </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='acs'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/acs"> <i class="icon-bar-chart"></i> Assigned Sheet</a> 
+                    	<a href="<?php echo base_url();?>sys/acs"> <i class="icon-bar-chart"></i> Assigned Sheet</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='business_data'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/business_data"> <i class="icon-bar-chart"></i> Projects</a> 
+                    	<a href="<?php echo base_url();?>sys/business_data"> <i class="icon-bar-chart"></i> Projects</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='customers_view'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/customers_view"> <i class="icon-bar-chart"></i> Customer List</a> 
+                    	<a href="<?php echo base_url();?>sys/customers_view"> <i class="icon-bar-chart"></i> Customer List</a> 
                     </li>
                   </ul>
                 </li>
@@ -1888,7 +1888,7 @@ if ($static_menu) {
                 <?php 
 				if($obj->is_allowed('Admin')==false){ ?>
                 <li class="start  <?php if($this->uri->segment(2)=='employee_view_pef'){ echo 'active open';}?>">
-                 <a href="<?php echo base_url();?>complaint/employee_view_pef"> 
+                 <a href="<?php echo base_url();?>sys/employee_view_pef"> 
                    <i class="icon-rocket"></i> 
                    <span class="title">
                       PEF
@@ -1903,30 +1903,30 @@ if ($static_menu) {
                     <span class="arrow <?php if($this->uri->segment(2)=='policies' || $this->uri->segment(2)=='forms' || $this->uri->segment(2)=='forms_pm' || $this->uri->segment(2)=='salessop' || $this->uri->segment(2)=='tssop'){ echo 'open';}?>"></span> </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='policies' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/policies"> <i class="icon-diamond"></i> Policies</a> 
+                    	<a href="<?php echo base_url();?>sys/policies"> <i class="icon-diamond"></i> Policies</a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='forms' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/forms"> <i class="fa fa-download"></i> Forms</a> 
+                    	<a href="<?php echo base_url();?>sys/forms"> <i class="fa fa-download"></i> Forms</a> 
                     </li>
                     <?php if($obj->is_allowed('Salesman') || $obj->is_allowed('Admin')){ ?>
                     <li class="<?php if( $this->uri->segment(2)=='salessop'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/salessop"> <i class="icon-compass"></i> Sales SOP </a>
+                    	<a href="<?php echo base_url();?>sys/salessop"> <i class="icon-compass"></i> Sales SOP </a>
                     </li>
                     <?php }?>
                     <?php if($obj->is_allowed('FSE') || $obj->is_allowed('Supervisor') || $obj->is_allowed('Admin')){ ?>
                     <li class="<?php if( $this->uri->segment(2)=='tssop'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/tssop"> <i class="icon-star"></i> TS SOP </a> 
+                    	<a href="<?php echo base_url();?>sys/tssop"> <i class="icon-star"></i> TS SOP </a> 
                     </li>
                     <?php }?>
                     <li class="<?php if( $this->uri->segment(2)=='forms_pm' ){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>complaint/forms_pm"> <i class="fa fa-download"></i>PM Forms</a> 
+                    	<a href="<?php echo base_url();?>sys/forms_pm"> <i class="fa fa-download"></i>PM Forms</a> 
                     </li>
                   </ul>
                 </li>
                 <?php 
 				if($obj->is_allowed('secratery')==false){ ?>
                 <li class="start  <?php if($this->uri->segment(2)=='all_fines'){ echo 'active open';}?>">
-                 <a href="<?php echo base_url();?>complaint/all_fines"> 
+                 <a href="<?php echo base_url();?>sys/all_fines"> 
                    <i class="icon-ghost"></i> 
 				   <?php
 						$query2 		 = $this->db->query("select * from tbl_fine 
@@ -1953,10 +1953,10 @@ if ($static_menu) {
                         </a>
                         <ul class="sub-menu">
                           <li class="<?php if( $this->uri->segment(2)=='fine' ){ echo 'active';}?>"> 
-                              <a href="<?php echo base_url();?>complaint/fine"> <i class="icon-plus"></i>Add Explanation Call</a> 
+                              <a href="<?php echo base_url();?>sys/fine"> <i class="icon-plus"></i>Add Explanation Call</a> 
                           </li>
                           <li class="<?php if( $this->uri->segment(2)=='all_fines' ){ echo 'active';}?>"> 
-                              <a href="<?php echo base_url();?>complaint/all_fines"> <i class="icon-book-open"></i>All Explanation Calls</a> 
+                              <a href="<?php echo base_url();?>sys/all_fines"> <i class="icon-book-open"></i>All Explanation Calls</a> 
                           </li>
                         </ul>
                  </li>
@@ -2044,7 +2044,7 @@ if ($static_menu) {
 						complaint_id: complaint_id
 					  };
 				  $.ajax({
-					url: "<?php echo base_url();?>complaint/update_print_count_ajax",
+					url: "<?php echo base_url();?>sys/update_print_count_ajax",
 					type: 'POST',
 					data: formdata,
 					success: function(msg){

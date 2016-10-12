@@ -85,7 +85,7 @@
 
                     <!-- BEGIN FORM-->
 
-                    <form action="<?php echo base_url();?>complaint/submit_sprf_approve" method="post" class="form-horizontal">
+                    <form action="<?php echo base_url();?>sys/submit_sprf_approve" method="post" class="form-horizontal">
 
                       <div class="form-body">
 
