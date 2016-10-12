@@ -1,4 +1,4 @@
-<?php include('/../header.php');//$this->load->view('header');
+<?php $this->load->view('header');
 function nicetime($date)
 	  {
 		  if(empty($date)) {
@@ -239,4 +239,4 @@ function _date_diff($one, $two)
             <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
-        <?php include('/../footer.php');?>
+        <?php $this->load->view('footer.php');?>

@@ -1,4 +1,4 @@
-<?php include('/../header.php');//$this->load->view('header');?>
+<?php $this->load->view('header');?>
             
                     <!-- BEGIN PAGE HEADER-->
                     <h3 class="page-title"> Add Employee <small>Register New Employee</small> </h3>

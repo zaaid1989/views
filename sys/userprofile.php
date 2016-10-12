@@ -1,4 +1,7 @@
-<?php include('/../header.php');//$this->load->view('header');?>
+<?php $this->load->view('header');
+$dbres = $this->db->query("SELECT * FROM user  WHERE `id` = '".$this->session->userdata('userid')."'");
+$userdataheader=$dbres->result_array();
+?>
 			<!-- BEGIN PAGE HEADER-->
 			<h3 class="page-title">
 			User Profile <small>user profile sample</small>
@@ -11,7 +14,7 @@
 						<i class="fa fa-angle-right"></i>
 					</li>
 					<li>
-						<a href="<?php echo base_url();?>profile">User Profile</a>
+						User Profile
 					</li>
 				</ul>
 			</div>
@@ -957,4 +960,4 @@
 	<!-- END QUICK SIDEBAR -->
 </div>
 <!-- END CONTAINER -->
-<?php include('/../footer.php');?>
+<?php $this->load->view('footer.php');?>

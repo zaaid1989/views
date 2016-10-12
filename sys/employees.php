@@ -1,5 +1,5 @@
 <?php 
-	  include('/../header.php');//$this->load->view('header');
+	  $this->load->view('header');
 	  function nicetime($date)
 	  {
 		  if(empty($date)) {
@@ -166,7 +166,7 @@
             <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
-        <?php include('/../footer.php');?>
+        <?php $this->load->view('footer.php');?>
 <script>
 		 $(document).ready(function() { 
 			var table = $('#dataaTable').dataTable({

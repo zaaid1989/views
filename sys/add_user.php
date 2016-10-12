@@ -1,4 +1,4 @@
-<?php include('/../header.php');//$this->load->view('header');?>
+<?php $this->load->view('header');?>
             
                     <!-- BEGIN PAGE HEADER-->
                     <h3 class="page-title"> Add <small>User</small> </h3>
@@ -209,4 +209,4 @@
         </div>
         <!-- END CONTAINER -->
         
-        <?php include('/../footer.php');?>
+        <?php $this->load->view('footer.php');?>
