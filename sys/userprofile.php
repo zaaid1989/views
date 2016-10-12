@@ -957,4 +957,4 @@
 	<!-- END QUICK SIDEBAR -->
 </div>
 <!-- END CONTAINER -->
-<?php include('footer.php');?>
+<?php include('/../footer.php');?>

@@ -239,4 +239,4 @@ function _date_diff($one, $two)
             <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
-        <?php include('footer.php');?>
+        <?php include('/../footer.php');?>

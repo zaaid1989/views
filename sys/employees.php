@@ -166,7 +166,7 @@
             <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
-        <?php include('footer.php');?>
+        <?php include('/../footer.php');?>
 <script>
 		 $(document).ready(function() { 
 			var table = $('#dataaTable').dataTable({
