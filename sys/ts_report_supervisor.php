@@ -993,7 +993,7 @@ if ($user_complaints[0]['assign_to']==$this->session->userdata('userid')) $assig
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title"><h1>Change Status</h1></h4>
                               </div>
-                              <form method="post" action="<?php echo base_url();?>products/director_change_status">
+                              <form method="post" action="<?php echo base_url();?>sys/director_change_status">
                               <div class="modal-body">
                                   <div class="row">
                                    <div class="col-md-10">

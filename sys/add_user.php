@@ -1,4 +1,4 @@
-<?php include('header.php');?>
+<?php include('/../header.php');//$this->load->view('header');?>
             
                     <!-- BEGIN PAGE HEADER-->
                     <h3 class="page-title"> Add <small>User</small> </h3>
@@ -37,7 +37,7 @@
 									  
 								?>
                                     <!-- BEGIN FORM-->
-                                    <form action="<?php echo base_url(); ?>profile/insert_user" id="form_sample_1" method="post" 
+                                    <form action="<?php echo base_url(); ?>sys/insert_user" id="form_sample_1" method="post" 
                                     class="form-horizontal" enctype="multipart/form-data" >
                                         <div class="form-body">
                                             <div class="alert alert-danger display-hide">

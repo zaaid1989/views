@@ -232,7 +232,7 @@
 												{
 											?>
                                             <a class="btn btn-sm default red-thunderbird" onClick="return confirm('Are you sure you want to delete?')" 
-                                            href="<?php echo base_url();?>products/delete_fine/<?php echo $get_users_list["pk_fine_id"];?>">
+                                            href="<?php echo base_url();?>sys/delete_fine/<?php echo $get_users_list["pk_fine_id"];?>">
                                               Delete &nbsp;&nbsp;<i class="fa fa-trash-o"></i>
                                             </a>
 												<?php } ?>

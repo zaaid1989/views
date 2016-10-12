@@ -1,4 +1,4 @@
-<?php include('header.php');?>
+<?php include('/../header.php');//$this->load->view('header');?>
 			<!-- BEGIN PAGE HEADER-->
 			<h3 class="page-title">
 			User Profile <small>user profile sample</small>
@@ -155,7 +155,7 @@
 												 $userrole		   =	$prodata["userrole"];
 											}
 											?>
-												<form role="form" action="<?php echo base_url()?>profile/updateuser" method="post">
+												<form role="form" action="<?php echo base_url()?>sys/updateuser" method="post">
 													<div class="form-group">
 														<label class="control-label">Full Name</label>
 														<input type="text" class="form-control" value="<?php echo $first_name;?>" name="first_name"/>
@@ -221,7 +221,7 @@
 												<p>
 													 
 												</p>
-												<form  role="form" action="<?php echo base_url()?>profile/updateuserimage" method="post" enctype="multipart/form-data">
+												<form  role="form" action="<?php echo base_url()?>sys/updateuserimage" method="post" enctype="multipart/form-data">
 													<div class="form-group">
 														<div class="fileinput fileinput-new" data-provides="fileinput">
 															<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
@@ -266,7 +266,7 @@
 												</form>
 											</div>
 											<div id="tab_3-3" class="tab-pane">
-												<form  action="<?php echo base_url()?>profile/changepassword" method="post">
+												<form  action="<?php echo base_url()?>sys/changepassword" method="post">
 													<div class="form-group">
 														<label class="control-label">Current Password</label>
 														<input type="password" class="form-control" name="current_password" value=""/>

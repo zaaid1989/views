@@ -113,7 +113,7 @@
 							echo '<td>';
 								echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'sys/ts_report_director/'.$kit["pk_complaint_id"].'">TSR <i class="fa fa-eye"></i></a>';
 								echo '<a class="btn btn-sm default yellow-stripe" href="'.base_url().'sys/equipment_audit?equipment='.$kit["pk_instrument_id"].'">Audit <i class="fa fa-eye"></i></a>';
-								echo '<a class="btn btn-sm default red-stripe" href="'.base_url().'products/ledger?part='.$kit["pk_part_id"].'">Ledger <i class="fa fa-eye"></i></a>';
+								echo '<a class="btn btn-sm default red-stripe" href="'.base_url().'sys/ledger?part='.$kit["pk_part_id"].'">Ledger <i class="fa fa-eye"></i></a>';
 								
 							echo '</td>';
 							*/

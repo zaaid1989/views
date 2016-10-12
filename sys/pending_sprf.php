@@ -241,7 +241,7 @@
 										  ?>
                                           </td>
                                           <td>
-                                          <a class="btn btn-default" href="<?php echo base_url();?>products/supervisor_sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                          <a class="btn btn-default" href="<?php echo base_url();?>sys/supervisor_sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
                                           	Open Form
                                           </a>
                                           </td>

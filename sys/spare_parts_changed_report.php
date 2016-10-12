@@ -265,9 +265,9 @@ while($month < $end)
 							echo '<td>';
 								echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'sys/technical_service_pvr/'.$pmc["pk_complaint_id"].'">TSR <i class="fa fa-eye"></i></a>';
 								echo '<a class="btn btn-sm default yellow-stripe" href="'.base_url().'sys/equipment_audit?equipment='.$pmc["pk_instrument_id"].'">Audit <i class="fa fa-eye"></i></a>';
-								echo '<a class="btn btn-sm default red-stripe" href="'.base_url().'products/ledger?part='.$pmc["pk_part_id"].'">Ledger <i class="fa fa-eye"></i></a>';
+								echo '<a class="btn btn-sm default red-stripe" href="'.base_url().'sys/ledger?part='.$pmc["pk_part_id"].'">Ledger <i class="fa fa-eye"></i></a>';
 								echo '<a class="btn btn-sm default green-stripe" href="'.base_url().'sys/dc_print/'.$pmc["dc_number"].'">DC <i class="fa fa-eye"></i></a>';
-								echo '<a class="btn btn-sm default grey-gallery-stripe" href="'.base_url().'products/parts_received/'.$pmc["pk_stock_id"].'">Received Part <i class="fa fa-eye"></i></a>';
+								echo '<a class="btn btn-sm default grey-gallery-stripe" href="'.base_url().'sys/parts_received/'.$pmc["pk_stock_id"].'">Received Part <i class="fa fa-eye"></i></a>';
 							echo '</td>';
 							echo '</tr> ';
 						}

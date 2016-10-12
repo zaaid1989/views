@@ -256,7 +256,7 @@
                                           
                                           <?php if($complaint_list["problem_type"]=='equipment' || $complaint_list["status"]=='Pending (BB)') {?>
                                           <a class="btn btn-default green-haze-stripe" 
-                                              href="<?php echo base_url();?>products/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                              href="<?php echo base_url();?>sys/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
                                               	SPRF
                                           </a>
                                           <?php }?>
@@ -480,7 +480,7 @@
                                           
                                           <?php if($complaint_list["problem_type"]=='equipment' || $complaint_list["status"]=='Pending (BB)') {?>
                                           <a class="btn btn-default green-haze-stripe" 
-                                              href="<?php echo base_url();?>products/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                              href="<?php echo base_url();?>sys/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
                                               	SPRF
                                           </a>
                                           <?php }?>
@@ -690,7 +690,7 @@
                                           
                                           <?php if($complaint_list["problem_type"]=='equipment' || $complaint_list["status"]=='Pending (BB)') {?>
                                           <a class="btn btn-default green-haze-stripe" 
-                                              href="<?php echo base_url();?>products/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                              href="<?php echo base_url();?>sys/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
                                               	SPRF
                                           </a>
                                           <?php }?>
@@ -916,7 +916,7 @@
                                           
                                           <?php if($complaint_list["problem_type"]=='equipment' || $complaint_list["status"]=='Pending (BB)') {?>
                                           <a class="btn btn-default green-haze-stripe" 
-                                              href="<?php echo base_url();?>products/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                              href="<?php echo base_url();?>sys/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
                                               	SPRF
                                           </a>
                                           <?php }?>

@@ -242,7 +242,7 @@
                 <div class="row">
                           <div class="col-md-12 form-horizontal">
 						  
-							<form method="post" action="<?php echo base_url();?>products/pm_form_other_details_insert">
+							<form method="post" action="<?php echo base_url();?>sys/pm_form_other_details_insert">
                             <input type="hidden" name="complaint_id" value="<?php echo $this->uri->segment(3);?>" />
                             
 							<div class="form-group">
@@ -458,7 +458,7 @@
                 <div class="row">
                   <div class="col-md-12 ">
                   	<div class="portlet-body flip-scroll">
-                    <!--<form method="post" action="<?php echo base_url()?>products/pm_pictures_update" enctype="multipart/form-data">-->
+                    <!--<form method="post" action="<?php echo base_url()?>sys/pm_pictures_update" enctype="multipart/form-data">-->
                       <table class="table table-striped table-bordered table-hover flip-content" id="sample_2">
                         <thead>
                           <tr>
@@ -499,7 +499,7 @@
                               <td>
                                 <div id="upload-wrapper">
                                     <div align="center">
-                                        <form action="<?php echo base_url();?>products/pm_pictures_update" onSubmit="return false" method="post" 
+                                        <form action="<?php echo base_url();?>sys/pm_pictures_update" onSubmit="return false" method="post" 
                                         enctype="multipart/form-data" id="MyUploadForm<?php echo $my_image;?>">
                                         <input name="<?php echo $filed;?>" id="imageInput<?php echo $my_image;?>" type="file" />
                                          <input type="hidden" name="complaint_id" value="<?php echo $this->uri->segment(3);?> ">
@@ -721,7 +721,7 @@
                               <td>
                                 <div id="upload-wrapper">
                                     <div align="center">
-                                        <form action="<?php echo base_url();?>products/pm_pictures_update" onSubmit="return false" method="post" 
+                                        <form action="<?php echo base_url();?>sys/pm_pictures_update" onSubmit="return false" method="post" 
                                         enctype="multipart/form-data" id="MyUploadForm<?php echo $my_image;?>">
                                         <input name="<?php echo $filed;?>" id="imageInput<?php echo $my_image;?>" type="file" />
                                          <input type="hidden" name="complaint_id" value="<?php echo $this->uri->segment(3);?> ">
@@ -941,7 +941,7 @@
                                           <td>
                                             <div id="upload-wrapper">
                                                 <div align="center">
-                                                    <form action="<?php echo base_url();?>products/pm_pictures_update" onSubmit="return false" method="post" 
+                                                    <form action="<?php echo base_url();?>sys/pm_pictures_update" onSubmit="return false" method="post" 
                                                     enctype="multipart/form-data" id="MyUploadForm<?php echo $my_image;?>">
                                                     <input name="<?php echo $filed;?>" id="imageInput<?php echo $my_image;?>" type="file" />
                                                      <input type="hidden" name="complaint_id" value="<?php echo $this->uri->segment(3);?> ">
@@ -1100,13 +1100,13 @@
 		  
 		  
 		    <?php if($obj->is_allowed('FSE')){ ?>
-            <form method="post" action="<?php echo base_url();?>products/fse_pending_varification">
+            <form method="post" action="<?php echo base_url();?>sys/fse_pending_varification">
                 <input type="hidden" name="complaint_id" value="<?php echo $this->uri->segment(3);?>" />
                 <input type="submit" value="Submit for verification"  onclick="return check_uploaded()"   class="btn btn-success" />
             </form>   
             <?php }?>
             <?php if($obj->is_allowed('Supervisor')){ ?>
-            <form method="post" action="<?php echo base_url();?>products/supervisor_mark_completed">
+            <form method="post" action="<?php echo base_url();?>sys/supervisor_mark_completed">
                 <input type="hidden" name="complaint_id" value="<?php echo $this->uri->segment(3);?>" />
                 <input type="submit" value="Mark Completed" onclick="return check_uploaded()"  class="btn btn-success" />
             </form>   

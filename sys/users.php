@@ -1,4 +1,4 @@
-<?php include('header.php');
+<?php include('/../header.php');//$this->load->view('header');
 function nicetime($date)
 	  {
 		  if(empty($date)) {
@@ -214,7 +214,7 @@ function _date_diff($one, $two)
 													  <?php echo $get_users_list["mobile"] ?>
 												  </td>
 												  <td>
-													  <a class="btn green" onClick="return confirm('Are you sure you want to recover?')" href="<?php echo base_url();?>profile/recover_user/<?php echo $get_users_list["id"];?>">Recover</a>
+													  <a class="btn green" onClick="return confirm('Are you sure you want to recover?')" href="<?php echo base_url();?>sys/recover_user/<?php echo $get_users_list["id"];?>">Recover</a>
 												  </td>
 												 
 											  </tr>

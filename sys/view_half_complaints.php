@@ -238,7 +238,7 @@
                                           	Open Form
                                           </a>
                                            <a class="btn btn default red-thunderbird"  
-											  href="<?php echo base_url();?>products/delete_sys/<?php echo $complaint_list["pk_complaint_id"];?>"
+											  href="<?php echo base_url();?>sys/delete_sys/<?php echo $complaint_list["pk_complaint_id"];?>"
 											  onClick="return confirm('Are you sure you want to delete?')">
 												Delete <i class="fa fa-trash-o"></i>
 										   </a>

@@ -1,7 +1,7 @@
 <?php $this->load->view('header');?>
                     <!-- BEGIN PAGE HEADER-->
                     <h3 class="page-title">
-                    Supervisor <small>My Complaints</small>
+                    Instruments <small>Installation Details</small>
                     </h3>
                     <div class="page-bar">
                         <ul class="page-breadcrumb">
@@ -11,8 +11,10 @@
                                 <i class="fa fa-angle-right"></i>
                             </li>
                             <li>
-                                Supervisor Complaints
+                                Instruments
+                                <i class="fa fa-angle-right"></i>
                             </li>
+                            
                         </ul>
                       
                     </div>
@@ -23,7 +25,7 @@
                         <!-- BEGIN EXAMPLE TABLE PORTLET-->
                         <div class="portlet box grey-cascade">
                           <div class="portlet-title">
-                            <div class="caption"> <i class="fa fa-globe"></i>Supervisor Complaints </div>
+                            <div class="caption"> <i class="fa fa-globe"></i>Instruments </div>
                             <div class="tools"> <a href="javascript:;" class="collapse"> </a>  <a href="javascript:;" class="remove"> </a> </div>
                           </div>
                           <div class="portlet-body">
@@ -43,7 +45,16 @@
                                     <a href="<?php echo base_url();?>sys/add_complaint" id="sample_editable_1_new" class="btn green"> Add New <i class="fa fa-plus"></i> </a>
                                   </div>
                                 </div>
-                                
+                                <div class="col-md-6">
+                                  <div class="btn-group pull-right">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i> </button>
+                                    <ul class="dropdown-menu pull-right">
+                                      <li> <a href="#"> Print </a> </li>
+                                      <li> <a href="#"> Save as PDF </a> </li>
+                                      <li> <a href="#"> Export to Excel </a> </li>
+                                    </ul>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                                       <div class="portlet-body flip-scroll">
@@ -54,111 +65,75 @@
                                         <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/>
                                     </th>
                                     <th>
-                                         TS number
+                                         Instrument  
                                     </th>
                                     <th>
-                                         Date
+                                         Serial No  
                                     </th>
                                     <th>
-                                         Customer
+                                         Client Name 
                                     </th>
                                     <th>
                                          City
                                     </th>
                                     <th>
-                                         Problem Summary
+                                         Office  
                                     </th>
                                     <th>
-                                         Time Elapsed
+                                         Install Date  
                                     </th>
                                     <th>
-                                         Status
-                                    </th>
-                                    
-                                    <th>
-                                         TS Report
+                                         Inspection Month 
                                     </th>
                                     <th>
-                                         SPRF 
+                                         History  
                                     </th>
-                                </tr>
+                                 </tr>
                               </thead>
                               <tbody>
                                 <?php
-									  function nicetime($date)
-										{
-											if(empty($date)) {
-												return "No date provided";
-											}
-											$periods         = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
-											$lengths         = array("60","60","24","7","4.35","12","10");
-											$now             = time();
-											$unix_date         = strtotime($date);
-											   // check validity of date
-											if(empty($unix_date)) {   
-												return "Bad date";
-											}
-											// is it future date or past date
-											if($now > $unix_date) {   
-												$difference     = $now - $unix_date;
-												$tense         = "ago";
-											} else {
-												$difference     = $unix_date - $now;
-												$tense         = "from now";
-											}
-											for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-												$difference /= $lengths[$j];
-											}
-											$difference = round($difference);
-											if($difference != 1) {
-												$periods[$j].= "s";
-											}
-											return "$difference $periods[$j] {$tense}";
-										}
-
-									  
-									  if (sizeof($get_complaint_list) == "0") {
+									  if (sizeof($get_instruments_list) == "0") {
 										  
 									  } else {
-										  foreach ($get_complaint_list as $complaint_list) {
+										  foreach ($get_instruments_list as $instruments_list) {
 											  ?>
 											  <tr class="odd gradeX">
 												  <th class="table-checkbox">
                                                         <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/>
                                                     </th>
                                                   <td>
-													  <?php echo $complaint_list["ts_number"] ?>
-												  </td>
-												  <td>
-													  <?php echo date('d-M-Y', strtotime($complaint_list["date"])); ?>
-												  </td>
-												  <td>
-													  <?php echo $complaint_list["caller_name"] ?>
+                                                      <?php $ty5=$this->db->query("select * from tbl_brand where pk_brand_id='".$instruments_list["fk_brand_id"]."'");
+													  $rt5=$ty5->result_array();
+													  echo $rt5[0]["brand_secondry_name"] ?>
 												  </td>
                                                   <td>
-													  <?php //echo $complaint_list["city"] ?>
-                                                      <?php 
-													  $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$complaint_list["fk_city_id"]."'");
+													   <?php echo $instruments_list["serial_no"] ?>
+												  </td>
+												  <td>
+													  <?php $ty=$this->db->query("select * from tbl_clients where pk_client_id='".$instruments_list["fk_client_id"]."'");
 													  $rt=$ty->result_array();
-													  echo $rt[0]["city_name"] ?>
+													  //print_r($rt);
+													  echo $rt[0]["client_name"] ?>
 												  </td>
                                                   <td>
-													  <?php echo $complaint_list["problem_summary"] ?>
+													  <?php $ty2=$this->db->query("select * from tbl_cities where pk_city_id='".$rt[0]["fk_city_id"]."'");
+													  $rt2=$ty2->result_array();
+													  echo $rt2[0]["city_name"] ?>
 												  </td>
                                                   <td>
-													  <?php echo nicetime($complaint_list["date"]); ?>
+													   <?php $ty23=$this->db->query("select * from tbl_offices where pk_office_id='".$instruments_list["fk_office_id"]."'");
+													  $rt23=$ty23->result_array();
+													  echo $rt23[0]["office_name"] ?>
 												  </td>
 												  <td>
-													  <?php if( $complaint_list["status"]=="Pending"){ ?><span class="label label-sm label-success"> Pending </span><?php }?>
-                                                      <?php if( $complaint_list["status"]=="Completed"){ ?><span class="label bg-blue"> completed </span><?php }?>
-                                                      <?php if( $complaint_list["status"]=="Bounce Back"){ ?><span class="label label-sm label-warning"> Bounce Back </span><?php }?>
-                                                      <?php if( $complaint_list["status"]=="Call Supervisor"){ ?><span class="label label-sm label-danger">Call Supervisor</span><?php }?>
+													  <?php echo $instruments_list["install_date"] ?>
 												  </td>
                                                   <td>
-													  <a class="btn btn-default" href="technical_service_pvr.php">Open Form</a>
+													  <?php echo $instruments_list["install_date"] ?>
 												  </td>
+                                                  
                                                   <td>
-													  <a class="btn btn-default" href="<?php echo base_url();?>sys/supervisor_sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">Open Form</a>
+													  <a class="btn btn-default" href="technical_service_pvr.php">View</a>
 												  </td>
                                                    
 											  </tr>

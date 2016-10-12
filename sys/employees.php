@@ -1,5 +1,5 @@
 <?php 
-	  include('header.php');
+	  include('/../header.php');//$this->load->view('header');
 	  function nicetime($date)
 	  {
 		  if(empty($date)) {
@@ -76,7 +76,7 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="btn-group">
-                                    <a href="<?php echo base_url();?>profile/add_employee" id="sample_editable_1_new" class="btn yellow-gold"> Register New Employee <i class="fa fa-plus"></i> </a>
+                                    <a href="<?php echo base_url();?>sys/add_employee" id="sample_editable_1_new" class="btn yellow-gold"> Register New Employee <i class="fa fa-plus"></i> </a>
                                   </div>
                                 </div>
                               </div>
@@ -135,13 +135,13 @@
                                                   <td><?php echo nicetime($get_users_list["date_of_joining"]);  ?></td>
                                                   <td><?php echo $get_users_list["training_equipment"] ?></td>
 												  <td>
-													  <a class="btn btn-sm default yellow-gold-stripe"  href="<?php echo base_url();?>profile/update_employee/<?php echo $get_users_list["id"];?>">
+													  <a class="btn btn-sm default yellow-gold-stripe"  href="<?php echo base_url();?>sys/update_employee/<?php echo $get_users_list["id"];?>">
                                                       	Update <i class="fa fa-edit"></i>
                                                       </a>
                                                   </td>
                                                   <td>
                                                   	  <a class="btn btn-sm default red-thunderbird" onClick="return confirm('Are you sure you want to delete?')" 
-                                                      href="<?php echo base_url();?>profile/delete_user/<?php echo $get_users_list["id"];?>">
+                                                      href="<?php echo base_url();?>sys/delete_user/<?php echo $get_users_list["id"];?>">
                                                       	Delete 
 														<i class="fa fa-trash-o"></i>
                                                       </a>

@@ -24,7 +24,7 @@
 
         <div class="col-md-12"> 
           <!-- BEGIN EXAMPLE TABLE PORTLET-->
-		<form method="post" action="<?php echo base_url();?>products/spare_part_stock_entry_insert_new">
+		<form method="post" action="<?php echo base_url();?>sys/spare_part_stock_entry_insert_new">
           <!--Enter data of visit schedual here-->
           <div class="portlet box purple-seance">
 

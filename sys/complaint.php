@@ -3683,7 +3683,7 @@ class Complaint extends CI_Controller {
 			  //echo $query;exit;
 			  $dbres = $this->db->query($query);
 			  }
-			  redirect(site_url().'sys/products/?msg=success');
+			  redirect(site_url().'sys/sys/?msg=success');
 	}
 	public function update_product_insert()
 	{
@@ -3706,7 +3706,7 @@ class Complaint extends CI_Controller {
 								`fk_product_id`		=	'".$insert_id."'";
 				  $dbres = $this->db->query($query);
 			  }
-			  redirect(site_url().'sys/products/?msg=success');
+			  redirect(site_url().'sys/sys/?msg=success');
 	}
 	public function delete_business_project($id)
 	{
@@ -5667,7 +5667,7 @@ class Complaint extends CI_Controller {
 			//$qu="update tbl_complaints set status = 	'Pending SPRF' where pk_complaint_id='".$_POST['complaint_id']."'";
 			//$gh=$this->db->query($qu);
 		}
-		redirect(site_url() . 'products/sprf/'.$_POST['complaint_id'].'?msg=SPRF Added Successfully');
+		redirect(site_url() . 'sys/sprf/'.$_POST['complaint_id'].'?msg=SPRF Added Successfully');
 	}
 	public function submit_sprf_approve()
 	{
@@ -5895,7 +5895,7 @@ class Complaint extends CI_Controller {
 		// Make complaint status SPRF approved
 		$qu="update tbl_complaints set status = 'SPRF Approved', sprf_approve_date = '$date' where pk_complaint_id='".$_POST['complaint_id']."'";
 		$gh=$this->db->query($qu);
-		//redirect(site_url() . 'products/supervisor_sprf/'.$_POST['complaint_id'].'?msgapprove=success'); //sys/pending_sprf
+		//redirect(site_url() . 'sys/supervisor_sprf/'.$_POST['complaint_id'].'?msgapprove=success'); //sys/pending_sprf
 		redirect( site_url() . 'sys/pending_sprf?msgapprove=success');
 	}
 	
@@ -5905,7 +5905,7 @@ class Complaint extends CI_Controller {
 		// make complaint sprf approved
 		$qu="update tbl_complaints set status = 'Pending SPRF', sprf_date = '$date' where pk_complaint_id='".$_POST['complaint_id']."'";
 		$gh=$this->db->query($qu);
-		redirect(site_url() . 'products/sprf/'.$_POST['complaint_id'].'?msgsprf=success');
+		redirect(site_url() . 'sys/sprf/'.$_POST['complaint_id'].'?msgsprf=success');
 	}
 	
 	public function submit_sprf_complaint_pending()
@@ -5914,7 +5914,7 @@ class Complaint extends CI_Controller {
 		// make complaint sprf approved
 		$qu="update tbl_complaints set status = 'Pending' where pk_complaint_id='".$_POST['complaint_id']."'";
 		$gh=$this->db->query($qu);
-		redirect(site_url() . 'products/supervisor_sprf/'.$_POST['complaint_id'].'?msgcp=success');
+		redirect(site_url() . 'sys/supervisor_sprf/'.$_POST['complaint_id'].'?msgcp=success');
 	}
 	
 	public function operator_view_dc()

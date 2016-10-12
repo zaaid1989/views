@@ -304,13 +304,13 @@ for($i=0;$i<4;$i++) {
 										  <?php }?>
 										   <?php if($i==1 || $i==0) {?>
                                           <a class="btn btn-sm default green-haze-stripe" 
-                                              href="<?php echo base_url();?>products/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                              href="<?php echo base_url();?>sys/sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
                                               	SPRF
                                           </a>
                                           <?php }?>
 										  <?php if($i==2) {?>
                                           <a class="btn btn-sm default green-haze-stripe" 
-                                              href="<?php echo base_url();?>products/supervisor_sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                              href="<?php echo base_url();?>sys/supervisor_sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
                                               	SPRF
                                           </a>
                                           <?php }?>
@@ -325,7 +325,7 @@ for($i=0;$i<4;$i++) {
                                           </a>
 										  <?php if($i==2) {?>
                                           <a class="btn btn-sm default green-haze-stripe" 
-                                              href="<?php echo base_url();?>products/supervisor_sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                              href="<?php echo base_url();?>sys/supervisor_sprf/<?php echo $complaint_list["pk_complaint_id"] ?>">
                                               	SPRF
                                           </a>
                                           <?php }?>

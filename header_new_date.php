@@ -1024,12 +1024,12 @@ if ($static_menu) {
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a href="<?php echo base_url();?>profile/add_user">
+							<a href="<?php echo base_url();?>sys/add_user">
                             <i class="icon-home"></i>
 							Add User</a>
 						</li>
                         <li>
-							<a href="<?php echo base_url();?>profile/get_users">
+							<a href="<?php echo base_url();?>sys/get_users">
                             <i class="icon-home"></i>
 							All User</a>
 						</li>
@@ -1152,7 +1152,7 @@ if ($static_menu) {
                 </li>
 				
 				<li class="start  <?php if($this->uri->segment(2)=='spare_parts'){ echo 'active open';}?>">
-                 <a href="<?php echo base_url();?>products/spare_parts"> 
+                 <a href="<?php echo base_url();?>sys/spare_parts"> 
                    <i class="icon-star"></i> 
                    <span class="title">
                       Spare Parts List
@@ -1162,7 +1162,7 @@ if ($static_menu) {
                 </li>
                 <!--
                      <li class="<?php if( $this->uri->segment(2)=='spare_parts'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>products/spare_parts"> <i class="icon-star"></i> Spare Parts List </a> 
+                    	<a href="<?php echo base_url();?>sys/spare_parts"> <i class="icon-star"></i> Spare Parts List </a> 
                     </li>
 				-->
 				<?php }?>
@@ -1298,7 +1298,7 @@ if ($static_menu) {
                 </li>
 				
 				<li class="start  <?php if($this->uri->segment(2)=='spare_parts'){ echo 'active open';}?>">
-                 <a href="<?php echo base_url();?>products/spare_parts"> 
+                 <a href="<?php echo base_url();?>sys/spare_parts"> 
                    <i class="icon-star"></i> 
                    <span class="title">
                       Spare Parts List
@@ -1308,7 +1308,7 @@ if ($static_menu) {
                 </li>
 				<!--
                 <li class="<?php if( $this->uri->segment(2)=='spare_parts'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>products/spare_parts"> <i class="icon-star"></i> Spare Parts List </a> 
+                    	<a href="<?php echo base_url();?>sys/spare_parts"> <i class="icon-star"></i> Spare Parts List </a> 
                     </li>
 				-->
 				<?php }?>
@@ -1515,7 +1515,7 @@ if ($static_menu) {
                  <?php 
 				if($obj->is_allowed('Admin')){ ?>
                 <!--<li class="start <?php if($this->uri->segment(2)=='brands'){ echo 'active open';}?>"> 
-                	<a href="<?php echo base_url();?>products/brands"> 
+                	<a href="<?php echo base_url();?>sys/brands"> 
                         <i class="icon-bar-chart"></i> 
                         <span class="title">
                         	Products
@@ -1529,7 +1529,7 @@ if ($static_menu) {
                  <?php 
 				if($obj->is_allowed('Admin')){ ?>
                <!-- <li class="start <?php if($this->uri->segment(2)=='instruments_view'){ echo 'active open';}?>"> 
-                	<a href="<?php echo base_url();?>products/instruments_view"> 
+                	<a href="<?php echo base_url();?>sys/instruments_view"> 
                         <i class="icon-bar-chart"></i> 
                           <span class="title">
                               Instruments
@@ -1543,7 +1543,7 @@ if ($static_menu) {
                  <?php 
 				if($obj->is_allowed('Admin')){ ?>
                 <!--<li class="start <?php if($this->uri->segment(2)=='parts_view'){ echo 'active open';}?>"> 
-                  <a href="<?php echo base_url();?>products/parts_view"> 
+                  <a href="<?php echo base_url();?>sys/parts_view"> 
                   	<i class="icon-bar-chart"></i> 
                     <span class="title">
                       Parts
@@ -1557,7 +1557,7 @@ if ($static_menu) {
                  <?php 
 				if($obj->is_allowed('Admin')){ ?>
                 <!--<li class="start  <?php if($this->uri->segment(2)=='get_employees'){ echo 'active open';}?>">
-                 <a href="<?php echo base_url();?>profile/get_employees"> 
+                 <a href="<?php echo base_url();?>sys/get_employees"> 
                    <i class="icon-users"></i> 
                    <span class="title">
                       Employees
@@ -1575,10 +1575,10 @@ if ($static_menu) {
                         </a>
                         <ul class="sub-menu">
                           <li class="<?php if( $this->uri->segment(2)=='get_employees' ){ echo 'active';}?>"> 
-                              <a href="<?php echo base_url();?>profile/get_employees"> <i class="icon-users"></i>All Employees</a> 
+                              <a href="<?php echo base_url();?>sys/get_employees"> <i class="icon-users"></i>All Employees</a> 
                           </li>
                           <li class="<?php if( $this->uri->segment(2)=='get_users' ){ echo 'active';}?>"> 
-                              <a href="<?php echo base_url();?>profile/get_users"> <i class="icon-users"></i>X-Employees</a> 
+                              <a href="<?php echo base_url();?>sys/get_users"> <i class="icon-users"></i>X-Employees</a> 
                           </li>
                         </ul>
                  </li>
@@ -1740,8 +1740,8 @@ if ($static_menu) {
                     <li class="<?php if( $this->uri->segment(2)=='vendors'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/vendors"> <i class="icon-eye"></i>  Vendors </a> </li>
                     <li class="<?php if( $this->uri->segment(2)=='products'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/products"> <i class="icon-anchor"></i>  Products </a> </li>
                     <li class="<?php if( $this->uri->segment(2)=='equipments'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/equipments"> <i class="icon-flag"></i>  Equipments </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='spare_part_registration'){ echo 'active';}?>"> <a href="<?php echo base_url();?>products/spare_part_registration"> <i class="icon-flag"></i>  Spare Part Registration  </a> </li>
-                    <li class="<?php if( $this->uri->segment(2)=='spare_parts'){ echo 'active';}?>"> <a href="<?php echo base_url();?>products/spare_parts"> <i class="icon-flag"></i>  Spare Parts  </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='spare_part_registration'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/spare_part_registration"> <i class="icon-flag"></i>  Spare Part Registration  </a> </li>
+                    <li class="<?php if( $this->uri->segment(2)=='spare_parts'){ echo 'active';}?>"> <a href="<?php echo base_url();?>sys/spare_parts"> <i class="icon-flag"></i>  Spare Parts  </a> </li>
                   </ul>
                 </li>
                  <?php }?>
@@ -1798,10 +1798,10 @@ if ($static_menu) {
                     </a>
                   <ul class="sub-menu">
                     <li class="<?php if( $this->uri->segment(2)=='spare_part_registration'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>products/spare_part_registration"> <i class="icon-flag"></i>  Spare Part Registration  </a> 
+                    	<a href="<?php echo base_url();?>sys/spare_part_registration"> <i class="icon-flag"></i>  Spare Part Registration  </a> 
                     </li>
                     <li class="<?php if( $this->uri->segment(2)=='spare_parts'){ echo 'active';}?>"> 
-                    	<a href="<?php echo base_url();?>products/spare_parts"> <i class="icon-flag"></i>  Spare Parts  </a> 
+                    	<a href="<?php echo base_url();?>sys/spare_parts"> <i class="icon-flag"></i>  Spare Parts  </a> 
                     </li>
                     
                   </ul>
