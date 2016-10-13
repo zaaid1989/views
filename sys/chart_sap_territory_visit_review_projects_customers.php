@@ -292,13 +292,22 @@ foreach ($pr AS $project) {
 	$s_never_visited_s .= $pc.",<br/>";
 }
 
-//// Finding projects with no projects. It wont be needed in loop
+//// Finding clients with no projects. It wont be needed in loop, // if you want to show all clients including ones not assigned to saps, use left join
 $queryy = "SELECT tbl_clients.*, tbl_customer_sap_bridge.fk_user_id from tbl_clients
 JOIN tbl_customer_sap_bridge ON tbl_clients.pk_client_id = tbl_customer_sap_bridge.fk_client_id
-WHERE pk_client_id NOT IN (SELECT Customer FROM business_data WHERE business_data.status = 0)";
+WHERE pk_client_id NOT IN (SELECT Customer FROM business_data WHERE business_data.status = 0) AND tbl_clients.delete_status = 0";
+
 if ($territory!=0) $queryy .= " AND `fk_office_id`='".$territory."' ";
 if ($sap!=0) $queryy .= " AND `fk_user_id`='".$sap."' ";
-//$queryy .= " GROUP BY Customer ORDER BY tbl_clients.client_name";
+if ($sap == 0) { // using this query because for all saps the above query will have repeated customers when a customer is assigned to multiple saps. Furthermore if you want to show all the clients rather ones only assigned to saps, remove the last condition in query
+	/*$queryy = "	SELECT tbl_clients.* from tbl_clients
+				WHERE pk_client_id NOT IN (SELECT Customer FROM business_data WHERE business_data.status = 0) AND tbl_clients.delete_status = 0
+				AND pk_client_id IN (SELECT fk_client_id from tbl_customer_sap_bridge)
+	";*/
+	$queryy .= " GROUP BY tbl_clients.pk_client_id";
+}
+$queryy .= " ORDER BY tbl_clients.client_name";
+
 $pq	=	$this->db->query($queryy);
 $pr =	$pq->result_array();
 $never_visited_clients_count = sizeof($pr);
@@ -311,15 +320,16 @@ foreach ($pr AS $project) {
 
 
 <script>
-
+chart = null;
+cloneToolTip = null;
 $(document).ready(function() {
 
-
-	
-	var options = {
-
+cloneToolTip = null;
+cloneToolTip2 = null;
+	//var options = {
+chart = new Highcharts.Chart({
         chart: {
-			
+			renderTo: 'container',
             type: 'column',
 			marginBottom: 800,
 			backgroundColor: null
@@ -364,15 +374,22 @@ $(document).ready(function() {
         },
 
         tooltip: {
+			 useHTML: true,
+		   shared: false,
+		   borderRadius: 0,
+		   borderWidth: 0,
+		   shadow: false,
+		   enabled: true,
+		   backgroundColor: 'none',
             formatter: function () {
 				if (this.series.options.type === 'pie' || this.series.options.type === 'spline') { // the pie chart
                         return this.point.name + ': ' + this.y;
                     }
 				else {
-                return '<b>' + this.x +  '' 
+                return '<span style="border-color:'+this.point.color+'">' + '<b>' + this.x +  '' 
 				+ ''+  '</b><br/>' 
 				+ this.series.name + ': ' + this.y + '<br/>'
-				+ '<b>Details:</b>' + this.point.myData + '<br/>';
+				+ '<b>Details:</b>' + this.point.myData + '<br/>'+ '</span>';
 				}
             }
         },
@@ -385,6 +402,27 @@ $(document).ready(function() {
                     color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
                     style: {
                         textShadow: '0 0 0px black'
+                    }
+                }
+            },
+			series: {
+                cursor: 'pointer',
+                point: {
+                    events: {
+                        click: function() { 
+                            if (cloneToolTip)
+                            {                                chart.container.firstChild.removeChild(cloneToolTip);
+                            }
+                            if (cloneToolTip2)
+                            {
+                                cloneToolTip2.remove();
+                            }
+                            cloneToolTip = this.series.chart.tooltip.label.element.cloneNode(true);
+                            chart.container.firstChild.appendChild(cloneToolTip);
+                            
+                            cloneToolTip2 = $('.highcharts-tooltip').clone(); 
+                            $(chart.container).append(cloneToolTip2);
+                        }
                     }
                 }
             }
@@ -542,72 +580,10 @@ $(document).ready(function() {
 			}
 		
 		?>
-		/*
-		{
-            name: 'John',
-            data: [5, 3, 4, 7, 2],
-            stack: 'complaint'
-        }, {
-            name: 'Joe',
-            data: [3, 4, 4, 2, 5],
-            stack: 'complaint'
-        }, {
-            name: 'Jane',
-            data: [2, 5, 6, 2, 1],
-            stack: 'PM'
-        }, {
-            name: 'Janet',
-            data: [3, 0, 4, 4, 3],
-            stack: 'PM'
-        }
-		 
-		{
-            name: 'Completed',
-            data: [5, 3, 4, 7, 2],
-            color:'#26c281',
-            showInLegend: false,
-            stack: 'HO'
-        }, {
-            name: 'Pending',
-            color:'#d91e18',
-            data: [3, 4, 4, 2, 5],
-            showInLegend: false,
-            stack: 'HO'
-        },{
-            name: 'Completed',
-            color:'#26c281',
-            data: [5, 3, 4, 7, 2],
-            showInLegend: false,
-            stack: 'LO'
-        }, {
-            name: 'Pending',
-            color:'#d91e18',
-            data: [3, 4, 4, 2, 5],
-            showInLegend: false,
-            stack: 'LO'
-        }, {
-            name: 'Completed',
-            color:'#26c281',
-            data: [2, 5, 6, 2, 1],
-            showInLegend: false,
-            stack: 'MO'
-        }, {
-            name: 'Pending',
-            color:'#d91e18',
-            data: [3, 0, 4, 4, 3],
-            showInLegend: false,
-            stack: 'MO'
-        }, {
-            type: 'spline',
-            name: 'Average',
-            data: [3, 2.67, 3, 6.33, 3.33],
-            marker: {
-                lineWidth: 4
-            }
-        },*/ ]
-    };
-    
-    $('#container').highcharts(options);
+		 ]
+   // }; options end
+  });
+  //  $('#container').highcharts(options);
 	});
 	
 </script>	
@@ -655,5 +631,19 @@ $(document).ready(function() {
 <style>
 textarea {
   width: 100%;
+}
+.highcharts-container { 
+    overflow: visible !important; 
+}
+
+.highcharts-tooltip span>span {
+    background-color:rgba(255,255,255,0.85);
+    border:1px solid;
+    padding: 2px 10px;
+    border-radius: 2px;
+}
+
+#container .highcharts-container{
+    z-index: 100 !important; /*If you have problems with the label hiding behind some other div or chart play with z-index*/
 }
 </style>
