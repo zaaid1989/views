@@ -627,5 +627,7 @@ textarea {
   width: 100%;
 }
 .highcharts-container { overflow: visible !important; } 
+.highcharts-root { overflow: visible !important; } 
 svg { overflow: visible; }
+
 </style>
