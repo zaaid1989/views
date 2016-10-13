@@ -374,22 +374,16 @@ chart = new Highcharts.Chart({
         },
 
         tooltip: {
-			 useHTML: true,
-		   shared: false,
-		   borderRadius: 0,
-		   borderWidth: 0,
-		   shadow: false,
-		   enabled: true,
-		   backgroundColor: 'none',
+			 useHTML: true ,
             formatter: function () {
 				if (this.series.options.type === 'pie' || this.series.options.type === 'spline') { // the pie chart
                         return this.point.name + ': ' + this.y;
                     }
 				else {
-                return '<span style="border-color:'+this.point.color+'">' + '<b>' + this.x +  '' 
+                return '<b>' + this.x +  '' 
 				+ ''+  '</b><br/>' 
 				+ this.series.name + ': ' + this.y + '<br/>'
-				+ '<b>Details:</b>' + this.point.myData + '<br/>'+ '</span>';
+				+ '<b>Details:</b>' + this.point.myData + '<br/>';
 				}
             }
         },
@@ -632,18 +626,6 @@ $(document).ready(function() {
 textarea {
   width: 100%;
 }
-.highcharts-container { 
-    overflow: visible !important; 
-}
-
-.highcharts-tooltip span>span {
-    background-color:rgba(255,255,255,0.85);
-    border:1px solid;
-    padding: 2px 10px;
-    border-radius: 2px;
-}
-
-#container .highcharts-container{
-    z-index: 100 !important; /*If you have problems with the label hiding behind some other div or chart play with z-index*/
-}
+.highcharts-container { overflow: visible !important; } 
+svg { overflow: visible; }
 </style>
