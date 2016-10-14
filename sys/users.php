@@ -72,36 +72,6 @@ function Get_Date_Difference($start_date, $end_date)
         echo (($years > 0) ? $years.' year'.(($years > 1 ? 's ' : '')) : '').(($months > 0) ? (($months == 1) ? ' '.$months.' month' : ' '.$months.' months' ) : '').(($days > 0) ? (($days == 1) ? ' '.$days.' day' : ' '.$days.' days' ) : '');
     }
 	
-function _date_diff($one, $two)
-{
-    $invert = false;
-    if ($one > $two) {
-        list($one, $two) = array($two, $one);
-        $invert = true;
-    }
-
-    $key = array("y", "m", "d", "h", "i", "s");
-    $a = array_combine($key, array_map("intval", explode(" ", date("Y m d H i s", $one))));
-    $b = array_combine($key, array_map("intval", explode(" ", date("Y m d H i s", $two))));
-
-    $result = array();
-    $result["y"] = $b["y"] - $a["y"];
-    $result["m"] = $b["m"] - $a["m"];
-    $result["d"] = $b["d"] - $a["d"];
-    $result["h"] = $b["h"] - $a["h"];
-    $result["i"] = $b["i"] - $a["i"];
-    $result["s"] = $b["s"] - $a["s"];
-    $result["invert"] = $invert ? 1 : 0;
-    $result["days"] = intval(abs(($one - $two)/86400));
-
-    if ($invert) {
-        _date_normalize(&$a, &$result);
-    } else {
-        _date_normalize(&$b, &$result);
-    }
-
-    return $result;
-}
 
 ?>
                     
