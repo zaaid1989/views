@@ -297,7 +297,7 @@ for($i=0;$i<4;$i++) {
 											<?php }?>
                                             <?php if ($i!=3) { ?>
 											<a class="btn btn-sm default yellow-zed-stripe" 
-                                          href="<?php echo base_url();?>sys/shift_sys/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                          href="<?php echo base_url();?>sys/shift_complaint/<?php echo $complaint_list["pk_complaint_id"] ?>">
 											Shift 
 											<i class="fa fa-share"></i>
                                           </a>

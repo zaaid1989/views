@@ -70,7 +70,7 @@
 									  	//$quw="SELECT * from tbl_clients";
 										if($this->uri->segment(3)!='')
 										{
-											$query="select tbl_clients.*, COALESCE(tbl_cities.city_name), COALESCE(tbl_area.area), COALESCE(tbl_offices.pk_office_id), COALESCE(tbl_offices.office_name) 
+											$query="select tbl_clients.*, COALESCE(tbl_cities.city_name) AS city_name, tbl_cities.pk_city_id, tbl_area.pk_area_id, COALESCE(tbl_area.area) AS area, COALESCE(tbl_offices.pk_office_id) AS pk_office_id, COALESCE(tbl_offices.office_name) AS office_name
 											from tbl_clients 
 											LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
 											LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
@@ -80,7 +80,7 @@
 										}
 										else
 										{
-											$query="select tbl_clients.*, COALESCE(tbl_cities.city_name) AS city_name, COALESCE(tbl_area.area) AS area, COALESCE(tbl_offices.pk_office_id) AS pk_office_id, COALESCE(tbl_offices.office_name) AS office_name 
+											$query="select tbl_clients.*, COALESCE(tbl_cities.city_name) AS city_name, tbl_cities.pk_city_id, tbl_area.pk_area_id, COALESCE(tbl_area.area) AS area, COALESCE(tbl_offices.pk_office_id) AS pk_office_id, COALESCE(tbl_offices.office_name) AS office_name 
 											from tbl_clients 
 											LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
 											LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
