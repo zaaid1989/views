@@ -144,6 +144,22 @@ else $end_date = date('Y-m-d');
 			<table class="table  table-hover dataaTable" id="">
 				<thead class="bg-grey-gallery">
 					<tr>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+						<th> </th>
+					</tr>
+					<tr>
 						<th> Territory </th>
 						<th> City </th>
 						<th> Location </th>
@@ -157,6 +173,7 @@ else $end_date = date('Y-m-d');
 						<th> Average Hours TO<br/> Resolve PM </th>
 						<th> Average PM<br/>Frequency (Days) </th>
 						<th> Days Since<br/> Last PM </th>
+						<th> Actions </th>
 					</tr>
 				</thead>
 				<tbody>
@@ -331,6 +348,12 @@ else $end_date = date('Y-m-d');
 						
 						echo '<td>'.$average_pm_frequency.'</td>';
 						echo '<td>'.$days_since_last_pm.'</td>';
+						echo '<td>';
+						echo '	<a class="btn default purple" href="'.base_url().'sys/equipment_audit?equipment='.$equipment["pk_instrument_id"].'">
+									Audit 
+									<i class="fa fa-edit"></i>
+								</a>';
+						echo '</td>';
 					echo '</tr>';
 				} ?>
 				</tbody>
@@ -351,9 +374,28 @@ else $end_date = date('Y-m-d');
 $(document).ready(function() { 
 	var table = $('.dataaTable').dataTable({
 	  'iDisplayLength': 1000,
+	  'order': [[ 0, "desc" ]],
 	  'aaSorting':[]
-	});
+	}).columnFilter({ sPlaceHolder: "head:before",
+					aoColumns: [ 	
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+				    	 		{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+                                { type: "text" },
+								{ type: "text" },
+                                { type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								null
+								
+						]
+
+		});
 	
-	//new $.fn.dataTable.FixedColumns( table );
 });
 </script>

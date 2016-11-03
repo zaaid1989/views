@@ -49,12 +49,15 @@ function time_elapsed_string3($start_dat, $end_date, $full) {
                     
                 </ul>
                     </div>
-					
-				<?php
+                    <!-- END PAGE HEADER--> 
+                    <!-- BEGIN PAGE CONTENT-->
+                    <div class="row">
+                      <div class="col-md-12"> 
+					  <?php
 						  if(isset($_GET['msg']))
 							{ 
 							  echo '<div class="alert alert-success alert-dismissable">  
-									  <a class="close" data-dismiss="alert">Ã—</a>  
+									  <a class="close" data-dismiss="alert">×</a>  
 									  Complaint Added Successfully.  
 									</div>';
 							}
@@ -62,7 +65,7 @@ function time_elapsed_string3($start_dat, $end_date, $full) {
 							if(isset($_GET['msg_update']))
 							{ 
 							  echo '<div class="alert alert-success alert-dismissable">  
-									  <a class="close" data-dismiss="alert">Ã—</a>  
+									  <a class="close" data-dismiss="alert">×</a>  
 									  Complaint Updated Successfully.  
 									</div>';
 							}
@@ -70,20 +73,19 @@ function time_elapsed_string3($start_dat, $end_date, $full) {
 							if(isset($_GET['msg_delete']))
 							  { 
 								echo '<div class="alert alert-success alert-dismissable">  
-										<a class="close" data-dismiss="alert">Ã—</a>  
+										<a class="close" data-dismiss="alert">×</a>  
 										Complaint Deleted Successfully.  
 									  </div>';
 							  }
 						?>
-                    <!-- END PAGE HEADER--> 
-                    <!-- BEGIN PAGE CONTENT-->
-                    <div class="row">
-                      <div class="col-md-12"> 
-					  
+					  <?php /*
+						 $m	=	1;
+						for ($m=1;$m<4;$m++)  {
+							echo $m; */
+					  ?>
                         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-
 <?php 
-$data['table'] = 'all_open';
+$data['table'] = 'closed_complaints';
 $data['data_access_role'] = 'Admin'; //FSE, Supervisor, Admin
 if ($this->session->userdata('userrole')=='Supervisor') $data['data_access_role'] = 'Supervisor';
 if ($this->session->userdata('userrole')=='FSE') $data['data_access_role'] = 'FSE';
@@ -103,4 +105,85 @@ $this->load->view('sys/complaints_table_view',$data);
         <?php $this->load->view('footer');?>
 		
 		
+         <script>
+		 
+		 $(document).ready(function() { 
+			var table = $('.table_1').dataTable({
+			  'iDisplayLength': 1000,
+			  'order': [[ 1, "desc" ]]
+			}).columnFilter({ sPlaceHolder: "head:before",
+					aoColumns: [ 	
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+				    	 		{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+                                { type: "text" },
+								{ type: "text" },
+								{ type: "text" }
+								
+						]
 
+		});
+		var table2 = $('.table_2').dataTable({
+			  'iDisplayLength': 1000,
+			  'order': [[ 1, "desc" ]]
+			}).columnFilter({ sPlaceHolder: "head:before",
+					aoColumns: [ 	
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+				    	 		{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+                                { type: "text" },
+								{ type: "text" },
+								{ type: "text" }
+								
+						]
+
+		});
+		var table3 = $('.table_3').dataTable({
+			  'iDisplayLength': 1000,
+			  'order': [[ 1, "desc" ]]
+			}).columnFilter({ sPlaceHolder: "head:before",
+					aoColumns: [ 	
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+				    	 		{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+                                { type: "text" },
+								{ type: "text" },
+								{ type: "text" }
+								
+						]
+
+		});
+		var table4 = $('.table_4').dataTable({
+			  'iDisplayLength': 1000,
+			  'order': [[ 1, "desc" ]]
+			}).columnFilter({ sPlaceHolder: "head:before",
+					aoColumns: [ 	
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+				    	 		{ type: "text" },
+								{ type: "text" },
+								{ type: "text" },
+                                { type: "text" },
+								{ type: "text" },
+								{ type: "text" }
+								
+						]
+
+		});
+});
+
+</script>

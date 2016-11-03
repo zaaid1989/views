@@ -173,7 +173,7 @@ $(document).ready(function() {
 								if	($interval>10)	$pmc_assigned_late	+=	1;	
 								else $pmc_assigned	+=	1;
 								/// 13 July
-								$sap .= $rtza[0]['client_name']."(".$rtza[0]['serial_no']."),<br/>";
+								$sap .= $rtza[0]['client_name']."(".$rtza[0]['serial_no']."), $interval days<br/>";
 								
 							  }
 							  else { //// Completed

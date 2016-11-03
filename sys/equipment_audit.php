@@ -4,6 +4,7 @@ $equipment_id =	'0';
 
 if(isset($_GET['equipment'])) {
 	$equipment_id = $_GET['equipment'];
+	$data['eid'] = $equipment_id;
 }
 /// serial number
 $qserial = $this->db->query("SELECT serial_no,status,warranty_months,warranty_start_date,fk_category_id from tbl_instruments WHERE pk_instrument_id='".$equipment_id."'");
@@ -256,8 +257,18 @@ function Get_Date_Difference($start_date, $end_date)
 	$title_colors = array("grey-gallery","green-seagreen","blue-steel","purple-seance","yellow-zed","yellow-gold","red-thunderbird");
 
  ?>
+ <?php 
 
- <?php for ($k=0;$k<7;$k++) { ?>
+?> 
+ <?php for ($k=0;$k<7;$k++) { 
+ if ($k==1) {
+		$data['table'] = 'equipment_audit';
+		$data['data_access_role'] = 'Admin'; //FSE, Supervisor, Admin
+		//if ($this->session->userdata('userrole')=='Supervisor') $data['data_access_role'] = 'Supervisor';
+		$this->load->view('sys/complaints_table_view',$data);
+		continue;
+ }  if ($k==2) continue;
+ ?>
 		<!-- Assigned Total -->
 		<div class="portlet light bg-inverse" <?php if ($k==6 && $equipment_category=="1") echo 'style="display:none;"'; ?>>
 						<div class="portlet-title">
@@ -621,7 +632,7 @@ function Get_Date_Difference($start_date, $end_date)
 		
           
 <!-- END EXAMPLE TABLE PORTLET--> 
-
+ 
       </div>
      </div>
     </div>

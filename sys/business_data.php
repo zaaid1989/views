@@ -25,7 +25,7 @@ thead select {
                     <h3 class="page-title"> Business Projects </h3>
                     <div class="page-bar">
                       <ul class="page-breadcrumb">
-                        <li> <i class="fa fa-home"></i> <a href="<?php echo "site_url();"?>">Home</a> <i class="fa fa-angle-right"></i> </li>
+                        <li> <i class="fa fa-home"></i> Home <i class="fa fa-angle-right"></i> </li>
                         <li> Business Projects </li>
                       </ul>
                       

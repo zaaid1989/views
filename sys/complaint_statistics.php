@@ -15,11 +15,14 @@ if(isset($_GET['start_mydate']) && isset($_GET['end_mydate'])) {
 	$end_date = date('Y-m-d',strtotime($_GET['end_mydate']));
 	if ($start_date==$end_date && $start_date>$current_date)
 		$dates_set = "no";
+	$data['sd'] = $start_date;
+	$data['ed'] = $end_date;
 }
 // Assign Equipment ID
 
 if(isset($_GET['equipment'])) {
 	$equipment_id = $_GET['equipment'];
+	$data['pid'] = $equipment_id;
 }
 
 $maxqu = $this->db->query("SELECT * FROM user where id='".$user_id ."'");
@@ -244,104 +247,14 @@ while($month < $end)
 		<!-- Assigned Total -->
 		</div>
 <?php } ?>
-          <!-- BEGIN EXAMPLE TABLE PORTLET-->
-          <div class="portlet light bg-inverse<?php //echo $portlet_color[$k]; ?>">
-            <div class="portlet-title">
-              <div class="caption"> <i class="icon-pie-chart font-yellow-gold"></i><span class="caption-subject bold font-yellow-gold ">
-						Service Calls - <?php echo $start_date_f.' to '.$end_date_f ?> </span></div>
-              <div class="tools"> 
-              	<a href="javascript:;" class="collapse"> </a> 
-                <a href="javascript:;" class="remove"> </a> 
-              </div>
-            </div>
-            <div class="portlet-body">
-			
-                <table class="table  table-hover " id="sample_225">
-					<thead class="bg-yellow-gold">
-					<tr>
-						<th> </th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
-						<th> </th>
-					</tr>
-					<tr>
-						<th> TS Number </th>
-						<th> Time Taken </th>
-						<th> Territory </th>
-						<th> City </th>
-						<th> Customer </th>
-						<th> Serial No </th>
-						<th> Problem Summary </th>
-						<th> FSE/SAP </th>
-						<th> Status </th>
-						<th> Actions </th>
-						
-					</tr>
-					</thead>
-					<tbody> 
-					
-					<?php  // Current Pending Calls
-						$q		= "SELECT `tbl_complaints`.*,`user`.first_name,`tbl_cities`.city_name,`tbl_offices`.office_name,`tbl_clients`.client_name,`tbl_products`.product_name,`tbl_instruments`.serial_no,`tbl_area`.area
-									FROM `tbl_complaints`
-									LEFT JOIN tbl_cities ON `tbl_complaints`.fk_city_id = `tbl_cities`.pk_city_id
-									LEFT JOIN tbl_offices ON `tbl_complaints`.fk_office_id = `tbl_offices`.pk_office_id
-									LEFT JOIN tbl_clients ON `tbl_complaints`.fk_customer_id = `tbl_clients`.pk_client_id
-									LEFT JOIN tbl_instruments ON `tbl_complaints`.fk_instrument_id = `tbl_instruments`.pk_instrument_id
-									LEFT JOIN tbl_products ON `tbl_products`.pk_product_id = `tbl_instruments`.fk_product_id
-									LEFT JOIN tbl_area ON `tbl_area`.pk_area_id = `tbl_clients`.fk_area_id
-									LEFT JOIN user ON `user`.id = `tbl_complaints`.assign_to
-									WHERE `tbl_complaints`.complaint_nature='complaint' AND `tbl_instruments`.fk_product_id = '".$equipment_id."' ";
-						if ($dates_set=="yes") {
-							$temp_date = date('Y-m-d H:i:s',strtotime('2015-04-01 00:00:00'));
-							$q		.=	"AND CAST(`date` AS DATE) BETWEEN '".$start_date."' AND '".$end_date."' ";
-						}
-						$q		.=	"ORDER BY 'date' ASC";
-						$query 	= $this->db->query($q);
-						$result = $query->result_array();
-						
-						foreach ($result AS $pmc) {
-							$temp_time_taken = "";
-							if ($pmc['status']=='Closed')
-								$temp_time_taken = Get_Date_Difference($pmc["date"],$pmc["finish_time"]);
-							else
-								$temp_time_taken = Get_Date_Difference($pmc["date"],date('Y-m-d H:i:s'));
-							
-							//$temp_status = "";
-							
-							echo '<tr> ';
-							echo '<td>'.$pmc['ts_number'].'</td>';
-							//echo '<td>'.date('d-M-Y',strtotime($pmc['date'])).'</td>';
-							echo '<td>'.$temp_time_taken.'</td>';
-							echo '<td>'.$pmc['office_name'].'</td>';
-							echo '<td>'.$pmc['city_name'].'</td>';
-							echo '<td>'.$pmc['client_name'].'</td>';
-							echo '<td>'.$pmc['serial_no'].'</td>';
-							echo '<td>'.urldecode($pmc['problem_summary']).'</td>';
-							echo '<td>'.$pmc['first_name'].'</td>';
-							echo '<td>';
-								$this->load->model("complaint_model");
-								$obj=new Complaint_model();
-								$obj->current_status($pmc['status']);
-							echo '</td>';
-							echo '<td>';
-								echo '<a class="btn btn-sm default purple-stripe" href="'.base_url().'sys/technical_service_pvr/'.$pmc["pk_complaint_id"].'">';
-								echo 'TSR <i class="fa fa-eye"></i></a>';
-							echo '</td>';
-							echo '</tr> ';
-						}
-					?>
-					</tbody>
-              </table>
-            </div>
-          </div>
-		
-          
+
+
+ <?php 
+$data['table'] = 'complaint_statistics';
+$data['data_access_role'] = 'Admin'; //FSE, Supervisor, Admin
+//if ($this->session->userdata('userrole')=='Supervisor') $data['data_access_role'] = 'Supervisor';
+$this->load->view('sys/complaints_table_view',$data);
+?>         
 <!-- END EXAMPLE TABLE PORTLET--> 
 
       </div>
