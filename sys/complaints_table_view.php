@@ -436,7 +436,12 @@ if ($access_privilege == 'Admin' || $access_privilege == 'secratery') {
 										  <?php } ?>
 <?php } else { // FOR PM ?>
 										<a class="btn btn-sm default blue-stripe" 
-                                          href="<?php echo base_url();?>sys/pm_form/<?php echo $complaint_list["pk_complaint_id"] ?>">
+                                          href="<?php 
+										  if ($access_privilege == "FSE" && $this->session->userdata('userrole')=="Supervisor")
+												echo base_url().'sys/s_pm_form/'.$complaint_list["pk_complaint_id"]; 
+											else echo base_url().'sys/pm_form/'.$complaint_list["pk_complaint_id"]; 
+										
+										?>">
                                           	PM Form 
 											<i class="fa fa-eye"></i>
                                           </a>
