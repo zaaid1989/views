@@ -316,7 +316,7 @@
 														<div class="form-group">
 															<label class="control-label col-md-3">Territory</label>
 															<div class="col-md-9">
-																<select name="offices" class="form-control">
+																<select name="offices[]" class="form-control" multiple="multiple">
 																  <?php 
                                                                     $tbl_designations=$this->db->query("select * from tbl_offices");
                                                                     $dataa=$tbl_designations->result_array();

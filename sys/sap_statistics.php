@@ -26,7 +26,8 @@ if(isset($_GET['engineer'])) {
 	}
 	if ($this->session->userdata('userrole')=='Supervisor') {
 		if ($maxval[0]['userrole']=='Salesman') show_404();
-		if ($maxval[0]['userrole']=='FSE' && $maxval[0]['fk_office_id']!=$this->session->userdata('territory')) show_404();
+		$c =  array_intersect(explode(',',$maxval[0]['fk_office_id']), explode(',',$this->session->userdata('territory')));
+		if ($maxval[0]['userrole']=='FSE' && sizeof($c)==0) show_404();
 	}
 }
 
@@ -714,7 +715,7 @@ Different from director statistics because that is for last 30 days running
 											<?php 
 											$maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 											if ($this->session->userdata('userrole')=="Supervisor")
-												$maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' AND userrole='FSE' AND fk_office_id='".$this->session->userdata('territory')."' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+												$maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' AND userrole='FSE' AND FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id) ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 											$maxval=$maxqu->result_array();
                                             foreach($maxval as $val)
                                             {

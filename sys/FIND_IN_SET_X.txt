@@ -1,0 +1,26 @@
+DELIMITER $$
+
+CREATE FUNCTION `FIND_IN_SET_X`(inputList TEXT,targetList TEXT) RETURNS INT(11)
+    DETERMINISTIC
+BEGIN
+  DECLARE limitCount INT DEFAULT 0 ;
+  DECLARE counter INT DEFAULT 0 ;
+  DECLARE res INT DEFAULT 0 ;
+  DECLARE temp TEXT ;
+  SET limitCount = 1 + LENGTH(inputList) - LENGTH(REPLACE(inputList, ',', '')) ;
+  simple_loop :
+  LOOP
+    SET counter = counter + 1 ;
+    SET temp = SUBSTRING_INDEX(SUBSTRING_INDEX(inputList, ',', counter),',',- 1) ;
+    SET res = FIND_IN_SET(temp, targetList) ;
+    IF res > 0 
+    THEN LEAVE simple_loop ;
+    END IF ;
+    IF counter = limitCount 
+    THEN LEAVE simple_loop ;
+    END IF ;
+  END LOOP simple_loop ;
+  RETURN res ;
+END$$
+
+DELIMITER ;

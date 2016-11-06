@@ -94,7 +94,7 @@ $data['sap'] = $sap;
                                             foreach($maxval as $val)
                                             {
                                                 ?>
-                                                <option value="<?php echo $val['pk_office_id'];//pk_instrument_id?>" <?php if($territory==$val['pk_office_id']){ echo 'selected="selected"';}//pk_instrument_id?>>
+                                                <option value="<?php echo $val['pk_office_id'];//pk_instrument_id?>" <?php if(isset($_GET['territory']) && $_GET['territory']==$val['pk_office_id']){ echo 'selected="selected"';}//pk_instrument_id?>>
 													<?php echo $val['office_name'];//$val['serial_no'].' - '.$val['product_name']?>
                                                 </option>
                                                 <?php 
@@ -138,7 +138,7 @@ $data['sap'] = $sap;
 		<!-- Search Form -->
 <?php } ?>
 
-					<div class="portlet solid bordered light bg-inverse ">
+					<div class="portlet solid bordered light bg-inverse " style="margin-bottom:1000px;">
 						<!-- Portlet Title -->
 						<div class="portlet-title">
 							<div class="caption font-purple-seance">
@@ -156,7 +156,7 @@ $data['sap'] = $sap;
 						<!-- End Portlet Title -->
 						<!-- Begin Portlet Body -->
 						<div class="portlet-body" style="margin-left:3%; margin-right:3%; ">
-								<div id="chart_sap_territory_visit_review_view" style="width: 100%; height: 1200px; margin-left:20px; "></div> 	 
+								<div id="chart_sap_territory_visit_review_view" style="width: 100%; height: 500px; margin-left:20px; "></div> 	 
 						</div>
 						<!-- End Portlet Body -->
 					</div>
@@ -187,4 +187,8 @@ function sap_changed() {
 textarea {
   width: 100%;
 }
+.highcharts-container { overflow: visible !important; } 
+.highcharts-root { overflow: visible !important; } 
+svg { overflow: visible; }
+
 </style>

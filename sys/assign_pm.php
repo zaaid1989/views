@@ -347,7 +347,7 @@
                     $rt1=$ty1->result_array();
 					//
 					//$ty=$this->db->query("select * from user where fk_office_id='".$rt1[0]['fk_office_id']."' AND userrole IN ('FSE','Supervisor')");
-					$ty=$this->db->query("select * from user where fk_office_id='".$office_id."' AND userrole IN ('FSE','Supervisor') AND delete_status='0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+					$ty=$this->db->query("select * from user where FIND_IN_SET_X('".$office_id."','fk_office_id') AND userrole IN ('FSE','Supervisor') AND delete_status='0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
                     $rt=$ty->result_array();
 	
 					if (sizeof($rt) == "0") 

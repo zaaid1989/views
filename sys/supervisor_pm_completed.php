@@ -138,7 +138,7 @@
                                 <?php
 									  $dbres1 = $this->db->query("SELECT * FROM user  where id='".$this->session->userdata('userid')."'");
 									  $dbresResult1=$dbres1->result_array();
-									  $dbres2 = $this->db->query("SELECT * FROM user  where fk_office_id='".$dbresResult1[0]['fk_office_id']."'");
+									  $dbres2 = $this->db->query("SELECT * FROM user  where FIND_IN_SET_X('".$dbresResult1[0]['fk_office_id']."',fk_office_id)");
 									  $dbresResult2=$dbres2->result_array();
 									  $dbres="select * from tbl_complaints where  assign_to IN (";
 										$n=0;

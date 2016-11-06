@@ -95,7 +95,7 @@
 									from tbl_clients 
 									LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
 									LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
-									where tbl_clients.delete_status = '0' AND tbl_clients.fk_office_id =  '".$get_update_vs_project_list[0]['user_office']."'";
+									where tbl_clients.delete_status = '0' AND tbl_clients.fk_office_id IN (".$get_update_vs_project_list[0]['user_office'].")";
 							  
 							if(substr($get_update_dvr_project_list[0]['fk_customer_id'],0,1)=='o') { 
 								?>

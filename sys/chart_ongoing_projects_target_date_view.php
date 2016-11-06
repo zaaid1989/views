@@ -129,7 +129,7 @@ $(document).ready(function() {
 					where  CAST(tbl_project_strategy.`target_date` AS DATE) BETWEEN '".$first_of_month."' AND '".$last_of_month."'  AND business_data.`status`=0 AND tbl_project_strategy.`strategy_status`='1' ";
 					
 					if ($territory!=0) {
-						$queryy .= " AND `Territory`='".$territory."' ";
+						$queryy .= " AND `Territory` IN(".$territory.") ";
 					}
 					if ($sap!=0) {
 						$queryy .= " AND `Sales Person`='".$sap."' ";

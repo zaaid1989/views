@@ -1340,7 +1340,7 @@
 				  status = '<?php echo $get_compalaint_result[0]['status'];?>';
 					  if(status !='Pending')
 					  {
-						  alert('Currunt Status is Not Pending, You are Not Allowed to Submit!');
+						  alert('Current Status is Not Pending, You are Not Allowed to Submit!');
 						  return false;
 					  }
 			  }

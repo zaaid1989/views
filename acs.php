@@ -84,7 +84,7 @@
                                                       <?php 
 													  $ty2=$this->db->query("select * from tbl_offices where pk_office_id='".$rt[0]["fk_office_id"]."'");
 													  $rt2=$ty2->result_array();
-													  echo $rt2[0]["office_name"] ?>
+													  foreach($rt2 AS $office) { echo $office["office_name"]; } ?>
 												  </td>
                                                   <td>
                                                       <?php 

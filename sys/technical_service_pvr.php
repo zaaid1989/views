@@ -3,8 +3,8 @@
 $query="SELECT `assign_to`,fk_office_id from tbl_complaints where `pk_complaint_id` ='".$this->uri->segment(3)."' AND `complaint_nature`='complaint'";
 $query_db=$this->db->query($query);
 $user_complaints=$query_db->result_array();			
-
-if ($this->session->userdata('userrole')=="Supervisor" && $user_complaints[0]['fk_office_id']!=$this->session->userdata('territory')) show_404();
+$c =  array_intersect(explode(',',$user_complaints[0]['fk_office_id']), explode(',',$this->session->userdata('territory')));
+if ($this->session->userdata('userrole')=="Supervisor" && sizeof($c)==0) show_404();
 if ($this->session->userdata('userrole')=="FSE" && $user_complaints[0]['assign_to']!=$this->session->userdata('userid')) show_404();
 if ($this->session->userdata('userrole')=="Salesman") show_404();
 
@@ -1101,7 +1101,7 @@ if ($user_complaints[0]['assign_to']==$this->session->userdata('userid')) $assig
                                 <?php 
                                       $ty21=$this->db->query("select * from user WHERE id='" . $this->session->userdata('userid')."'");
                                       $rt21=$ty21->result_array();
-                                      $ty22=$this->db->query("select * from user WHERE fk_office_id='" . $rt21[0]['fk_office_id']."' AND userrole IN('FSE','Supervisor') ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+                                      $ty22=$this->db->query("select * from user WHERE FIND_IN_SET_X('" . $rt21[0]['fk_office_id']."',fk_office_id) AND userrole IN('FSE','Supervisor') ORDER BY  `fk_office_id` ,  `userrole` ASC ");
                                       $rt22=$ty22->result_array();
                                       if (sizeof($rt22) == "0") {} 
 									  else {
@@ -1127,7 +1127,7 @@ if ($user_complaints[0]['assign_to']==$this->session->userdata('userid')) $assig
 						   </thead>
 						   <?php
 						   
-						   $qua="SELECT * from user where fk_office_id =  '". $rt21[0]['fk_office_id'] ."' AND userrole IN('FSE','Salesman','Supervisor') AND user.delete_status=0 ORDER BY  `fk_office_id` ,  `userrole` ASC ";
+						   $qua="SELECT * from user where FIND_IN_SET_X('". $rt21[0]['fk_office_id'] ."',fk_office_id) AND userrole IN('FSE','Salesman','Supervisor') AND user.delete_status=0 ORDER BY  `fk_office_id` ,  `userrole` ASC ";
 							
 							$gha=$this->db->query($qua);
 							$rta=$gha->result_array();

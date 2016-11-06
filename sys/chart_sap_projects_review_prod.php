@@ -92,7 +92,7 @@ $data['sap'] = $sap;
                                             foreach($maxval as $val)
                                             {
                                                 ?>
-                                                <option value="<?php echo $val['pk_office_id'];//pk_instrument_id?>" <?php if($territory==$val['pk_office_id']){ echo 'selected="selected"';}//pk_instrument_id?>>
+                                                <option value="<?php echo $val['pk_office_id'];//pk_instrument_id?>" <?php if((isset($_GET['territory'])) && $_GET['territory']==$val['pk_office_id']){ echo 'selected="selected"';}//pk_instrument_id?>>
 													<?php echo $val['office_name'];//$val['serial_no'].' - '.$val['product_name']?>
                                                 </option>
                                                 <?php 

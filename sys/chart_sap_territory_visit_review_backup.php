@@ -101,7 +101,7 @@ if ($sap != 0) $territory = 0;
                                             {
                                                 
                                                 ?>
-                                                <option value="<?php echo $val['pk_office_id'];//pk_instrument_id?>" <?php if($territory==$val['pk_office_id']){ echo 'selected="selected"';}//pk_instrument_id?>>
+                                                <option value="<?php echo $val['pk_office_id'];//pk_instrument_id?>" <?php if(isset($_GET['territory']) && $_GET['territory']==$val['pk_office_id']){ echo 'selected="selected"';}//pk_instrument_id?>>
 													<?php echo $val['office_name'];//$val['serial_no'].' - '.$val['product_name']?>
                                                 </option>
                                                 <?php 
@@ -394,7 +394,7 @@ $(document).ready(function() {
 					"; // This query will only fetch unique clients in the visited table, it wont find any neglected projects having no entry in tbl_dvr
 					if ($territory!=0) {
 						//$queryy .= " AND `Territory`='".$territory."' ";
-						$queryy .= " AND tbl_dvr.fk_customer_id IN (SELECT pk_client_id FROM tbl_clients WHERE fk_office_id='".$territory."')";
+						$queryy .= " AND tbl_dvr.fk_customer_id IN (SELECT pk_client_id FROM tbl_clients WHERE fk_office_id IN(".$territory."))";
 					}
 					if ($sap!=0) {
 						//$queryy .= " AND `Sales Person`='".$sap."' ";

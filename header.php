@@ -401,7 +401,7 @@
 		</div>
         
 		<!-- END TOP NAVIGATION MENU -->
-		<?php if($this->session->userdata('userid')=='15') {?>
+		<?php if($this->session->userdata('userid')=='15') { /*?>
         <div style="float:right; margin:5px 20px 0 0;">      
             <select class="form-control" onChange="change_session_and_user_office_in_db(this.value)">
             	<option value="2" <?php if($this->session->userdata('territory')=='2') {?> selected <?php }?>>Lahore Office</option>
@@ -414,7 +414,7 @@
 			}
 			</script>
         </div>
-        <?php }?>
+        <?php */ }?>
 	</div>
 	<!-- END HEADER INNER -->
 </div>
@@ -589,7 +589,7 @@ $query2 		 = $this->db->query("select * from tbl_complaints where status = 'Pend
 }}
 
 if ($supervisor ) {							
-$query2 		 = $this->db->query("select * from tbl_complaints where status != 'Pending Verification' AND status != 'Pending Registration' AND status != 'Closed'  AND complaint_nature='complaint' AND fk_office_id='".$this->session->userdata('territory')."'");
+$query2 		 = $this->db->query("select * from tbl_complaints where status != 'Pending Verification' AND status != 'Pending Registration' AND status != 'Closed'  AND complaint_nature='complaint' AND fk_office_id IN(".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0) {
@@ -598,7 +598,7 @@ $query2 		 = $this->db->query("select * from tbl_complaints where status != 'Pen
 }}
 							
 if ($supervisor ) {								
-$query2 		 = $this->db->query("select * from tbl_complaints where status = 'Pending Verification' AND complaint_nature='complaint' AND fk_office_id='".$this->session->userdata('territory')."'");
+$query2 		 = $this->db->query("select * from tbl_complaints where status = 'Pending Verification' AND complaint_nature='complaint' AND fk_office_id IN(".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0) {
@@ -608,7 +608,7 @@ $query2 		 = $this->db->query("select * from tbl_complaints where status = 'Pend
 
 if ($supervisor || $admin ) {								
 $query 		 = "select * from tbl_complaints where status = 'Pending SPRF' AND complaint_nature='complaint'";
-if ($supervisor)			$query 		 .=	" AND fk_office_id='".$this->session->userdata('territory')."'";
+if ($supervisor)			$query 		 .=	" AND fk_office_id IN (".$this->session->userdata('territory').")";
 							$query2 		 = $this->db->query($query);
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
@@ -618,7 +618,7 @@ if ($supervisor)			$query 		 .=	" AND fk_office_id='".$this->session->userdata('
 }}
 
 if ($supervisor ) {								
-$query2 		 = $this->db->query("select * from tbl_complaints where status != 'Pending Verification' AND status != 'Completed'  AND complaint_nature='PM' AND fk_office_id='".$this->session->userdata('territory')."'");
+$query2 		 = $this->db->query("select * from tbl_complaints where status != 'Pending Verification' AND status != 'Completed'  AND complaint_nature='PM' AND fk_office_id IN(".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0) {
@@ -627,7 +627,7 @@ $query2 		 = $this->db->query("select * from tbl_complaints where status != 'Pen
 }}
 
 if ($supervisor ) {	
-$query2 		 = $this->db->query("select * from tbl_complaints where status = 'Pending Verification'  AND complaint_nature='PM' AND fk_office_id='".$this->session->userdata('territory')."'");
+$query2 		 = $this->db->query("select * from tbl_complaints where status = 'Pending Verification'  AND complaint_nature='PM' AND fk_office_id IN(".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0) {
@@ -1388,7 +1388,7 @@ if ($static_menu) {
                         	 <i class="icon-bar-chart"></i>
 							  <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
-											 where status != 'Pending Verification' AND status != 'Closed'  AND complaint_nature='complaint' AND fk_office_id='".$this->session->userdata('territory')."'");
+											 where status != 'Pending Verification' AND status != 'Closed'  AND complaint_nature='complaint' AND fk_office_id IN(".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0)
@@ -1396,7 +1396,7 @@ if ($static_menu) {
 					   ?>
 					   <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
-											 where status = 'Pending Verification' AND complaint_nature='complaint' AND fk_office_id='".$this->session->userdata('territory')."'");
+											 where status = 'Pending Verification' AND complaint_nature='complaint' AND fk_office_id IN(".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0)
@@ -1410,7 +1410,7 @@ if ($static_menu) {
                         	 <i class="icon-bar-chart"></i>
 							 <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
-											 where status = 'Pending SPRF' AND complaint_nature='complaint' AND fk_office_id='".$this->session->userdata('territory')."'");
+											 where status = 'Pending SPRF' AND complaint_nature='complaint' AND fk_office_id IN(".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0)
@@ -1424,7 +1424,7 @@ if ($static_menu) {
                         	 <i class="icon-bar-chart"></i>
 							 <?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
-											 where status != 'Pending Verification' AND status != 'Completed'  AND complaint_nature='PM' AND fk_office_id='".$this->session->userdata('territory')."'");
+											 where status != 'Pending Verification' AND status != 'Completed'  AND complaint_nature='PM' AND fk_office_id IN (".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0)
@@ -1432,7 +1432,7 @@ if ($static_menu) {
 							?>
 							<?php
 							$query2 		 = $this->db->query("select * from tbl_complaints 
-											 where status = 'Pending Verification'  AND complaint_nature='PM' AND fk_office_id='".$this->session->userdata('territory')."'");
+											 where status = 'Pending Verification'  AND complaint_nature='PM' AND fk_office_id IN (".$this->session->userdata('territory').")");
 							$amount_count = $query2->result_array();
 							$pending_v	=	sizeof($amount_count);
 							if  ($pending_v>0)

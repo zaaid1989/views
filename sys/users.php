@@ -146,14 +146,14 @@ function Get_Date_Difference($start_date, $end_date)
 													  <?php 
 													  $ty=$this->db->query("select * from tbl_cities where pk_city_id='".$get_users_list["fk_city_id"]."'");
 													  $rt=$ty->result_array();
-													  echo $rt[0]["city_name"] ?>
+													  echo $get_users_list["city_name"]; ?>
 												  </td>
                                                   <td>
 													  <?php //echo $get_users_list["fk_office_id"] ?>
                                                       <?php 
 													  $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$get_users_list["fk_office_id"]."'");
 													  $rt=$ty->result_array();
-													  echo $rt[0]["office_name"] ?>
+													  echo $get_users_list["office_name"] ?>
 												  </td>
 												  <td> <!-- Termination Date -->
 													  <?php echo date('d-M-Y',strtotime($get_users_list["termination_date"])); ?>

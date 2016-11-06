@@ -5,7 +5,7 @@ if ($this->session->userdata('userrole') != 'Admin' && $this->session->userdata(
 	$territory = $this->session->userdata('territory');
 }
 else {
-	if (isset($_GET['territory'])) $territory = $_GET['territory'];
+	if (isset($_GET['territory']) ) $territory = $_GET['territory'];
 }
 $data['territory'] = $territory;
 ?>

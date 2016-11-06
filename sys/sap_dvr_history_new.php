@@ -7,12 +7,16 @@ if (isset($_GET['engineer'])) {
 $engineer_id = $_GET['engineer'];
 $maxqu = $this->db->query("SELECT * FROM user WHERE id='".$_GET['engineer']."'");
 $maxval=$maxqu->result_array();
+$c =  array_intersect(explode(',',$maxval[0]['fk_office_id']), explode(',',$this->session->userdata('territory')));
+
+if ((sizeof($c) == 0 || $maxval[0]['userrole']!='Salesman') show_404();
+/*
 if ($this->session->userdata('territory')!='1' && $this->session->userdata('territory')!='5') { // when not rawalpindi
-	if ($maxval[0]['fk_office_id']!=$this->session->userdata('territory') || $maxval[0]['userrole']!='Salesman') show_404();
+	if ((! in_array($maxval[0]['fk_office_id'],explode(',',$this->session->userdata('territory'))) ) || $maxval[0]['userrole']!='Salesman') show_404();
 }
 else {// if rawalpindi or peshawar
 	if (($maxval[0]['fk_office_id']!='1' && $maxval[0]['fk_office_id']!='5' )|| $maxval[0]['userrole']!='Salesman') show_404();
-}
+}*/
 }
 else $engineer_id = $this->session->userdata('userid');
 $maxqu = $this->db->query("SELECT * FROM user WHERE id='".$this->session->userdata('userid')."'");
@@ -20,9 +24,9 @@ $maxval=$maxqu->result_array();
 $sap_supervisor = $maxval[0]['sap_supervisor'];
 if ($sap_supervisor !='1' && $engineer_id!=$this->session->userdata('userid')) show_404();
 
-$maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' AND userrole='Salesman' AND fk_office_id='".$this->session->userdata('territory')."'");
+$maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' AND userrole='Salesman' AND FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id)");
 if ($this->session->userdata('territory')=='1')
-	$maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' AND userrole='Salesman' AND fk_office_id IN ('1','5')");
+	//$maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' AND userrole='Salesman' AND fk_office_id IN ('1','5')");
 $maxval=$maxqu->result_array();
 
 

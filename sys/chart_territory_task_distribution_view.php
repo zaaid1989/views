@@ -7,7 +7,7 @@ $complaint_status = array('Shifted','Pending Verification','SPRF Approved','Pend
 $user_color = array('#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281','#4b8df8','#ecbc29','#f3565d','#9a12b3','#d91e18','#ffb848','#26c281');
 
 if ($territory!=0){
-$q = $this->db->query("SELECT * FROM user WHERE id IN (SELECT DISTINCT assign_to from tbl_complaints WHERE fk_office_id='$territory'  AND CAST(`date` AS DATE) BETWEEN '".date('Y-m-d',strtotime('-30 days'))."' AND '".date('Y-m-d')."' ) AND delete_status=0 AND userrole IN('FSE','Supervisor')");
+$q = $this->db->query("SELECT * FROM user WHERE id IN (SELECT DISTINCT assign_to from tbl_complaints WHERE fk_office_id IN($territory)  AND CAST(`date` AS DATE) BETWEEN '".date('Y-m-d',strtotime('-30 days'))."' AND '".date('Y-m-d')."' ) AND delete_status=0 AND userrole IN('FSE','Supervisor')");
 }
 else
 	$q = $this->db->query("SELECT * FROM user WHERE id IN (SELECT DISTINCT assign_to from tbl_complaints WHERE CAST(`date` AS DATE) BETWEEN '".date('Y-m-d',strtotime('-30 days'))."' AND '".date('Y-m-d')."' ) AND userrole IN('FSE','Supervisor')");
@@ -30,7 +30,7 @@ else
 $q = $this->db->query("SELECT DISTINCT tbl_products.product_name, pk_product_id
 FROM `tbl_instruments`
 LEFT JOIN tbl_products ON tbl_products.pk_product_id = tbl_instruments.fk_product_id
-WHERE tbl_instruments.pk_instrument_id IN (SELECT DISTINCT fk_instrument_id from tbl_complaints WHERE CAST(`date` AS DATE) BETWEEN '".date('Y-m-d',strtotime('-30 days'))."' AND '".date('Y-m-d')."' ORDER BY `date` ASC ) AND tbl_products.fk_category_id >= 1 AND tbl_products.status=0 AND tbl_instruments.fk_office_id='$territory'");
+WHERE tbl_instruments.pk_instrument_id IN (SELECT DISTINCT fk_instrument_id from tbl_complaints WHERE CAST(`date` AS DATE) BETWEEN '".date('Y-m-d',strtotime('-30 days'))."' AND '".date('Y-m-d')."' ORDER BY `date` ASC ) AND tbl_products.fk_category_id >= 1 AND tbl_products.status=0 AND tbl_instruments.fk_office_id IN($territory)");
 $product_results = $q->result_array();
 $n = 0;
 foreach ($product_results AS $p)	{
@@ -204,7 +204,7 @@ $(document).ready(function() {
 						LEFT JOIN tbl_products ON `tbl_products`.pk_product_id = `tbl_instruments`.fk_product_id
 						LEFT JOIN tbl_area ON `tbl_area`.pk_area_id = `tbl_clients`.fk_area_id
 						LEFT JOIN user ON `user`.id = `tbl_complaints`.assign_to
-						WHERE `tbl_complaints`.complaint_nature='".$complaint_nature."' AND `tbl_complaints`.status IN ('Completed','Closed')  AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_complaints`.assign_to='".$user['id']."' AND CAST(`date` AS DATE) BETWEEN '".$ed."' AND '".$sd."' AND tbl_instruments.fk_office_id='$territory' ORDER BY `date` ASC");
+						WHERE `tbl_complaints`.complaint_nature='".$complaint_nature."' AND `tbl_complaints`.status IN ('Completed','Closed')  AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_complaints`.assign_to='".$user['id']."' AND CAST(`date` AS DATE) BETWEEN '".$ed."' AND '".$sd."' AND tbl_instruments.fk_office_id IN($territory) ORDER BY `date` ASC");
 						
 						
 						$cqueryyy = $this->db->query("SELECT `tbl_complaints`.*,`user`.first_name,`tbl_cities`.city_name,`tbl_clients`.client_name,`tbl_products`.product_name,`tbl_instruments`.serial_no,`tbl_area`.area
@@ -215,7 +215,7 @@ $(document).ready(function() {
 						LEFT JOIN tbl_products ON `tbl_products`.pk_product_id = `tbl_instruments`.fk_product_id
 						LEFT JOIN tbl_area ON `tbl_area`.pk_area_id = `tbl_clients`.fk_area_id
 						LEFT JOIN user ON `user`.id = `tbl_complaints`.assign_to
-						WHERE `tbl_complaints`.complaint_nature='".$complaint_nature."' AND `tbl_complaints`.status NOT IN ('Completed','Closed')  AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_complaints`.assign_to='".$user['id']."' AND CAST(`date` AS DATE) BETWEEN '".$ed."' AND '".$sd."' AND tbl_instruments.fk_office_id='$territory' ORDER BY `date` ASC");
+						WHERE `tbl_complaints`.complaint_nature='".$complaint_nature."' AND `tbl_complaints`.status NOT IN ('Completed','Closed')  AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_complaints`.assign_to='".$user['id']."' AND CAST(`date` AS DATE) BETWEEN '".$ed."' AND '".$sd."' AND tbl_instruments.fk_office_id IN($territory) ORDER BY `date` ASC");
 						
 						$cquery = $this->db->query("SELECT `tbl_complaints`.*,`user`.first_name,`tbl_cities`.city_name,`tbl_clients`.client_name,`tbl_products`.product_name,`tbl_instruments`.serial_no,`tbl_area`.area
 						FROM `tbl_complaints`
@@ -225,7 +225,7 @@ $(document).ready(function() {
 						LEFT JOIN tbl_products ON `tbl_products`.pk_product_id = `tbl_instruments`.fk_product_id
 						LEFT JOIN tbl_area ON `tbl_area`.pk_area_id = `tbl_clients`.fk_area_id
 						LEFT JOIN user ON `user`.id = `tbl_complaints`.assign_to
-						WHERE `tbl_complaints`.complaint_nature='".$complaint_nature."'  AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_complaints`.assign_to='".$user['id']."' AND CAST(`date` AS DATE) BETWEEN '".$ed."' AND '".$sd."' AND tbl_instruments.fk_office_id='$territory' ORDER BY `date` ASC");
+						WHERE `tbl_complaints`.complaint_nature='".$complaint_nature."'  AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_complaints`.assign_to='".$user['id']."' AND CAST(`date` AS DATE) BETWEEN '".$ed."' AND '".$sd."' AND tbl_instruments.fk_office_id IN($territory) ORDER BY `date` ASC");
 					}	
 						$cresultt = $cqueryy->result_array();
 						$cresulttt = $cqueryyy->result_array();

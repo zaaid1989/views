@@ -7,7 +7,7 @@ if ($this->session->userdata('userrole') != 'Admin' && $this->session->userdata(
 	$sap = $this->session->userdata('userid');
 }
 else {
-	if (isset($_GET['territory'])) $territory = $_GET['territory'];
+	if (isset($_GET['territory']) ) $territory = $_GET['territory'];
 	if (isset($_GET['sap'])) $sap = $_GET['sap'];
 }
 
@@ -91,7 +91,7 @@ $data['sap'] = $sap;
 											$maxval=$maxqu->result_array();
                                             foreach($maxval as $val){
                                                 ?>
-                                                <option value="<?php echo $val['pk_office_id'];//pk_instrument_id?>" <?php if($territory==$val['pk_office_id']){ echo 'selected="selected"';}//pk_instrument_id?>>
+                                                <option value="<?php echo $val['pk_office_id'];//pk_instrument_id?>" <?php if ( isset($_GET['territory']) && $_GET['territory'] == $val['pk_office_id'] ){ echo 'selected="selected"';}//pk_instrument_id?>>
 													<?php echo $val['office_name'];//$val['serial_no'].' - '.$val['product_name']?>
                                                 </option>
                                                 <?php 
@@ -136,7 +136,7 @@ $data['sap'] = $sap;
 							$pcn=0;
 							$queryyy = "select * FROM business_data where  business_data.`status`=0  ";
 							
-							if ($territory!=0) $queryyy .= " AND `Territory`='".$territory."' ";
+							if ($territory!=0) $queryyy .= " AND `Territory` IN(".$territory.") ";
 							if ($sap!=0) $queryyy .= " AND `Sales Person`='".$sap."' ";
 							
 							$pcq = $this->db->query($queryyy);
@@ -145,7 +145,7 @@ $data['sap'] = $sap;
 							
 							$queryyy = "select * FROM business_data where  business_data.`status`=0 AND pk_businessproject_id NOT IN (SELECT fk_project_id from tbl_project_strategy WHERE strategy_status='1')  ";
 							
-							if ($territory!=0) $queryyy .= " AND `Territory`='".$territory."' ";
+							if ($territory != 0) $queryyy .= " AND `Territory` IN(".$territory.") ";
 							if ($sap!=0) $queryyy .= " AND `Sales Person`='".$sap."' ";
 							
 							$pcnq = $this->db->query($queryyy);

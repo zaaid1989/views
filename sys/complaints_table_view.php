@@ -289,7 +289,7 @@ for($i=$j;$i<$k;$i++) {
 									  $product_condition = "";
 									  $equipment_condition = "";
 									  $date_condition = "";
-									  if ($access_privilege=="Supervisor") $role_condition = "AND tbl_complaints.fk_office_id='".$this->session->userdata('territory')."'";
+									  if ($access_privilege=="Supervisor") $role_condition = "AND tbl_complaints.fk_office_id IN(".$this->session->userdata('territory').")";
 									  if ($access_privilege=="FSE") $role_condition = "AND tbl_complaints.assign_to='".$this->session->userdata('userid')."'";
 									  if ($product_id != "") $product_condition = "AND `tbl_instruments`.fk_product_id ='".$product_id."'";
 									  if ($equipment_id != "") $equipment_condition = "AND `tbl_complaints`.fk_instrument_id ='".$equipment_id."'";

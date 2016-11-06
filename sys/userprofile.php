@@ -90,9 +90,9 @@ $userdataheader=$dbres->result_array();
 												<ul class="list-inline">
 													<li>
 														<i class="fa fa-map-marker"></i> 
-														<?php  $ty=$this->db->query("select * from tbl_offices where pk_office_id='".$profiledata[0]['fk_office_id']."'");
+														<?php  $ty=$this->db->query("select * from tbl_offices where FIND_IN_SET_X('".$profiledata[0]['fk_office_id']."',pk_office_id)");
 													  	$rt=$ty->result_array();
-													  	echo $rt[0]["office_name"]?>
+													  	foreach($rt AS $o) echo $o["office_name"].' ';?>
 													</li>
 													<li>
 														<i class="fa fa-calendar"></i> <?php echo date('d M Y',strtotime($profiledata[0]['DOB']));?>

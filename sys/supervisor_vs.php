@@ -68,7 +68,7 @@
 											$maxqu2 = $this->db->query("SELECT * FROM user where id ='".$this->session->userdata('userid')."'");
 											$maxval2=$maxqu2->result_array();
 											//
-											$maxqu = $this->db->query("SELECT * FROM user where fk_office_id= '".$maxval2[0]['fk_office_id']."' AND userrole= 'FSE'  AND delete_status='0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+											$maxqu = $this->db->query("SELECT * FROM user where FIND_IN_SET_X('".$maxval2[0]['fk_office_id']."',fk_office_id) AND userrole= 'FSE'  AND delete_status='0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 											$maxval=$maxqu->result_array();
                                             foreach($maxval as $val)
                                             {

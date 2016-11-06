@@ -9,7 +9,7 @@ $(document).ready(function() {
 	var options = {
         chart: {
             type: 'column',
-			marginBottom: 800,
+			marginBottom: 100,
 			backgroundColor: null
         },
 
@@ -103,7 +103,7 @@ $(document).ready(function() {
 					where business_data.`status`=0 ";
 				
 					if ($territory!=0) {
-						$queryy .= " AND business_data.Customer IN (SELECT pk_client_id FROM tbl_clients WHERE fk_office_id='".$territory."')";
+						$queryy .= " AND business_data.Customer IN (SELECT pk_client_id FROM tbl_clients WHERE fk_office_id IN(".$territory."))";
 					}
 					if ($sap!=0) {
 						$queryy .= " AND `Sales Person`='".$sap."' ";

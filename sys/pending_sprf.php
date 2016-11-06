@@ -24,7 +24,8 @@
 				<?php
 $data['table'] = 'pending_sprf';
 $data['data_access_role'] = 'Admin'; //FSE, Supervisor, Admin
-//if ($this->session->userdata('userrole')=='Supervisor') $data['data_access_role'] = 'Supervisor';
+if ($this->session->userdata('userrole')=='Supervisor') $data['data_access_role'] = 'Supervisor';
+if ($this->session->userdata('userrole')=='FSE') $data['data_access_role'] = 'FSE';
 $this->load->view('sys/complaints_table_view',$data);
 
 ?>

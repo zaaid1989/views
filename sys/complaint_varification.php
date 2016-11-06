@@ -128,7 +128,7 @@
 							$dbresResult2=$dbres2->result_array();
 							
 							
-							$dbres = $this->db->query("SELECT * FROM tbl_complaints  where fk_office_id='".$dbresResult2[0]['fk_office_id']."' 
+							$dbres = $this->db->query("SELECT * FROM tbl_complaints  where fk_office_id IN(".$dbresResult2[0]['fk_office_id'].") 
 									AND status IN('Pending Verification','Pending Verification (BB)') AND complaint_nature='complaint'  order by `pk_complaint_id` DESC");
 							
 							$dbresResult=$dbres->result_array();

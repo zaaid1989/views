@@ -3,7 +3,8 @@
 if (isset($_GET['engineer']) && $this->session->userdata('userrole')=='Supervisor') {
 	$query = $this->db->query("SELECT * FROM user WHERE id='".$_GET['engineer']."'");
 	$ur = $query->result_array();
-	if ($ur[0]['fk_office_id']!=$this->session->userdata('territory')) show_404();
+	$c =  array_intersect(explode(',',$ur[0]['fk_office_id']), explode(',',$this->session->userdata('territory')));
+	if ( sizeof($c) ==0) show_404();
 }
 	
 if (isset($_GET['engineer']) && ($this->session->userdata('userrole')=='Salesman' || $this->session->userdata('userrole')=='FSE') ) {
@@ -87,7 +88,7 @@ if (isset($_GET['engineer']) && ($this->session->userdata('userrole')=='Salesman
 											<?php 
 											$maxqu = "";
 											if ($this->session->userdata('userrole')=='Supervisor')
-												$maxqu = $this->db->query("SELECT * FROM user WHERE fk_office_id='".$this->session->userdata('territory')."' AND delete_status = '0' AND userrole IN ('FSE','Supervisor') ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+												$maxqu = $this->db->query("SELECT * FROM user WHERE FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id) AND delete_status = '0' AND userrole IN ('FSE','Supervisor') ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 											else $maxqu = $this->db->query("SELECT * FROM user WHERE delete_status = '0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 											$maxval=$maxqu->result_array();
                                             foreach($maxval as $val)

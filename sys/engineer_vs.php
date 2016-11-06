@@ -69,11 +69,11 @@ if ($userrole=="Salesman") {
 													if ($ss==1) {
 														 $maxqu = $this->db->query("SELECT * FROM user WHERE  delete_status = '0'
 														 AND
-														 fk_office_id = '".$this->session->userdata('territory')."' AND userrole='Salesman' ");
+														 FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id) AND userrole='Salesman' ");
 														 if ($this->session->userdata('territory')==1) {
-															 $maxqu = $this->db->query("SELECT * FROM user WHERE  delete_status = '0'
+															/* $maxqu = $this->db->query("SELECT * FROM user WHERE  delete_status = '0'
 															 AND
-															 fk_office_id IN ('1','5') AND userrole='Salesman' ");
+															 fk_office_id IN ('1','5') AND userrole='Salesman' "); */
 														 }
 													}
                                                     $maxval=$maxqu->result_array();
@@ -299,7 +299,7 @@ if ($userrole=="Salesman") {
                                   $ghw=$this->db->query($quw);
                                   $rtw=$ghw->result_array();
                                   // get all client of this this office id
-                                  $qu="SELECT * from tbl_clients where fk_office_id =  '".$rtw[0]['fk_office_id']."' AND delete_status='0'";
+                                  $qu="SELECT * from tbl_clients where fk_office_id IN(".$rtw[0]['fk_office_id'].") AND delete_status='0'";
                                   $gh=$this->db->query($qu);
                                   $rt=$gh->result_array();
                                   foreach($rt as $value)
@@ -478,7 +478,7 @@ if ($userrole=="Salesman") {
           function add_row()
             {
               var count1=Math.floor(Math.random()*101);
-              $('.append_tbody').append('<tr class="odd gradeX visitschedule"><td> <input  name="starttime['+count1+']" type="text" class="form-control timepicker1 timepicker timepicker-no-seconds"   required></td><td> <input   name="endtime['+count1+']" type="text" class="form-control timepicker2 timepicker timepicker-no-seconds"   required></td><td><select class="form-control  " name="customer['+count1+']"  id="customer'+count1+'"  onchange="show_cities(this.value,'+count1+')" required><option value="">--Choose--</option><option value="officeoption_1">Rawalpindi Office (HO)</option><option value="officeoption_2">Lahore Office (LO)</option><option value="officeoption_3">Karachi Office (KO)</option><option value="officeoption_4">Multan Office (MO)</option><option value="officeoption_5">Peshawar (PO)</option><?php $quw="SELECT * from user where id =  '".$this->session->userdata('userid')."'";$ghw=$this->db->query($quw);$rtw=$ghw->result_array();$qu="SELECT * from tbl_clients where fk_office_id =  '".$rtw[0]['fk_office_id']."' AND delete_status='0'";$gh=$this->db->query($qu);$rt=$gh->result_array();foreach($rt as $value){?><option value="<?php echo $value['pk_client_id'];?>"><?php echo $value['client_name'];?></option><?php }?></select></td><td class="citiestd'+count1+'"> <select class="form-control  " name="city['+count1+']" required><option value="">--Choose--</option></td><td class="businessestd'+count1+'"><select class="form-control  "  name="business['+count1+']"><option value="">--Choose--</option><option value="MD">MDx Business</option><option value="ID">IDx Business</option></select></td><td> <textarea class="input-small periority'+count1+'" name="periority['+count1+']" readonly required rows="4"></textarea></td><td> <textarea class="input-small summery'+count1+'" name="summery['+count1+']"  required rows="4"></textarea></td><td style="text-align:center;"><a href="javascript:;" class="btn btn-icon-only red"><i class="fa fa-minus"></i></a></td></tr>');
+              $('.append_tbody').append('<tr class="odd gradeX visitschedule"><td> <input  name="starttime['+count1+']" type="text" class="form-control timepicker1 timepicker timepicker-no-seconds"   required></td><td> <input   name="endtime['+count1+']" type="text" class="form-control timepicker2 timepicker timepicker-no-seconds"   required></td><td><select class="form-control  " name="customer['+count1+']"  id="customer'+count1+'"  onchange="show_cities(this.value,'+count1+')" required><option value="">--Choose--</option><option value="officeoption_1">Rawalpindi Office (HO)</option><option value="officeoption_2">Lahore Office (LO)</option><option value="officeoption_3">Karachi Office (KO)</option><option value="officeoption_4">Multan Office (MO)</option><option value="officeoption_5">Peshawar (PO)</option><?php $quw="SELECT * from user where id =  '".$this->session->userdata('userid')."'";$ghw=$this->db->query($quw);$rtw=$ghw->result_array();$qu="SELECT * from tbl_clients where fk_office_id IN(".$rtw[0]['fk_office_id'].") AND delete_status='0'";$gh=$this->db->query($qu);$rt=$gh->result_array();foreach($rt as $value){?><option value="<?php echo $value['pk_client_id'];?>"><?php echo $value['client_name'];?></option><?php }?></select></td><td class="citiestd'+count1+'"> <select class="form-control  " name="city['+count1+']" required><option value="">--Choose--</option></td><td class="businessestd'+count1+'"><select class="form-control  "  name="business['+count1+']"><option value="">--Choose--</option><option value="MD">MDx Business</option><option value="ID">IDx Business</option></select></td><td> <textarea class="input-small periority'+count1+'" name="periority['+count1+']" readonly required rows="4"></textarea></td><td> <textarea class="input-small summery'+count1+'" name="summery['+count1+']"  required rows="4"></textarea></td><td style="text-align:center;"><a href="javascript:;" class="btn btn-icon-only red"><i class="fa fa-minus"></i></a></td></tr>');
               $('select').select2();
               $( ".fa-minus" ).click(function(event) {
                     $(this).closest('tr').remove();

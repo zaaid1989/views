@@ -118,7 +118,7 @@ $(document).ready(function() {
 					where `project_type`='".$pt ."' AND business_data.`status`=0 ";
 					
 					if ($territory!=0) {
-						$queryy .= " AND `Territory`='".$territory."' ";
+						$queryy .= " AND `Territory` IN(".$territory.") ";
 					}
 					if ($sap!=0) {
 						$queryy .= " AND `Sales Person`='".$sap."' ";

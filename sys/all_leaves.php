@@ -165,11 +165,11 @@ if ($sap_supervisor=="1" && $this->session->userdata('territory') =="1") //For P
 							}
 							elseif ($sap_supervisor=="1")
 							{
-								$myquery.="  WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='Salesman' AND fk_office_id='".$this->session->userdata('territory')."')";
+								$myquery.="  WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='Salesman' AND FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id))";
 							}
 							elseif ($sap_supervisor=="2")
 							{
-								$myquery.="  WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='Salesman' AND fk_office_id IN ('1','5'))";
+								//$myquery.="  WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='Salesman' AND FIND_IN_SET('1','5'))";
 							}
 							else
 							{
@@ -187,14 +187,14 @@ if ($sap_supervisor=="1" && $this->session->userdata('territory') =="1") //For P
 
                                         <td style="padding:10px !important;"> <!-- City user to tbl_cities city_name-->
                                             <?php
-                                            $ty44=$this->db->query("select tbl_offices.office_name,COALESCE(user.first_name) AS first_name,COALESCE(tbl_fine_code.description) AS code_description,COALESCE(tbl_cities.city_name) AS city_name, COALESCE(tbl_fine.status) AS fine_status
+                                            $ty44=$this->db->query("select COALESCE(GROUP_CONCAT(tbl_offices.office_name SEPARATOR ', ')) AS office_name,COALESCE(user.first_name) AS first_name,COALESCE(tbl_fine_code.description) AS code_description,COALESCE(tbl_cities.city_name) AS city_name, COALESCE(tbl_fine.status) AS fine_status
 											from tbl_leaves 
 											LEFT JOIN user ON user.id = tbl_leaves.fk_employee_id
 											LEFT JOIN tbl_cities ON user.fk_city_id = tbl_cities.pk_city_id
-											LEFT JOIN tbl_offices ON user.fk_office_id = tbl_offices.pk_office_id
+											LEFT JOIN tbl_offices ON FIND_IN_SET(tbl_offices.pk_office_id,user.fk_office_id)
 											LEFT JOIN tbl_fine_code ON tbl_leaves.fk_fine_code = tbl_fine_code.pk_fine_code_id
 											LEFT JOIN tbl_fine ON tbl_leaves.fk_fine_id = tbl_fine.pk_fine_id
-											where pk_leave_id =  '".$get_users_list["pk_leave_id"]."' ");
+											where pk_leave_id =  '".$get_users_list["pk_leave_id"]."' GROUP BY user.id");
 											$rt44=$ty44->result_array();
                                             echo $rt44[0]["city_name"];
                                             ?>

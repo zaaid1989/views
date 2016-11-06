@@ -11,7 +11,7 @@ $queryy = "select COUNT(pk_businessproject_id) AS `total_projects`, business_dat
 					LEFT JOIN tbl_cities ON tbl_cities.pk_city_id = tbl_clients.fk_city_id
 					LEFT JOIN tbl_business_types ON tbl_business_types.pk_businesstype_id = business_data.`Business Project`
 					where business_data.`status`=0 AND Customer NOT IN (SELECT DISTINCT fk_customer_id from tbl_dvr WHERE fk_business_id>0)";
-if ($territory!=0) $queryy .= " AND `Territory`='".$territory."' ";
+if ($territory!=0) $queryy .= " AND `Territory` IN(".$territory.") ";
 if ($sap!=0) $queryy .= " AND `Sales Person`='".$sap."' ";
 $queryy .= " GROUP BY Customer ORDER BY tbl_clients.client_name";
 $pq	=	$this->db->query($queryy);
@@ -28,7 +28,7 @@ $queryy = "SELECT tbl_clients.*, tbl_customer_sap_bridge.fk_user_id from tbl_cli
 JOIN tbl_customer_sap_bridge ON tbl_clients.pk_client_id = tbl_customer_sap_bridge.fk_client_id
 WHERE pk_client_id NOT IN (SELECT Customer FROM business_data WHERE business_data.status = 0) AND tbl_clients.delete_status = 0";
 
-if ($territory!=0) $queryy .= " AND `fk_office_id`='".$territory."' ";
+if ($territory!=0) $queryy .= " AND `fk_office_id` IN(".$territory.") ";
 if ($sap!=0) $queryy .= " AND `fk_user_id`='".$sap."' ";
 if ($sap == 0) { // using this query because for all saps the above query will have repeated customers when a customer is assigned to multiple saps. Furthermore if you want to show all the clients rather ones only assigned to saps, remove the last condition in query
 	/*$queryy = "	SELECT tbl_clients.* from tbl_clients
@@ -182,7 +182,7 @@ chart = new Highcharts.Chart({
 					WHERE tbl_dvr.fk_business_id>0
 					"; // This query will only fetch unique clients in the visited table, it wont find any neglected projects having no entry in tbl_dvr. Also it won't consider if the project is deleted, it will check customer is active or ignored based on visit irrespective of project status
 					if ($territory!=0) {
-						$queryy .= " AND tbl_dvr.fk_customer_id IN (SELECT pk_client_id FROM tbl_clients WHERE fk_office_id='".$territory."')";
+						$queryy .= " AND tbl_dvr.fk_customer_id IN (SELECT pk_client_id FROM tbl_clients WHERE fk_office_id IN(".$territory."))";
 					}
 					if ($sap!=0) {
 						$queryy .= " AND tbl_dvr.fk_customer_id IN (SELECT fk_client_id FROM tbl_customer_sap_bridge WHERE fk_user_id='".$sap."')";

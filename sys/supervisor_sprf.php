@@ -7,7 +7,9 @@ if($this->session->userdata('userrole')=='Supervisor')
 	  $query_db=$this->db->query($query);
 	  $user_complaints=$query_db->result_array();	
 	  //echo $user_complaints[0]['fk_office_id'];exit;		
-	  if ($user_complaints[0]['fk_office_id'] != $this->session->userdata('territory'))
+	  //if ($user_complaints[0]['fk_office_id'] != $this->session->userdata('territory'))
+		$c =  array_intersect(explode(',',$user_complaints[0]['fk_office_id']), explode(',',$this->session->userdata('territory')));
+	if(sizeof($c)==0 )
 	  {
 		  show_404();
 	  }
@@ -485,7 +487,7 @@ if($this->session->userdata('userrole')=='Supervisor')
 										. "FROM tbl_clients "
 										. "INNER JOIN tbl_instruments "
 										. "ON tbl_clients.pk_client_id=tbl_instruments.fk_client_id " 
-										. "WHERE tbl_instruments.fk_product_id='".$product_id."' AND tbl_instruments.fk_office_id='".$office_id."' AND tbl_clients.delete_status='0'
+										. "WHERE tbl_instruments.fk_product_id='".$product_id."' AND tbl_instruments.fk_office_id IN(".$office_id.") AND tbl_clients.delete_status='0'
 										   ORDER BY tbl_clients.client_name";
 								////////////////// ABOVE is for Same territory of Equipment .. Below is All Pakistan .. Comment the below one if only territory clients to be shown
 								$cq		= "SELECT tbl_clients.pk_client_id, tbl_clients.client_name, tbl_instruments.serial_no, tbl_instruments.pk_instrument_id "

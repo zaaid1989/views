@@ -95,7 +95,7 @@
 					LEFT JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id
 					
 					WHERE tbl_instruments.status='1' AND tbl_instruments.fk_category_id!='1' ";
-					if ($this->session->userdata('userrole') !='Admin') $zquery .= " AND tbl_instruments.fk_office_id='" .$this->session->userdata('territory')."'";
+					if ($this->session->userdata('userrole') !='Admin') $zquery .= " AND tbl_instruments.fk_office_id IN(" .$this->session->userdata('territory').")";
 					
 					$ty=$this->db->query($zquery);
                     $rt=$ty->result_array();

@@ -105,7 +105,7 @@
 					$myquery3=$this->db->query($rty3);
 					$result3=$myquery3->result_array();
 					//
-					$rty="select * from user where fk_office_id='".$result[0]['fk_office_id']."' ORDER BY  `fk_office_id` ,  `userrole` ASC ";
+					$rty="select * from user where fk_office_id IN(".$result[0]['fk_office_id'].") ORDER BY  `fk_office_id` ,  `userrole` ASC ";
 					//echo $rty;
 					$myquery2=$this->db->query($rty);
 					$result2=$myquery2->result_array();

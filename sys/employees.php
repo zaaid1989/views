@@ -133,7 +133,15 @@
                                                   <td><?php echo $get_users_list["company_mobile"]; ?></td>
                                                   <td><?php echo $get_users_list["company_email"]; ?></td>
                                                   <td><?php echo nicetime($get_users_list["date_of_joining"]);  ?></td>
-                                                  <td><?php echo $get_users_list["training_equipment"] ?></td>
+                                                  <td><?php //echo $get_users_list["training_equipment"] 
+												  $tq	=	$this->db->query("SELECT COALESCE(GROUP_CONCAT(tbl_products.product_name SEPARATOR ', ')) AS training_equipment 
+												  FROM tbl_trainings 
+												  LEFT JOIN tbl_products ON tbl_trainings.fk_brand_id = tbl_products.pk_product_id 
+												  WHERE fk_engineer_id = '".$get_users_list["id"]."'");
+												  $tr	=	$tq->result_array();
+												  echo $tr[0]['training_equipment'];
+												  
+												  ?></td>
 												  <td>
 													  <a class="btn btn-sm default yellow-gold-stripe"  href="<?php echo base_url();?>sys/update_employee/<?php echo $get_users_list["id"];?>">
                                                       	Update <i class="fa fa-edit"></i>

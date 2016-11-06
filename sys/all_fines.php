@@ -147,14 +147,14 @@
 							$myquery.=" order by pk_fine_id DESC";
 							
 							if ($i==2) {
-								$myquery="select * from tbl_fine WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='FSE' AND fk_office_id='".$this->session->userdata('territory')."')";
+								$myquery="select * from tbl_fine WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='FSE' AND  FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id))";
 								$myquery.=" order by pk_fine_id DESC";
 							}
 							
 							if ($i==3) {
-								$myquery="select * from tbl_fine WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='Salesman' AND sap_supervisor='0' AND fk_office_id='".$this->session->userdata('territory')."')";
+								$myquery="select * from tbl_fine WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='Salesman' AND sap_supervisor='0' AND  FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id))";
 								if ($this->session->userdata('territory')=='1') {
-									$myquery="select * from tbl_fine WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='Salesman' AND sap_supervisor='0' AND fk_office_id IN ('1','5'))";
+									//$myquery="select * from tbl_fine WHERE fk_employee_id IN (SELECT id FROM user WHERE delete_status=0 AND userrole='Salesman' AND sap_supervisor='0' AND fk_office_id IN ('1','5'))";
 								}
 								$myquery.=" order by pk_fine_id DESC";
 							}
@@ -171,12 +171,13 @@
 									
 										<td>
                                             <?php 
-                                            $ty44=$this->db->query("select tbl_offices.office_name,COALESCE(user.first_name) AS first_name,COALESCE(tbl_fine_code.description) AS code_description 
+                                            $ty44=$this->db->query("select COALESCE(GROUP_CONCAT(tbl_offices.office_name SEPARATOR ', ')) AS office_name,COALESCE(user.first_name) AS first_name,COALESCE(tbl_fine_code.description) AS code_description 
 											from tbl_fine 
 											LEFT JOIN user ON user.id = tbl_fine.fk_employee_id
-											LEFT JOIN tbl_offices ON user.fk_office_id = tbl_offices.pk_office_id
+											LEFT JOIN tbl_offices ON FIND_IN_SET(tbl_offices.pk_office_id,user.fk_office_id)
 											LEFT JOIN tbl_fine_code ON tbl_fine.fk_fine_code_id = tbl_fine_code.pk_fine_code_id
-											where pk_fine_id =  '".$get_users_list["pk_fine_id"]."' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+											where pk_fine_id =  '".$get_users_list["pk_fine_id"]."' GROUP BY user.id ORDER BY  `fk_office_id` ,  `userrole` ASC 
+											");
 											$rt44=$ty44->result_array();
 											echo $rt44[0]["office_name"]; // OFFICE NAME
 											?>

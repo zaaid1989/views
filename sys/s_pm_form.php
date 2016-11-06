@@ -187,7 +187,7 @@
                                <?php    
 								  
 										//if($n2sql4[0]['product_name']=='AU400' || $n2sql4[0]['product_name']=='AU480')
-										if($product_name=='AU400' || $product_name=='AU480')
+										if($product_name=='AU400' || $product_name=='AU480'  || $product_name=='AU680')
 										{
 											?>
                                                <tr class="odd gradeX">
@@ -371,7 +371,7 @@
 									
 									$nsql4=$this->db->query("select * from tbl_products where pk_product_id ='".$n2sql3[0]['fk_product_id']."'");
 									$n2sql4=$nsql4->result_array();
-									if($n2sql4[0]['product_name']=='AU400' || $n2sql4[0]['product_name']=='AU480')
+									if($n2sql4[0]['product_name']=='AU400' || $n2sql4[0]['product_name']=='AU480' || $n2sql4[0]['product_name']=='AU680')
 									{
 										?>
                                         <div class="form-group">
@@ -545,7 +545,7 @@
 			
 			$nsql4=$this->db->query("select * from tbl_products where pk_product_id ='".$n2sql3[0]['fk_product_id']."'");
 			$n2sql4=$nsql4->result_array();
-			if($n2sql4[0]['product_name']=='AU400' || $n2sql4[0]['product_name']=='AU480')
+			if($n2sql4[0]['product_name']=='AU400' || $n2sql4[0]['product_name']=='AU480' || $n2sql4[0]['product_name']=='AU680')
 			{
 				$fields_array = array('PM_Form_with_Customer_Signature_Page_1','PM_Form_with_Customer_Signature_Page_2','PM_Form_with_Customer_Signature_Page_3','PM_Form_with_Customer_Signature_Page_4','picture_of_photocal','Picture_of_Reagent_Management','Picture_of_Calibration_display_the_ISE_Maintenance_Menu','Picture_of_Selectivity_Check','Picture_of_ISE_Maintenance_Screen','Picture_of_Analyzer_Maintenance_Screen','Print_out_of_Reagent_Consumption_for_the_last_01_month_Page_1','Print_out_of_Reagent_Consumption_for_the_last_01_month_Page_2', 'Picture_of_Counter_in_the_Front_Lower_Right_Side_of_the_Analyzer','DC_of_any_spare_parts_changed');
 				?>

@@ -212,7 +212,7 @@
 		  
 				  else if($result[0]['userrole']=="Supervisor")
 				  {
-					  $rty="select * from user where fk_office_id='".$result[0]['fk_office_id']."' AND userrole IN ( 'FSE', 'Salesman')
+					  $rty="select * from user where FIND_IN_SET_X('".$result[0]['fk_office_id']."',fk_office_id) AND userrole IN ( 'FSE', 'Salesman')
 					   OR id= '".$this->session->userdata('userid')."' ORDER BY  `fk_office_id` ,  `userrole` ASC ";
 					  /* $rty.= " And id IN (";
 					$ee = explode(',', $result3[0]['user_ids']);

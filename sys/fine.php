@@ -68,7 +68,7 @@
                         <option value="">--Choose--</option>
                         <?php $quw="SELECT * from user  where delete_status = '0' ORDER BY  `fk_office_id` ,  `userrole` ASC ";
 						if ( $this->session->userdata('userrole')=='Supervisor')
-							$quw="SELECT * from user  where delete_status = '0' AND fk_office_id='".$this->session->userdata('territory')."' AND userrole='FSE' ORDER BY  `fk_office_id` ,  `userrole` ASC ";
+							$quw="SELECT * from user  where delete_status = '0' AND FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id) AND userrole='FSE' ORDER BY  `fk_office_id` ,  `userrole` ASC ";
                           $ghw=$this->db->query($quw);
                           $rtw=$ghw->result_array();
                           foreach($rtw as $value)

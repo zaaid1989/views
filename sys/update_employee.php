@@ -316,7 +316,7 @@
 														<div class="form-group">
 															<label class="control-label col-md-3">Territory</label>
 															<div class="col-md-9">
-																<select name="offices" class="form-control">
+																<select name="offices[]" class="form-control" multiple="multiple">
 																  <?php 
                                                                     $tbl_designations=$this->db->query("select * from tbl_offices");
                                                                     $dataa=$tbl_designations->result_array();
@@ -324,7 +324,9 @@
                                                                     {
                                                                   ?>
                                                                   <option value="<?php echo $val['pk_office_id']?>" 
-																  <?php if($get_employee_lists[0]['fk_office_id']==$val['pk_office_id']){ echo "selected";}?>>
+																  <?php 
+																  $office_list= explode(",",$get_employee_lists[0]['fk_office_id']);
+																  if (in_array($val['pk_office_id'], $office_list)){ echo "selected";}?>>
                                                                   
 																  		<?php echo $val['office_name']?>
                                                                         

@@ -83,7 +83,14 @@ if ($this->session->userdata('userrole')=='Salesman') $is_sap = TRUE;
                         <div class="form-group">
                             <label class="col-md-3 control-label">Customer</label>
                             <div class="col-md-8">
-								<?php $useroffice	= 'officeoption_'.$this->session->userdata("territory");?>
+								<?php //$useroffice	= 'officeoption_'.$this->session->userdata("territory");
+								$array = $this->session->userdata('territory');
+								$array = explode( ',', $array );
+								foreach ($array as &$value){
+									$value = 'officeoption_' . trim($value);
+								}
+								$useroffice = implode(', ', $array); 
+								?>
                                 <input type="hidden" id="useroffice" value="<?php echo $useroffice; ?>" >
                                     <select class="form-control  " name="customer[0]" id="customer0"  onchange="show_cities(this.value,0)">
 
@@ -97,7 +104,7 @@ if ($this->session->userdata('userrole')=='Salesman') $is_sap = TRUE;
                                       <?php 
 										$condition_office = "'".$this->session->userdata('territory')."'";
 										
-                                        if($this->session->userdata('territory')=='1') $condition_office = "'1','5'";
+                                       // if($this->session->userdata('territory')=='1') $condition_office = "'1','5'";
 										$qu="SELECT tbl_clients.*,COALESCE(tbl_cities.city_name) AS city_name ,COALESCE(tbl_area.area) AS area 
 										FROM tbl_clients 
 										LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
@@ -258,7 +265,12 @@ if ($this->session->userdata('userrole')=='Salesman') $is_sap = TRUE;
 				{
 					<?php if(!($is_sap)) {?>
 					var useroffice	= document.getElementById('useroffice').value; // for same office check
-					if (isNaN(client_id) && useroffice!=client_id) { // Second condition for same office check
+					/* new */
+					var territoryArray = useroffice.split(","); 
+					var SearchIndex = territoryArray.indexOf(client_id);
+					/* new */
+					//if (isNaN(client_id) && useroffice!=client_id) { // Second condition for same office check
+					if (isNaN(client_id) && SearchIndex<0) {
 					 document.getElementById('outstation_check').style.display = 'block';
 					}
 					else {

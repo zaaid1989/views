@@ -67,11 +67,11 @@ if ($userrole=="Salesman") {
 													if ($ss==1) {
 														 $maxqu = $this->db->query("SELECT * FROM user WHERE  delete_status = '0'
 														 AND
-														 fk_office_id = '".$this->session->userdata('territory')."' AND userrole='Salesman' ");
+														 FIND_IN_SET_X('".$this->session->userdata('territory')."',fk_office_id) AND userrole='Salesman' ");
 														 if ($this->session->userdata('territory')==1) {
-															 $maxqu = $this->db->query("SELECT * FROM user WHERE  delete_status = '0'
+															/* $maxqu = $this->db->query("SELECT * FROM user WHERE  delete_status = '0'
 															 AND
-															 fk_office_id IN ('1','5') AND userrole='Salesman' ");
+															 fk_office_id IN ('1','5') AND userrole='Salesman' "); */
 														 }
 													}
                                                     $maxval=$maxqu->result_array();

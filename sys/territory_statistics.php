@@ -205,7 +205,7 @@ for($j=1;$j<=2;$j++) {
 						<th class="bg-grey-steel text-center"> <span class="font-red"><?php echo $complaint_type; ?></span></th>
 						<?php
 						if ($office_id!=0)
-							$uq	=	$this->db->query("select * from user where `fk_office_id`='".$office_id ."' AND `userrole` IN ('FSE','Supervisor')  AND delete_status='0' ORDER BY fk_office_id, userrole");
+							$uq	=	$this->db->query("select * from user where FIND_IN_SET_X('".$office_id ."',fk_office_id) AND `userrole` IN ('FSE','Supervisor')  AND delete_status='0' ORDER BY fk_office_id, userrole");
                         else
 							$uq	=	$this->db->query("select * from user where `userrole` IN ('FSE','Supervisor')  AND delete_status='0'  ORDER BY fk_office_id, userrole");
 						$ur	=	$uq->result_array();
@@ -422,9 +422,10 @@ for($j=1;$j<=2;$j++) {
 		$uq	=	$this->db->query("select `fk_office_id` from user where `id` ='".$this->session->userdata('userid')."'");
 		$ur =	$uq->result_array();
 			foreach ($or as $office) {
+				$c =  array_intersect(explode(',',$ur[0]['fk_office_id']), explode(',',$office['pk_office_id']));
 		?>
 		
-		<?php  if ( ($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery') || $ur[0]['fk_office_id']==$office['pk_office_id'] ) { ?>
+		<?php  if ( ($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery') || sizeof($c)>0 ) { ?>
 <?php ////////////////////////************************** Main Loop******************************//////////////////////////
 for($j=1;$j<=2;$j++) { 
 ?>
@@ -557,7 +558,7 @@ for($j=1;$j<=2;$j++) {
 						<th class="bg-grey-steel text-center"> <span class="font-red"><?php echo $complaint_type; ?></span></th>
 						<?php
 						if ($office_id!=0)
-							$uq	=	$this->db->query("select * from user where `fk_office_id`='".$office_id ."' AND `userrole` IN ('FSE','Supervisor') AND delete_status='0'  ORDER BY fk_office_id, userrole");
+							$uq	=	$this->db->query("select * from user where FIND_IN_SET_X('".$office_id ."',fk_office_id) AND `userrole` IN ('FSE','Supervisor') AND delete_status='0'  ORDER BY fk_office_id, userrole");
                         else
 							$uq	=	$this->db->query("select * from user where `userrole` IN ('FSE','Supervisor') AND delete_status='0'  ORDER BY fk_office_id, userrole");
 						$ur	=	$uq->result_array();

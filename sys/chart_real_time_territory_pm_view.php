@@ -9,11 +9,11 @@ $q = $this->db->query("SELECT DISTINCT tbl_products.product_name, pk_product_id
 FROM `tbl_instruments`
 LEFT JOIN tbl_products ON tbl_products.pk_product_id = tbl_instruments.fk_product_id
 WHERE tbl_products.fk_category_id > 1 AND tbl_products.status=0 AND tbl_instruments.status=1");
-if ($territory != 0)
+if ($territory!=0)
 	$q = $this->db->query("SELECT DISTINCT tbl_products.product_name, pk_product_id
 	FROM `tbl_instruments`
 	LEFT JOIN tbl_products ON tbl_products.pk_product_id = tbl_instruments.fk_product_id
-	WHERE tbl_products.fk_category_id > 1 AND tbl_products.status=0 AND tbl_instruments.status=1 AND tbl_instruments.fk_office_id='".$territory."'");
+	WHERE tbl_products.fk_category_id > 1 AND tbl_products.status=0 AND tbl_instruments.status=1 AND tbl_instruments.fk_office_id IN(".$territory.")");
 $product_results = $q->result_array();
 $n = 0;
 foreach ($product_results AS $p)	{
@@ -132,12 +132,12 @@ $(document).ready(function() {
 					LEFT JOIN tbl_clients ON tbl_clients.pk_client_id = tbl_instruments.fk_client_id
 					LEFT JOIN tbl_cities ON tbl_cities.pk_city_id = tbl_clients.fk_city_id
 					where `fk_product_id`=".$product_id ." AND tbl_instruments.`status`=1");
-					if ($territory!=0)
+					if ($territory != 0)
 						$eq	=	$this->db->query("select tbl_instruments.*,tbl_clients.client_name,tbl_cities.city_name
 						from tbl_instruments
 						LEFT JOIN tbl_clients ON tbl_clients.pk_client_id = tbl_instruments.fk_client_id
 						LEFT JOIN tbl_cities ON tbl_cities.pk_city_id = tbl_clients.fk_city_id
-						where `fk_product_id`=".$product_id ." AND tbl_instruments.`status`=1 AND tbl_instruments.fk_office_id='".$territory."'");
+						where `fk_product_id`=".$product_id ." AND tbl_instruments.`status`=1 AND tbl_instruments.fk_office_id IN(".$territory.")");
 					$er =	$eq->result_array();
 					
 					$sgu = "";

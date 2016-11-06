@@ -160,7 +160,7 @@ $(document).ready(function() {
 						LEFT JOIN tbl_products ON `tbl_products`.pk_product_id = `tbl_instruments`.fk_product_id
 						LEFT JOIN tbl_area ON `tbl_area`.pk_area_id = `tbl_clients`.fk_area_id
 						LEFT JOIN user ON `user`.id = `tbl_complaints`.assign_to
-						WHERE `tbl_complaints`.complaint_nature='complaint' AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_instruments`.fk_office_id = '".$territory."' AND CAST(`date` AS DATE) BETWEEN '".$first_of_month."' AND '".$last_of_month."' ORDER BY `date` ASC");
+						WHERE `tbl_complaints`.complaint_nature='complaint' AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_instruments`.fk_office_id IN(".$territory.") AND CAST(`date` AS DATE) BETWEEN '".$first_of_month."' AND '".$last_of_month."' ORDER BY `date` ASC");
 						$cresult = $cquery->result_array();
 						
 						$cqueryy = $this->db->query("SELECT `tbl_complaints`.*,`user`.first_name,`tbl_cities`.city_name,`tbl_clients`.client_name,`tbl_products`.product_name,`tbl_instruments`.serial_no,`tbl_area`.area
@@ -171,11 +171,11 @@ $(document).ready(function() {
 						LEFT JOIN tbl_products ON `tbl_products`.pk_product_id = `tbl_instruments`.fk_product_id
 						LEFT JOIN tbl_area ON `tbl_area`.pk_area_id = `tbl_clients`.fk_area_id
 						LEFT JOIN user ON `user`.id = `tbl_complaints`.assign_to
-						WHERE `tbl_complaints`.complaint_nature='complaint' AND `tbl_complaints`.status!='Closed' AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_instruments`.fk_office_id = '".$territory."' AND CAST(`date` AS DATE) BETWEEN '".$first_of_month."' AND '".$last_of_month."'  ORDER BY `date` ASC");
+						WHERE `tbl_complaints`.complaint_nature='complaint' AND `tbl_complaints`.status!='Closed' AND `tbl_instruments`.fk_product_id = '".$product_id."' AND `tbl_instruments`.fk_office_id IN(".$territory.") AND CAST(`date` AS DATE) BETWEEN '".$first_of_month."' AND '".$last_of_month."'  ORDER BY `date` ASC");
 						$cresultt = $cqueryy->result_array();
 						
 						
-						$q = $this->db->query("SELECT * from tbl_instruments WHERE status='1' AND fk_product_id='".$product_id."' AND fk_office_id='".$territory."'");
+						$q = $this->db->query("SELECT * from tbl_instruments WHERE status='1' AND fk_product_id='".$product_id."' AND fk_office_id IN(".$territory.")");
 						$productss = $q->result_array();
 						$string= "(".sizeof($productss)." units)<br/>Total = ".sizeof($cresult)."<br/>Pending = ".sizeof($cresultt);
 						}

@@ -79,9 +79,9 @@
                                   <select  class="form-control" name="city" id="my_city" onchange="select_customer(this.value)" requried>
                                       <option value="">---Select---</option>
                                       <?php 
-                                      $newd=$this->db->query("select * from tbl_cities where fk_office_id='".$this->session->userdata('territory')."'");
+                                      $newd=$this->db->query("select * from tbl_cities where fk_office_id IN(".$this->session->userdata('territory').")");
 									  if ($this->session->userdata('territory')==1) { //special case
-										  $newd=$this->db->query("select * from tbl_cities where fk_office_id IN ('1','5')");
+										 // $newd=$this->db->query("select * from tbl_cities where fk_office_id IN ('1','5')");
 									  }
                                       $de=$newd->result_array();
                                       $neary=array();

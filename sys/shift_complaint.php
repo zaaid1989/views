@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">Assign To</label>
                     <div class="col-md-6">
-                       <select class="from_control col-md-6 left" name="assign_to">
+                       <select class="from_control col-md-6 left" name="assign_to" onchange="selectterritory(this.value)">
                        <?php 
 						  $ty=$this->db->query("select * from user WHERE userrole IN ('FSE','Salesman','Supervisor') AND delete_status='0'  ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 						  $rt=$ty->result_array();
@@ -89,6 +89,12 @@
                        </select>
                     </div>
                 </div>
+				
+					<div class="form-group">
+							<div class="territory_div">
+							</div>
+					</div>
+				
 				<?php /*
 				<div class="form-group">
                     <label class="col-md-3 control-label">Office</label>
@@ -136,4 +142,21 @@
   
 
 </div>
+<script>
+function selectterritory(i) {
+var formdata = {
+	  userid: i
+	};
+$.ajax({
+  url: "<?php echo base_url();?>sys/teritory_based_on_engineer_ajax",
+  type: 'POST',
+  data: formdata,
+  success: function(msg){
+	  $(".territory_div").html(msg);
+	  $('select').select2();
+	  }
+  })
+  //return false;
+}
+</script>
 <?php $this->load->view('footer');?>

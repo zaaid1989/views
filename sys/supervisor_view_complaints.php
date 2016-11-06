@@ -216,7 +216,7 @@ for($i=0;$i<4;$i++) {
 									  
 									  $status_variable = $portlet_status_array[$i];
 									  $supervisor_condition = "";
-									  if ($this->session->userdata('userrole')=="Supervisor") $supervisor_condition = "AND tbl_complaints.fk_office_id='".$this->session->userdata('territory')."'";
+									  if ($this->session->userdata('userrole')=="Supervisor") $supervisor_condition = "AND tbl_complaints.fk_office_id IN(".$this->session->userdata('territory').")";
 									  $dbres = $this->db->query("SELECT tbl_complaints.*, 
 									  COALESCE(tbl_cities.city_name) AS city_name,
 									  COALESCE(tbl_clients.client_name) AS client_name,

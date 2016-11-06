@@ -474,7 +474,10 @@
 			foreach ($or as $office) {
 		?>
 			  <!-- BEGIN EXAMPLE TABLE PORTLET-->
-			  <?php  if ( ($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery') || $ur[0]['fk_office_id']==$office['pk_office_id'] ) { ?>
+			  <?php  
+			  $c =  array_intersect(explode(',',$ur[0]['fk_office_id']), explode(',',$this->session->userdata('territory')));
+			 // if ( ($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery') || $ur[0]['fk_office_id']==$office['pk_office_id'] ) {
+				if ( ($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery') || sizeof($c)>0 ) { ?>
               <?php
 				  $total_equipments				=	0;
 				  $total_total_pms				=	0;

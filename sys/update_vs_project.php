@@ -45,7 +45,8 @@
                             </div>
                           </div>
               
-                          <div class="portlet-body">    
+                          <div class="portlet-body">  
+							<div class="table-scrollable">     						  
                              <table class="table table-striped table-bordered table-hover">
                               <thead>
                                 <tr>
@@ -84,7 +85,7 @@
 											  }
 											  else {
 												  // get all client of this this office id
-												  $qu="SELECT * from tbl_clients where tbl_clients.fk_office_id =  '".$get_update_vs_project_list[0]['user_office']."' AND tbl_clients.delete_status = '0'";
+												  $qu="SELECT * from tbl_clients where tbl_clients.fk_office_id IN  (".$get_update_vs_project_list[0]['user_office'].") AND tbl_clients.delete_status = '0'";
 											  }
 										//
 										if(substr($get_update_vs_project_list[0]['fk_customer_id'],0,1)=='o') { 
@@ -259,18 +260,22 @@
                               });
                             </script>
                           
-                          <div class="form-actions">
+                          
+						  </div>
+						  <div class="form-actions">
                             <div class="row">
                               <div class="col-md-offset-5 col-md-7">
                                 <button type="submit" class="btn btn-lg default blue">Update <i class="fa fa-check"></i></button>
                               </div>
                             </div>
                           </div>
+                        </form>
                          </div>
                         </div>
-                        </form>
+						
                         <!-- END EXAMPLE TABLE PORTLET--> 
                       </div>
+					  
                     </div>
                    </div>
                   </div>
