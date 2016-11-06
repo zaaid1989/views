@@ -579,10 +579,12 @@
                                           <?php 
 										  if($data_result[0]['problem_type']=='kit')
 										  { 
+										  		 $newd=$this->db->query("select * from user where FIND_IN_SET_X('".$data_result[0]['fk_office_id']."',fk_office_id) 
 										  						  		 AND userrole IN ('FSE','Salesman','Supervisor') AND delete_status='0'  ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 										  }
 										  if($data_result[0]['problem_type']=='equipment')
 										  { 
+										  		 $newd=$this->db->query("select * from user where FIND_IN_SET_X('".$data_result[0]['fk_office_id']."',fk_office_id) 
 										  						  		 AND userrole IN ('FSE','Supervisor') AND delete_status='0'  ORDER BY  `fk_office_id` ,  `userrole` ASC ");
 										  }
 										 
