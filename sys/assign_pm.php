@@ -1,6 +1,7 @@
 <?php $this->load->view('header');?>
 
 <?php
+	$temp = "z";
 	$equipment_id=$this->uri->segment('3');
 	$zquery="select tbl_instruments.*,COALESCE(tbl_products.product_name) AS product_name,tbl_category.category_name 
 	from tbl_instruments 
@@ -347,8 +348,10 @@
                     $rt1=$ty1->result_array();
 					//
 					//$ty=$this->db->query("select * from user where fk_office_id='".$rt1[0]['fk_office_id']."' AND userrole IN ('FSE','Supervisor')");
-					$ty=$this->db->query("select * from user where FIND_IN_SET_X('".$office_id."','fk_office_id') AND userrole IN ('FSE','Supervisor') AND delete_status='0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
+					$ty=$this->db->query("select * from user where FIND_IN_SET_X('".$office_id."',fk_office_id) AND userrole IN ('FSE','Supervisor') AND delete_status='0' ORDER BY  `fk_office_id` ,  `userrole` ASC ");
                     $rt=$ty->result_array();
+					
+					$temp = "select * from user where FIND_IN_SET_X('".$office_id."',fk_office_id) AND userrole IN ('FSE','Supervisor') AND delete_status='0' ORDER BY  `fk_office_id` ,  `userrole` ASC ";
 	
 					if (sizeof($rt) == "0") 
 					{
@@ -481,14 +484,14 @@
 
       </div>
 
-      
+
 
       <!-- END PAGE CONTENT--> 
 
     </div>
 
   </div>
-
+  <?php //echo "tttttttttttttttttttttttt".$temp;?>    
   <!-- END CONTENT --> 
 
   <!-- BEGIN QUICK SIDEBAR --> 
