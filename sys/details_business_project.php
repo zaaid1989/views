@@ -316,25 +316,10 @@ else show_404();
                              <table class="table table-striped table-bordered table-hover flip-content" id="sample_2">
                               <thead>
                                 <tr>
-                                  
                                   <th> Date</th>
-                                  
                                   <th colspan="2"  style="padding-right:150px;"> Time </th>
-                    <!--
-                                  <th> Area </th> -->
-              					  <th> Employee</th> <!--
-                                  <th> Customer</th>
-                                  
-                                  <th> Business Project </th>
-              
-                                  <th> Project Description </th>
-					-->
-                                  
+              					  <th> Employee</th>
                                   <th> Working Details/Discussion Summary </th>
-					<!--
-                                  <th> Last Visit </th>
-                                  <th> No of Visits </th>
-					-->
 								  <?php
 									if($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery' )	
 										echo '<th> Update			</th>';
@@ -359,94 +344,15 @@ else show_404();
 											  echo '</td><td>';
 											  echo date('h:i A', strtotime($sup_dvr['end_time']));
 											  echo '</td>';
-											/*			 
 											echo '<td>';
-											  //for are and customer calculation
-											  if(substr($sup_dvr['fk_customer_id'],0,1)=='o')
-												  {
-													  $office_id		=	substr($sup_dvr['fk_customer_id'],13,1);
-													  $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-													  $gh2			=	$this->db->query($qu2);
-													  $rt2			=	$gh2->result_array();
-													  $myclient 		= 	$rt2[0]['office_name'];
-													  $business		=   '';
-													  //for area
-													  $area			= $myclient;
-												  }
-												  else
-												  {
-													   $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$sup_dvr['fk_customer_id']."' ");
-													   $maxval=$maxqu->result_array();
-													   $myclient = $maxval[0]['client_name'];
-													   //for area
-													  $maxqu_area 	= $this->db->query("SELECT * FROM tbl_area where pk_area_id='".$maxval[0]['fk_area_id']."' ");
-													  $maxval_area	=$maxqu_area->result_array();
-													  $area			= $maxval_area[0]['area'];
-													   //for business project
-													   if($sup_dvr['fk_business_id']=='0')
-													   {
-														   $business		=   'Others';
-													   }
-													   else
-													   {
-													   $maxqu3 = $this->db->query("SELECT * FROM business_data where pk_businessproject_id='".$sup_dvr['fk_business_id']."' ");
-													   $maxval3=$maxqu3->result_array();
-													   $maxqu4 = $this->db->query("SELECT * FROM tbl_business_types where pk_businesstype_id='".$maxval3[0]['Business Project']."'");
-													   $maxval4=$maxqu4->result_array();
-													   $business = $maxval4[0]['businesstype_name'];
-													   }
-												  }
-											  //
-																			  
-											  echo $area;
-											   echo '</td>*/echo '<td>';
 													$maxqu_eng = $this->db->query("SELECT * FROM user where id='".$sup_dvr['fk_engineer_id']."' ");
 													$maxval_eng=$maxqu_eng->result_array();
 												  echo $maxval_eng[0]['first_name'];
-											  echo'</td>';/*<td>';
-											  echo $myclient;
-											  echo '</td> '; 	
+											  echo'</td>';
 											  echo '<td>';
-											  echo $business;
-											  echo '</td>';
-											  echo '<td> <textarea readonly name="summery" id="textarea" class="input-medium" required="" rows="4">';
-											  //
-											  if($sup_dvr['fk_business_id']!='0'){
-											  $maxqu3 = $this->db->query("SELECT * FROM business_data where pk_businessproject_id='".$sup_dvr['fk_business_id']."' ");
-											  $maxval3=$maxqu3->result_array();
-											  echo $maxval3[0]['Project Description'];
-											  }
-											  else
-											  {
-												  echo $sup_dvr['priority'];
-											  }
-											  echo '</textarea> </td>';
-											  */
-											  echo '<td>'; //echo '<td> <textarea readonly name="summery" id="textarea" class="input-medium" required="" rows="4">';
 											  echo urldecode($sup_dvr['summery']);
-											  echo '</td>'; //echo '</textarea> </td>';
+											  echo '</td>';
 											  ?>
-                                              
-                                            <!--  
-                                              <td>
-                                                  	<?php 
-													  $ty=$this->db->query("select * from tbl_dvr 
-													  where fk_business_id='".$this->uri->segment('3')."' ORDER BY  `pk_dvr_id` DESC ");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  //echo $rt[0]["date"];
-													  echo date('d-M-Y', strtotime($rt[0]["date"])); 
-													  }?>
-												  </td>
-                                                  <td>
-                                                  	<?php 
-													  
-													  echo $ty->num_rows(); 
-													  ?>
-												  </td>
-												 -->
-                                                  
                                             <?php if($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery') {?>      
 											  <td>
 												<a class="btn default red-stripe" 
@@ -467,11 +373,6 @@ else show_404();
                         </div>
                         <!-- END EXAMPLE TABLE PORTLET--> 
                         
-                        
-                        
-                        
-                        
-                        
                         <!-- BEGIN EXAMPLE TABLE PORTLET-->
                         <div class="portlet box blue">
                           <div class="portlet-title">
@@ -484,24 +385,16 @@ else show_404();
                           </div>
                           <div class="portlet-body">
                               
-                            </div>
+                            
                         	<div class="portlet-body flip-scroll">
                              <table class="table table-striped table-bordered table-hover flip-content" id="sample_2">
                               <thead>
                                 <tr>
                                   <th style="width:120px !important"> Date</th>
-                                  
                                   <th colspan="2"  style="padding-right:150px;"> Time </th>
-                    
-                               <!--   <th style="width:120px !important" > Area </th> -->
-              					  <th> Employee</th> <!--
-                                  <th style="width:120px !important"> Customer</th>
-                                  
-                                  <th style="width:120px !important"> Business Project </th> -->
-                                  
+              					  <th> Employee</th> 
                                   <th> Working Details/Discussion Summary </th>
-                               <!--   <th> Last Visit </th>
-                                  <th> No of Visits </th> -->
+                               
                                   <?php
 									if($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery' )	
 										echo '<th> Update			</th>';
@@ -525,91 +418,16 @@ else show_404();
 												  echo date('h:i A', strtotime($sup_dvr['start_time']));
 												  echo '</td><td>';
 												  echo date('h:i A', strtotime($sup_dvr['end_time']));
-												  echo '</td>';/*<td>';
-												  //for are and customer calculation
-												  if(substr($sup_dvr['fk_customer_id'],0,1)=='o')
-													  {
-														  $office_id		=	substr($sup_dvr['fk_customer_id'],13,1);
-														  $qu2			=	"SELECT * from tbl_offices where pk_office_id =  '".$office_id."'";
-														  $gh2			=	$this->db->query($qu2);
-														  $rt2			=	$gh2->result_array();
-														  $myclient 		= 	$rt2[0]['office_name'];
-														  $business		=   '';
-														  //for area
-														  $area			= $myclient;
-													  }
-													  else
-													  {
-														   $maxqu = $this->db->query("SELECT * FROM tbl_clients where pk_client_id='".$sup_dvr['fk_customer_id']."' ");
-														   if($maxqu->num_rows()>0)
-														   {
-															 $maxval=$maxqu->result_array();
-															 $myclient = $maxval[0]['client_name'];
-															 //for area
-															 $maxqu_area 	= $this->db->query("SELECT * FROM tbl_area where pk_area_id='".$maxval[0]['fk_area_id']."' ");
-															 $maxval_area	=$maxqu_area->result_array();
-															 $area			= $maxval_area[0]['area'];
-														   }
-														   else
-														   {
-															   $myclient = '';
-															   $area	 = '';
-														   }
-														   //for business project
-														   if($sup_dvr['fk_business_id']=='0')
-														   {
-															   $business		=   'Others';
-														   }
-														   else
-														   {
-														   $maxqu3 = $this->db->query("SELECT * FROM business_data where pk_businessproject_id='".$sup_dvr['fk_business_id']."' ");
-														   $maxval3=$maxqu3->result_array();
-														   $maxqu4 = $this->db->query("SELECT * FROM tbl_business_types where pk_businesstype_id='".$maxval3[0]['Business Project']."' ");
-														   $maxval4=$maxqu4->result_array();
-														   $business = $maxval4[0]['businesstype_name'];
-														   }
-													  }
-												  //
-																				  
-												  echo $area;
-												  echo '</td>*/echo '<td>';
+												  echo '</td>';echo '<td>';
 													$maxqu_eng = $this->db->query("SELECT * FROM user where id='".$sup_dvr['fk_engineer_id']."' ");
 													$maxval_eng=$maxqu_eng->result_array();
 												  echo $maxval_eng[0]['first_name'];
-												  echo'</td>';/*<td>';
-																				   
-												   
-												  echo $myclient;
-												  echo '</td> ';  	
-												  echo '<td>';
-												  echo $business;
-												  echo '</td>';
-												  */
+												  echo'</td>';
 												  
-												  echo '<td>';// <textarea readonly name="summery" id="textarea" class="input-medium" required="" rows="4">';
+												  echo '<td>';
 												  echo urldecode($sup_dvr['summery']);
 												  echo ' </td>';
 												  ?>
-                                                <!--  
-                                                  <td>
-                                                  	<?php 
-													  $ty=$this->db->query("select * from tbl_vs 
-													  where fk_business_id='".$this->uri->segment('3')."' ORDER BY  `pk_vs_id` DESC ");
-													  if($ty->num_rows()>0)
-													  {
-													  $rt=$ty->result_array();
-													  //echo $rt[0]["date"];
-													  echo date('d-M-Y', strtotime($rt[0]["date"])); 
-													  }?>
-												  </td>
-                                                  <td>
-                                                  	<?php 
-													  
-													  echo $ty->num_rows(); 
-													  ?>
-												  </td>
-												  -->
-												  
                                                   <?php
 													if($this->session->userdata('userrole')=='Admin' || $this->session->userdata('userrole')=='secratery'){ ?>
 												  <td>
@@ -630,7 +448,62 @@ else show_404();
                                       </div>
                           </div>
                         </div>
+                        <!-- END EXAMPLE TABLE PORTLET-->
+						
+						
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+                        <div class="portlet box grey-gallery">
+                          <div class="portlet-title">
+                            <div class="caption"> <i class="fa fa-files-o"></i>Monthly Report Comments </div>
+                            <div class="tools"> 
+                            	<a href="javascript:;" class="collapse"> </a> 
+                                <a href="javascript:;" class="remove"> </a> 
+                             </div>
+                          </div>
+                          <div class="portlet-body">
+                        	<div class="portlet-body flip-scroll">
+                             <table class="table table-striped table-bordered table-hover flip-content" id="sample_2">
+                              <thead>
+                                <tr>
+                                  <th> Date</th>
+                                  <th> Monthly Report </th>
+              					  <th> Employee</th> 
+                                  <th> Comments </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php
+									  $dbres = $this->db->query("SELECT * FROM tbl_report_comments where ts='0' AND fk_project_id='".$this->uri->segment('3')."' order by pk_report_comments_id DESC");
+           							 $dbresResult=$dbres->result_array();
+									  if (sizeof($dbresResult) == "0") {
+										  echo "<tr class='odd grade'><td colspan='8' align='center'>No Results Found.</td></tr>";
+									  } else {
+										  
+											  foreach($dbresResult as $sup_dvr)
+											  {
+												echo '<tr>';
+												  echo '<td>'.date('d-M-Y', strtotime($sup_dvr['date'])).'</td>';
+												  echo '<td>'.date('F Y', strtotime($sup_dvr['month'])).'</td>';
+												  echo '<td>';
+													$maxqu_eng = $this->db->query("SELECT * FROM user where id='".$sup_dvr['fk_user_id']."' ");
+													$maxval_eng=$maxqu_eng->result_array();
+												  echo $maxval_eng[0]['first_name'];
+												  echo'</td>';
+												  echo '<td>'.urldecode($sup_dvr['report_comments']).'</td>';
+												echo '</tr>';
+											  }
+										
+									  }
+                              ?>
+                                
+                              </tbody>
+                            </table>
+                                      </div>
+                          </div>
+                        </div>
                         <!-- END EXAMPLE TABLE PORTLET--> 
+						
+						
                       </div>
                     </div>
                  </div>

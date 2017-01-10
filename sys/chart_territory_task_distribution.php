@@ -1,4 +1,8 @@
-<?php $this->load->view('header');
+
+<?php $this->load->view('header'); ?>
+<?php
+//ob_start();
+
 
 $territory = 0;
 if ($this->session->userdata('userrole') != 'Admin' && $this->session->userdata('userrole') != 'secratery') {
@@ -135,7 +139,6 @@ $data['territory'] = $territory;
 
 
 <?php $this->load->view('sys/chart_territory_task_distribution_view',$data);?>
-<?php $this->load->view('footer');?>
 <style>
 textarea {
   width: 100%;
@@ -145,3 +148,16 @@ textarea {
 svg { overflow: visible; }
 
 </style>
+<?php
+//echo '1';
+/*
+define ('SITE_ROOT', dirname(dirname(dirname(__FILE__))));
+$file_name = date('m_Y_').$this->session->userdata('userid').'.html';
+$path = 'monthly_reports/'.$file_name;
+// Get the content that is in the buffer and put it in your file //
+file_put_contents($path, ob_get_contents());
+*/
+?>
+<?php $this->load->view('footer');?>
+
+

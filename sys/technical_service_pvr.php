@@ -942,7 +942,7 @@ if ($user_complaints[0]['assign_to']==$this->session->userdata('userid')) $assig
           <!---->
 		  
 		<?php if($this->session->userdata('userrole')=="Admin" || $this->session->userdata('userrole')=="secratery" || 
-		($this->session->userdata('userrole')=="Supervisor" && $get_compalaint_result[0]['status']=='Closed' )) { ?>  
+		(($this->session->userdata('userrole')=="Supervisor" || $this->session->userdata('userrole')=="") && $get_compalaint_result[0]['status']=='Closed' )) { ?>  
 		            <div class="portlet box purple-plum">
             <div class="portlet-title">
               <div class="caption"> <i class="fa fa-globe"></i>Supervisor Feedback</div>
@@ -964,8 +964,12 @@ if ($user_complaints[0]['assign_to']==$this->session->userdata('userid')) $assig
 									 else echo "Not Available";
 									 ?></td>
                                </tr>
-                               <tr>
+							   <tr>
                                     <td><b>Supervisor Comments</b></td>
+									<td> <?php echo $get_compalaint_result[0]['supervisor_findings'];?></td>
+                               </tr>
+                               <tr>
+                                    <td><b>Customer Comments</b></td>
 									<td> <?php echo $get_compalaint_result[0]['supervisor_comments'];?></td>
                                </tr>
                                <tr>

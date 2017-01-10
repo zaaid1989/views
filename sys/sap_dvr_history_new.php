@@ -9,7 +9,7 @@ $maxqu = $this->db->query("SELECT * FROM user WHERE id='".$_GET['engineer']."'")
 $maxval=$maxqu->result_array();
 $c =  array_intersect(explode(',',$maxval[0]['fk_office_id']), explode(',',$this->session->userdata('territory')));
 
-if ((sizeof($c) == 0 || $maxval[0]['userrole']!='Salesman') show_404();
+if (sizeof($c) == 0 || $maxval[0]['userrole']!='Salesman') show_404();
 /*
 if ($this->session->userdata('territory')!='1' && $this->session->userdata('territory')!='5') { // when not rawalpindi
 	if ((! in_array($maxval[0]['fk_office_id'],explode(',',$this->session->userdata('territory'))) ) || $maxval[0]['userrole']!='Salesman') show_404();
