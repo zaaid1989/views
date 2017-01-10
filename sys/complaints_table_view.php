@@ -294,6 +294,30 @@ for($i=$j;$i<$k;$i++) {
 									  if ($product_id != "") $product_condition = "AND `tbl_instruments`.fk_product_id ='".$product_id."'";
 									  if ($equipment_id != "") $equipment_condition = "AND `tbl_complaints`.fk_instrument_id ='".$equipment_id."'";
 									  if ($start_date != "") $date_condition = "AND CAST(tbl_complaints.`date` AS DATE) BETWEEN '".$start_date."' AND '".$end_date."'";
+									  /*echo "SELECT tbl_complaints.*, 
+									  COALESCE(tbl_offices.office_name) AS office_name,
+									  COALESCE(tbl_cities.city_name) AS city_name,
+									  COALESCE(tbl_clients.client_name) AS client_name,
+									  COALESCE(tbl_area.area) AS area,
+									  COALESCE(user.first_name) AS first_name,
+									  COALESCE(u.first_name) AS created_by_name,
+									  COALESCE(tbl_instruments.serial_no) AS serial_no,
+									  COALESCE(tbl_products.product_name) AS product_name 
+									  
+									  FROM tbl_complaints 
+									  LEFT JOIN tbl_clients ON tbl_complaints.fk_customer_id = tbl_clients.pk_client_id
+									  LEFT JOIN tbl_cities ON tbl_clients.fk_city_id = tbl_cities.pk_city_id
+									  LEFT JOIN tbl_area ON tbl_clients.fk_area_id = tbl_area.pk_area_id
+									  LEFT JOIN user ON tbl_complaints.assign_to = user.id
+									  LEFT JOIN user u ON tbl_complaints.created_by = u.id
+									  LEFT JOIN tbl_instruments ON tbl_complaints.fk_instrument_id = tbl_instruments.pk_instrument_id
+									  LEFT JOIN tbl_products ON tbl_instruments.fk_product_id = tbl_products.pk_product_id
+									  LEFT JOIN tbl_offices ON tbl_complaints.fk_office_id = tbl_offices.pk_office_id
+									  
+									  WHERE tbl_complaints.complaint_nature='$complaint_nature' AND tbl_complaints.status $status_variable $role_condition $product_condition $equipment_condition $date_condition
+									  
+									  order by `pk_complaint_id` DESC";
+									  */
 									  $dbres = $this->db->query("SELECT tbl_complaints.*, 
 									  COALESCE(tbl_offices.office_name) AS office_name,
 									  COALESCE(tbl_cities.city_name) AS city_name,
@@ -385,14 +409,16 @@ $show_shift_button					=	FALSE;
 $show_edit_button					=	FALSE;
 $show_sprf_button					=	FALSE;
 $show_supervisor_sprf_button		=	FALSE;
+$show_ledger_button					=	FALSE;
 if ($complaint_nature == 'complaint' ) { 
 if ($i!=11) $show_tsr_button					=	TRUE;
 if ( ($i==2 || $i==10) && ($access_privilege == "Admin" ||  $access_privilege == "Supervisor" || $access_privilege == "secratery") ) $show_supervisor_sprf_button	=	TRUE;
 if ( $i==0 ) $show_sprf_button	=	TRUE;
 if ($access_privilege == 'Admin' || $access_privilege == 'secratery') {
-	if ($access_privilege == 'Admin' && $i<4) {
+	if ($access_privilege == 'Admin' && ($i<4 || $i == 10)) {
 		$show_delete_button			= 	TRUE;
 		$show_edit_button			= 	TRUE;
+		if ($i == 10) $show_ledger_button					=	TRUE;
 	}
 	if ($i==11) $show_delete_button			= 	TRUE;
 	if ($i<3) $show_shift_button	=	TRUE;
@@ -403,16 +429,6 @@ if ($access_privilege == 'Admin' || $access_privilege == 'secratery') {
 												  href="<?php echo base_url();?>sys/technical_service_pvr/<?php echo $complaint_list["pk_complaint_id"] ?>">
 													TSR <i class="fa fa-eye"></i>
 												  </a>
-										  <?php } if($show_delete_button) { ?>
-												<a class="btn btn-sm default red-thunderbird-stripe" onClick="return confirm('Are you sure you want to delete?')" 
-												href="<?php echo base_url();?>sys/delete_complaint/<?php echo $complaint_list["pk_complaint_id"].'?redirect='.$this->uri->segment(2);?>">
-												  Delete <i class="fa fa-trash-o"></i>
-												</a>
-										  <?php } if($show_edit_button) { ?>
-												<a class="btn btn-sm default blue-stripe" onClick="return confirm('Are you sure you want to edit?')" 
-													href="<?php echo base_url();?>sys/add_complaint_registration/<?php echo $complaint_list["pk_complaint_id"];?>">
-														  Edit <i class="fa fa-edit"></i>
-												</a>
 										  <?php } if($show_shift_button) { ?>
 												<a 	class="btn btn-sm default yellow-zed-stripe" 
 														href="<?php echo base_url();?>sys/shift_complaint/<?php echo $complaint_list["pk_complaint_id"] ?>">
@@ -432,6 +448,23 @@ if ($access_privilege == 'Admin' || $access_privilege == 'secratery') {
 												<a class="btn btn-sm default yellow-zed-stripe" 
 														  href="<?php echo base_url();?>sys/add_complaint_registration/<?php echo $complaint_list["pk_complaint_id"] ?>">
 															Register
+												</a>
+										  <?php } if($show_ledger_button) { ?>
+											<!--
+												<a class="btn btn-sm default red-stripe" 
+														  href="<?php echo base_url();?>sys/ledger/<?php echo $complaint_list["pk_complaint_id"] ?>">
+															LEDGER
+												</a>
+												-->
+										   <?php } if($show_delete_button) { ?>
+												<a class="btn btn-sm default blue-stripe" onClick="return confirm('Are you sure you want to edit?')" 
+													href="<?php echo base_url();?>sys/add_complaint_registration/<?php echo $complaint_list["pk_complaint_id"];?>">
+														  Edit <i class="fa fa-edit"></i>
+												</a>
+										  <?php } if($show_edit_button) { ?>
+												<a class="btn btn-sm default red-thunderbird-stripe" onClick="return confirm('Are you sure you want to delete?')" 
+												href="<?php echo base_url();?>sys/delete_complaint/<?php echo $complaint_list["pk_complaint_id"].'?redirect='.$this->uri->segment(2);?>">
+												  Delete <i class="fa fa-trash-o"></i>
 												</a>
 										  <?php } ?>
 <?php } else { // FOR PM ?>
